@@ -9,7 +9,16 @@ INCLUDEPATH +=  ../project_cpp_lib_test \
                 ../project_lua/src \
                 ../project_lua_lib_test
 
-LIBS += -L./debug -lproject_cpp_lib_test -lproject_lua
+
+CONFIG(debug, debug|release) {
+DESTDIR +=          ../../build_debug/bin
+OBJECTS_DIR +=      ../../build_debug/objects
+LIBS += -L../../build_debug/bin -lproject_cpp_lib_test -lproject_lua
+} else {
+DESTDIR +=          ../../build_release/bin
+OBJECTS_DIR +=      ../../build_release/objects
+LIBS += -L../../build_release/bin -lproject_cpp_lib_test -lproject_lua
+}
 
 SOURCES += main.cpp \
     src/lua/skp_lua.cpp \

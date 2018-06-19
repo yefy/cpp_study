@@ -7,7 +7,15 @@
 TARGET = project_lua
 TEMPLATE = lib
 
-DESTDIR += ../project_cpp/debug
+
+CONFIG(debug, debug|release) {
+DESTDIR +=          ../../build_debug/bin
+OBJECTS_DIR +=      ../../build_debug/objects
+} else {
+DESTDIR +=          ../../build_release/bin
+OBJECTS_DIR +=      ../../build_release/objects
+}
+
 
 #DEFINES += PROJECT_LUA_LIBRARY
 #DLUA_BUILD_AS_DLL

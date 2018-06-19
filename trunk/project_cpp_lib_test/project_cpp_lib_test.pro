@@ -7,9 +7,15 @@
 TARGET = project_cpp_lib_test
 TEMPLATE = lib
 
-#DEFINES += PROJECT_CPP_LIB_TEST_LIBRARY
+CONFIG(debug, debug|release) {
+DESTDIR +=          ../../build_debug/bin
+OBJECTS_DIR +=      ../../build_debug/objects
+} else {
+DESTDIR +=          ../../build_release/bin
+OBJECTS_DIR +=      ../../build_release/objects
+}
 
-DESTDIR += ../project_cpp/debug
+#DEFINES += PROJECT_CPP_LIB_TEST_LIBRARY
 
 SOURCES += project_cpp_lib_test.cpp
 

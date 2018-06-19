@@ -38,7 +38,7 @@ void lua_test_1()
     /*load Lua base libraries*/
     luaL_openlibs(L);
     /*load the script*/
-    assert_ret(luaL_dofile(L,"lua/add.lua") == 0);
+    assert_ret(luaL_dofile(L,"../../trunk/lua/add.lua") == 0);
     /*call the add function*/
     int sum = lua_test_1_add(L,10,15);
     /*print the result*/
@@ -70,7 +70,7 @@ void lua_test_3()
     /*load Lua base libraries*/
     luaL_openlibs(L);
     /*load the script*/
-    assert_ret(luaL_dofile(L,"lua/lua_lib.lua") == 0);
+    assert_ret(luaL_dofile(L,"../../trunk/lua/lua_lib.lua") == 0);
     /*cleanup Lua*/
     lua_close(L);
 }
@@ -122,17 +122,31 @@ void lua_test_5()
     std::string str =   "local test = lual_requiref:new()" \
                         "local c = test:add(1, 3)" \
                         "print(c)" \
-                        "print(test)";
+                        "print(test)" \
+                        "lual_requiref:register()" \
+                        "local test2 = require \"lual_requiref2\""\
+                        "local d = test2:add(2, 4)" \
+                        "print(d)";
 
+    const int branch = 2;
+
+    if( 1 == branch)
+    {
     //@1
-    //    assert_ret(luaL_loadbuffer(L, str.c_str(), str.length(), "line") == 0);
-    //    assert_ret(lua_pcall(L, 0, 0, 0) == 0);
-
+        assert_ret(luaL_loadbuffer(L, str.c_str(), str.length(), "line") == 0);
+        assert_ret(lua_pcall(L, 0, 0, 0) == 0);
+    }
+    else if( 2 == branch)
+    {
     //@2
-    luaL_dostring(L, str.c_str());
+        luaL_dostring(L, str.c_str());
+    }
 
+    else
+    {
     //@3
-    //assert_ret(luaL_dofile(L,"lua/lual_requiref.lua") == 0);
+        assert_ret(luaL_dofile(L,"../../trunk/lua/lual_requiref.lua") == 0);
+    }
 
     /*cleanup Lua*/
     lua_close(L);

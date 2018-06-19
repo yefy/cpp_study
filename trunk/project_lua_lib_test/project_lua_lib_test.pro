@@ -7,15 +7,20 @@
 TARGET = project_lua_lib_test
 TEMPLATE = lib
 
-DESTDIR += ../project_cpp/debug
+CONFIG(debug, debug|release) {
+DESTDIR +=          ../../build_debug/bin
+OBJECTS_DIR +=      ../../build_debug/objects
+LIBS += -L../../build_debug/bin -lproject_lua
+} else {
+DESTDIR +=          ../../build_release/bin
+OBJECTS_DIR +=      ../../build_release/objects
+LIBS += -L../../build_release/bin -lproject_lua
+}
 
 #DEFINES += PROJECT_LUA_LIB_TEST_LIBRARY
 
 INCLUDEPATH +=  ../project_lua \
                 ../project_lua/src
-
-LIBS += -L../project_cpp/debug -lproject_lua \
-
 
 SOURCES += project_lua_lib_test.cpp
 

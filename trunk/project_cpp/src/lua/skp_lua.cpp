@@ -2,11 +2,52 @@
 #include "src/common.h"
 #include <string>
 #include "skp_lua_lual_requiref.h"
+#include "skp_lua_common.h"
 
 extern "C"{
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
+}
+
+void skp_lua_base_loadbuffer(const std::string &str)
+{
+    /* create state */
+    lua_State *L = NULL;
+    assert_ret((L =  luaL_newstate()) != NULL);
+    /*load Lua base libraries*/
+    luaL_openlibs(L);
+    //执行内存脚本
+    //std::string str = "print (\"Hello world!\")";
+    assert_ret(luaL_loadbuffer(L, str.c_str(), str.length(), "line") == 0);
+    assert_ret(lua_pcall(L, 0, 0, 0) == 0);
+    lua_close(L);
+}
+
+void skp_lua_base_dostring(const std::string &str)
+{
+    /* create state */
+    lua_State *L = NULL;
+    assert_ret((L =  luaL_newstate()) != NULL);
+    /*load Lua base libraries*/
+    luaL_openlibs(L);
+    //执行内存脚本
+    //std::string str = "print (\"Hello world!\")";
+    luaL_dostring(L, str.c_str());
+    lua_close(L);
+}
+
+void skp_lua_base_dofile(const std::string &str)
+{
+    /* create state */
+    lua_State *L = NULL;
+    assert_ret((L =  luaL_newstate()) != NULL);
+    /*load Lua base libraries*/
+    luaL_openlibs(L);
+    /*load the script*/
+    assert_ret(luaL_dofile(L,str.c_str()) == 0);
+    /*cleanup Lua*/
+    lua_close(L);
 }
 
 
@@ -90,7 +131,8 @@ void lua_test_4()
                         "lua_lib_test.start()"\
                         "local lua_lib_test2 = require \"project_lua_lib_test2\""\
                         " local c = lua_lib_test2.add(1,2)"\
-                        " print(c)";
+                        " print(c)"
+                        ;
 
 
     assert_ret(luaL_loadbuffer(L, str.c_str(), str.length(), "line") == 0);
@@ -112,21 +154,37 @@ void lua_test_5()
 //    luaopen_io(L);
 //    luaopen_string(L);
 
+    LUA_TOP_PRINT;//0
+
     luaL_requiref(L, "lual_requiref", luaopen_lual_requiref, 1);
+
+    LUA_TOP_PRINT;//1
 
     /*load Lua base libraries*/
     luaL_openlibs(L);
 
     //执行内存脚本
 
+//    std::string str =   "local test = lual_requiref:new()" \
+//                        "local c = test:add(1, 3)" \
+//                        "print(c)" \
+//                        "print(test)" \
+//                        "lual_requiref:register()" \
+//                        "local test2 = require \"lual_requiref2\""\
+//                        "local d = test2:add(2, 4)" \
+//                        "print(d)"
+//                        ;
+
     std::string str =   "local test = lual_requiref:new()" \
                         "local c = test:add(1, 3)" \
                         "print(c)" \
                         "print(test)" \
                         "lual_requiref:register()" \
-                        "local test2 = require \"lual_requiref2\""\
-                        "local d = test2:add(2, 4)" \
-                        "print(d)";
+                        "local d = lual_requiref2:add(2, 4)" \
+                        "print(d)"
+                        ;
+
+
 
     const int branch = 2;
 
@@ -152,6 +210,87 @@ void lua_test_5()
     lua_close(L);
 }
 
+void lua_table_test_1()
+{
+    std::string str =   "function setDefaultValues(t,d)  " \
+                                "local mt = {__index = function() return d end} " \
+                                "setmetatable(t, mt)  "\
+                        " end  "\
+                        " tab = {x=10,y=20}  "\
+                        " print(tab.x ,tab.y,tab.z)"\
+                        " setDefaultValues(tab,100)"\
+                        " print(tab.z)"
+                        ;
+/*
+    " print(tab.x ,tab.y,tab.z) --由于没有设置元方法则为nil"\
+    " setDefaultValues(tab,100) --设置默认值（设置__index元方法）"\
+    " print(tab.z) --检查到有__index的元方法则返回默认值" ;
+*/
+
+
+
+    func_run(skp_lua_base_loadbuffer(str));
+
+
+    str =   "local mt = {  "
+                "__newindex = function (table,key,value)  "
+                "print(\"newindex call\")  "
+            "end  "
+            "}  "
+            "local t = {} "
+            "setmetatable(t, mt)  "
+            "t[1] = 20  "
+            "for k,v in pairs(t) do  "
+                "print(k ,v)  "
+            "end  "
+            ;
+    func_run(skp_lua_base_loadbuffer(str));
+
+
+    str =   "local kk = {}"
+            "local mt = {"
+                "__newindex = kk"
+            "}"
+            "local t = {}"
+            "setmetatable(t, mt)"
+            "print(\"111\")"
+            "for k,v in pairs(kk) do  "
+                "print(k ,v)  "
+            "end  "
+            "t[1] = 20"
+            "print(\"ttt:\")"
+            "for k,v in pairs(t) do  "
+                "print(k ,v)  "
+            "end  "
+            "print(\"kkk:\")"
+            "for k,v in pairs(kk) do  "
+                "print(k ,v)  "
+            "end  "
+            ;
+
+    func_run(skp_lua_base_loadbuffer(str));
+
+    str =   "local tb = {\"apple\", \"pear\", \"orange\", \"grape\"}"
+            "for k,v in pairs(tb) do  "
+                "print(k ,v)  "
+            "end  "
+            ;
+
+    func_run(skp_lua_base_loadbuffer(str));
+
+
+}
+
+void lua_table_test_2()
+{
+    std::string strstr;
+
+    strstr = "../../trunk/lua/class.lua";
+    func_run(skp_lua_base_dofile(strstr));
+
+    strstr = "../../trunk/lua/class2.lua";
+    func_run(skp_lua_base_dofile(strstr));
+}
 
 void lua_test()
 {
@@ -160,4 +299,6 @@ void lua_test()
     func_run(lua_test_3());
     func_run(lua_test_4());
     func_run(lua_test_5());
+    func_run(lua_table_test_1());
+    func_run(lua_table_test_2());
 }

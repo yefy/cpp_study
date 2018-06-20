@@ -19,9 +19,8 @@ LIBS += -L../../build_release/bin -lproject_lua
 
 #DEFINES += PROJECT_LUA_LIB_TEST_LIBRARY
 
-INCLUDEPATH +=  ../project_lua \
-                ../project_lua/src
+INCLUDEPATH +=  ../project_lua/src
 
-SOURCES += project_lua_lib_test.cpp
+SOURCES += src/project_lua_lib_test.cpp
 
-HEADERS += project_lua_lib_test.h
+HEADERS += src/project_lua_lib_test.h

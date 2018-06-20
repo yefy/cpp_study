@@ -2,6 +2,7 @@
 #include "src/common.h"
 #include <stdio.h>
 #include <iostream>
+#include "skp_lua_common.h"
 
 extern "C"{
 #include "lua.h"
@@ -84,12 +85,24 @@ static luaL_Reg lual_requiref_func_lib[] = {
 
 
 int luaopen_lual_requiref(lua_State* L) {
+
+    LUA_TOP_PRINT;//1
+
+
     log_print("c++ : luaopen_lual_requiref");
     assert_ret(luaL_newmetatable(L, "lual_requiref"));
+
+    LUA_TOP_PRINT;//2
+
     lua_pushvalue(L, -1);
+    LUA_TOP_PRINT;//3
+
     lua_setfield(L, -2, "__index");
+    LUA_TOP_PRINT;//2
     luaL_setfuncs(L, lual_requiref_func_lib, 0);
+    LUA_TOP_PRINT;//2
     luaL_newlib(L, lual_requiref_lib);
+    LUA_TOP_PRINT;//3
 
     return 1;
 }
@@ -132,7 +145,7 @@ static int lual_requiref2(lua_State* L) {
 
 static int lual_requiref_register(lua_State* L) {
     log_print("c++ : lual_requiref_register");
-    luaL_requiref(L, "lual_requiref2", lual_requiref2, 0);
+    luaL_requiref(L, "lual_requiref2", lual_requiref2, 1);
     return 0;
 }
 

@@ -7,6 +7,8 @@
 TARGET = project_lua
 TEMPLATE = lib
 
+message("project_lua path = "$$PWD)
+
 
 CONFIG(debug, debug|release) {
 DESTDIR +=          ../../build_debug/bin

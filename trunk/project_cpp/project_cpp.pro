@@ -4,6 +4,8 @@ CONFIG += console c++11
 CONFIG -= app_bundle
 CONFIG -= qt
 
+message("project_cpp path = "$$PWD)
+
 INCLUDEPATH +=  ../project_cpp_lib_test/src \
                 ../project_lua/src \
                 ../project_lua_lib_test/src
@@ -38,5 +40,6 @@ DISTFILES += \
     ../lua/class.lua \
     ../lua/lua_lib.lua \
     ../lua/lual_requiref.lua \
-    ../lua/class2.lua
+    ../lua/class2.lua \
+    ../lua/class3.lua
 

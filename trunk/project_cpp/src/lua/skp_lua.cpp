@@ -10,6 +10,8 @@ extern "C"{
 #include "lualib.h"
 }
 
+static const std::string lua_config_path = "../../../cpp_study/trunk/lua/";
+
 void skp_lua_base_loadbuffer(const std::string &str)
 {
     /* create state */
@@ -79,7 +81,8 @@ void lua_test_1()
     /*load Lua base libraries*/
     luaL_openlibs(L);
     /*load the script*/
-    assert_ret(luaL_dofile(L,"../../trunk/lua/add.lua") == 0);
+    std::string path = lua_config_path + "add.lua";
+    assert_ret(luaL_dofile(L,path.c_str()) == 0);
     /*call the add function*/
     int sum = lua_test_1_add(L,10,15);
     /*print the result*/
@@ -111,7 +114,8 @@ void lua_test_3()
     /*load Lua base libraries*/
     luaL_openlibs(L);
     /*load the script*/
-    assert_ret(luaL_dofile(L,"../../trunk/lua/lua_lib.lua") == 0);
+    std::string path = lua_config_path + "lua_lib.lua";
+    assert_ret(luaL_dofile(L, path.c_str()) == 0);
     /*cleanup Lua*/
     lua_close(L);
 }
@@ -203,7 +207,8 @@ void lua_test_5()
     else
     {
     //@3
-        assert_ret(luaL_dofile(L,"../../trunk/lua/lual_requiref.lua") == 0);
+        std::string path = lua_config_path + "lual_requiref.lua";
+        assert_ret(luaL_dofile(L, path.c_str()) == 0);
     }
 
     /*cleanup Lua*/
@@ -283,13 +288,16 @@ void lua_table_test_1()
 
 void lua_table_test_2()
 {
-    std::string strstr;
+    std::string path;
 
-    strstr = "../../trunk/lua/class.lua";
-    func_run(skp_lua_base_dofile(strstr));
+    path = lua_config_path + "class.lua";
+    func_run(skp_lua_base_dofile(path.c_str()));
 
-    strstr = "../../trunk/lua/class2.lua";
-    func_run(skp_lua_base_dofile(strstr));
+    path = lua_config_path + "class2.lua";
+    func_run(skp_lua_base_dofile(path.c_str()));
+
+    path = lua_config_path + "class3.lua";
+    func_run(skp_lua_base_dofile(path.c_str()));
 }
 
 void lua_test()

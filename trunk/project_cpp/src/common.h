@@ -3,8 +3,28 @@
 
 #include <stdio.h>
 #include <assert.h>
+#include <string>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<string.h>
+#include <unistd.h>
 
 #define uint16 unsigned int
+
+class LogFile
+{
+public:
+    LogFile(const std::string &path);
+    ~LogFile();
+    void openLog(const std::string &path);
+    void writeLog(const char *str);
+    void writeLog(const std::string &str);
+    void clear();
+    void closeLog();
+private:
+    int m_fd;
+};
 
 
 void write_log(const char *file, uint16 line, const char *function, const char * format, ...);

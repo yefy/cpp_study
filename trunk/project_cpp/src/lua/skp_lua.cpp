@@ -10,6 +10,8 @@ extern "C"{
 #include "lualib.h"
 }
 
+LogFile logfile("../../../cpp_study/trunk/lua/lua.log");
+
 
 void loadFile(const std::string &str, std::string &data)
 {

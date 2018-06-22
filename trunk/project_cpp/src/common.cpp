@@ -10,7 +10,7 @@ LogFile::LogFile(const std::string &path) :
 
 LogFile::~LogFile()
 {
-    clear();
+    //clear();
     closeLog();
 }
 
@@ -19,6 +19,8 @@ void LogFile::openLog(const std::string &path)
     //m_fd = ::open(path.c_str(), O_APPEND|O_WRONLY|O_CREAT, S_IRWXU);
     m_fd = ::open(path.c_str(), O_WRONLY|O_TRUNC|O_CREAT, S_IRWXU);
     assert(m_fd != -1);
+    writeLog("111");
+    writeLog("222");
 }
 
 void LogFile::writeLog(const char *str)

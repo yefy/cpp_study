@@ -25,54 +25,8 @@ print("ob.class_id", ob.class_id);
 --]]
 
 
-
-
-function print_sep1(str)
-    print(string.rep("*",30), str, string.rep("*",30))
-end
-
-function print_sep2(str)
-    print(string.rep("*",15), str, string.rep("*",15))
-end
-
-function print_sep3(str)
-    print(string.rep("*",5), str, string.rep("*",5))
-end
-
-function print_table(table)
-
-    if table then
-        for k,v in pairs(table) do
-            print("key : ", k, "***|***", "value : " ,v)
-        end
-    end
-end
-
-
-function register_parent(child, parent, parent_name)
-
-    child[parent_name] = parent
-    child.parent_table = {}
-    child.parent_table[parent_name] = parent
-
-    if parent.parent_table then
-        for k,v in pairs(parent.parent_table) do
-            child.parent_table[k] = v
-            child[k] = v
-        end
-    end
-
-    local metable = {}
-    setmetatable(child,metable)
-    metable.__index = parent
-    metable.__newindex = parent
-
-
-    --setmetatable(child,parent)
-    --parent.__index = parent
-    --parent.__newindex = parent
-
-end
+require("class")
+require("common")
 
 function Object1_new()
     local Ob1 = {o1 = 10}

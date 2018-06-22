@@ -41,5 +41,7 @@ DISTFILES += \
     ../lua/lua_lib.lua \
     ../lua/lual_requiref.lua \
     ../lua/class2.lua \
-    ../lua/class3.lua
+    ../lua/class3.lua \
+    ../lua/class1.lua \
+    ../lua/common.lua
 

@@ -288,16 +288,11 @@ void lua_table_test_1()
 
 void lua_table_test_2()
 {
-    std::string path;
+    func_run(skp_lua_base_dofile(lua_config_path + "class1.lua"));
 
-    path = lua_config_path + "class.lua";
-    func_run(skp_lua_base_dofile(path.c_str()));
+    func_run(skp_lua_base_dofile(lua_config_path + "class2.lua"));
 
-    path = lua_config_path + "class2.lua";
-    func_run(skp_lua_base_dofile(path.c_str()));
-
-    path = lua_config_path + "class3.lua";
-    func_run(skp_lua_base_dofile(path.c_str()));
+    func_run(skp_lua_base_dofile(lua_config_path + "class3.lua"));
 }
 
 void lua_test()

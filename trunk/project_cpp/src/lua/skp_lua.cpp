@@ -10,6 +10,19 @@ extern "C"{
 #include "lualib.h"
 }
 
+
+void loadFile(const std::string &str, std::string &data)
+{
+    FILE *f = fopen(str.c_str(), "rb");
+    while (!feof(f)) {
+        char line[1024] = "";
+        fgets(line, sizeof(line), f);
+        data += line;
+    }
+
+    fclose(f);
+}
+
 static const std::string lua_config_path = "../../../cpp_study/trunk/lua/";
 
 void skp_lua_base_loadbuffer(const std::string &str)
@@ -295,13 +308,24 @@ void lua_table_test_2()
     func_run(skp_lua_base_dofile(lua_config_path + "class3.lua"));
 }
 
+void lua_dostring_test()
+{
+    std::string data;
+    func_run(loadFile(lua_config_path + "class2.lua", data));
+
+    log_print("class2.lua : \n[\n%s]", data.c_str());
+    func_run(skp_lua_base_dostring(data));
+
+}
+
 void lua_test()
 {
     func_run(lua_test_1());
-    func_run(lua_test_2());
-    func_run(lua_test_3());
-    func_run(lua_test_4());
-    func_run(lua_test_5());
-    func_run(lua_table_test_1());
-    func_run(lua_table_test_2());
+//    func_run(lua_test_2());
+//    func_run(lua_test_3());
+//    func_run(lua_test_4());
+//    func_run(lua_test_5());
+//    func_run(lua_table_test_1());
+//    func_run(lua_table_test_2());
+//    func_run(lua_dostring_test());
 }

@@ -1,6 +1,6 @@
 #include "skp_cpp.h"
 #include "src/common.h"
-
+#include "src/common.h"
 
 #include <iostream>
 #include <list>
@@ -31,49 +31,49 @@
 
 void fun(int &x)
 {
-    std::cout << "lvalue ref" << std::endl;
+    log_print("lvalue ref");
     x = 10;
 }
 
 void fun(int &&x)
 {
-    std::cout << "rvalue ref" << std::endl;
+    log_print("rvalue ref");
     x = 11;
 }
 
 void fun(const int &x)
 {
-    std::cout << "const lvalue ref" << std::endl;
+    log_print("const lvalue ref");
 }
 void fun(const int &&x)
 {
-    std::cout << "const rvalue ref" << std::endl;
+    log_print("const rvalue ref");
 }
 
 template<typename T>
 void fun_1(T &x)
 {
-    std::cout << "lvalue ref" << std::endl;
+    log_print("lvalue ref");
     x = 20;
 }
 
 template<typename T>
 void fun_1(T &&x)
 {
-    std::cout << "rvalue ref" << std::endl;
+    log_print("rvalue ref");
     x = 21;
 }
 
 template<typename T>
 void fun_1(const T &x)
 {
-    std::cout << "const lvalue ref" << std::endl;
+    log_print("const lvalue ref");
 }
 
 template<typename T>
 void fun_1(const T &&x)
 {
-    std::cout << "const rvalue ref" << std::endl;
+    log_print("const rvalue ref");
 }
 
 

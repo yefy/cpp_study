@@ -1,7 +1,10 @@
+local lua_log = require("lua_log")
+
 function add(x,y)  
+       lua_log.print(string.format("%d + %d = %d", x, y, x + y));
        return x + y   
 end 
 
-print("lua add");
-local xxx = 10
-print(string.format("%d", xxx));
+
+
+

@@ -1,0 +1,369 @@
+main.cpp:7:main| ***** main start *****  
+main.cpp:9:main| ========== cpp_test() start ==========  
+skp_cpp.cpp:178:cpp_test| ========== cpp_lib_test() start ==========  
+skp_cpp.cpp:178:cpp_test| ========== cpp_lib_test() end ==========  
+skp_cpp.cpp:179:cpp_test| ========== allocator_test() start ==========  
+skp_cpp.cpp:179:cpp_test| ========== allocator_test() end ==========  
+skp_cpp.cpp:180:cpp_test| ========== allocator_make_test() start ==========  
+skp_cpp.cpp:180:cpp_test| ========== allocator_make_test() end ==========  
+skp_cpp.cpp:181:cpp_test| ========== move_forward_test() start ==========  
+skp_cpp.cpp:120:move_forward_test| ========== fun_test(1) start ==========  
+skp_cpp.cpp:83:fun_test|in t = 1 
+skp_cpp.cpp:84:fun_test| ========== fun(t) start ==========  
+skp_cpp.cpp:34:fun|lvalue ref 
+skp_cpp.cpp:84:fun_test| ========== fun(t) end ==========  
+skp_cpp.cpp:85:fun_test|out t = 10 
+skp_cpp.cpp:120:move_forward_test| ========== fun_test(1) end ==========  
+skp_cpp.cpp:121:move_forward_test| ========== fun_forward_test(1) start ==========  
+skp_cpp.cpp:91:fun_forward_test|in t = 1 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:40:fun|rvalue ref 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:93:fun_forward_test|out t = 11 
+skp_cpp.cpp:121:move_forward_test| ========== fun_forward_test(1) end ==========  
+skp_cpp.cpp:122:move_forward_test| ========== fun_test_1(1) start ==========  
+skp_cpp.cpp:99:fun_test_1|in t = 1 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) start ==========  
+skp_cpp.cpp:56:fun_1|lvalue ref 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) end ==========  
+skp_cpp.cpp:101:fun_test_1|out t = 20 
+skp_cpp.cpp:122:move_forward_test| ========== fun_test_1(1) end ==========  
+skp_cpp.cpp:123:move_forward_test| ========== fun_forward_test_1(1) start ==========  
+skp_cpp.cpp:107:fun_forward_test_1|in t = 1 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:63:fun_1|rvalue ref 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:109:fun_forward_test_1|out t = 21 
+skp_cpp.cpp:123:move_forward_test| ========== fun_forward_test_1(1) end ==========  
+skp_cpp.cpp:126:move_forward_test| ========== fun_test(n) start ==========  
+skp_cpp.cpp:83:fun_test|in t = 2 
+skp_cpp.cpp:84:fun_test| ========== fun(t) start ==========  
+skp_cpp.cpp:34:fun|lvalue ref 
+skp_cpp.cpp:84:fun_test| ========== fun(t) end ==========  
+skp_cpp.cpp:85:fun_test|out t = 10 
+skp_cpp.cpp:126:move_forward_test| ========== fun_test(n) end ==========  
+skp_cpp.cpp:127:move_forward_test| ========== fun_forward_test(n) start ==========  
+skp_cpp.cpp:91:fun_forward_test|in t = 10 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:34:fun|lvalue ref 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:93:fun_forward_test|out t = 10 
+skp_cpp.cpp:127:move_forward_test| ========== fun_forward_test(n) end ==========  
+skp_cpp.cpp:128:move_forward_test| ========== fun_test_1(n) start ==========  
+skp_cpp.cpp:99:fun_test_1|in t = 10 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) start ==========  
+skp_cpp.cpp:56:fun_1|lvalue ref 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) end ==========  
+skp_cpp.cpp:101:fun_test_1|out t = 20 
+skp_cpp.cpp:128:move_forward_test| ========== fun_test_1(n) end ==========  
+skp_cpp.cpp:129:move_forward_test| ========== fun_forward_test_1(n) start ==========  
+skp_cpp.cpp:107:fun_forward_test_1|in t = 20 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:56:fun_1|lvalue ref 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:109:fun_forward_test_1|out t = 20 
+skp_cpp.cpp:129:move_forward_test| ========== fun_forward_test_1(n) end ==========  
+skp_cpp.cpp:131:move_forward_test| ========== fun_test(std::move(n)) start ==========  
+skp_cpp.cpp:83:fun_test|in t = 20 
+skp_cpp.cpp:84:fun_test| ========== fun(t) start ==========  
+skp_cpp.cpp:34:fun|lvalue ref 
+skp_cpp.cpp:84:fun_test| ========== fun(t) end ==========  
+skp_cpp.cpp:85:fun_test|out t = 10 
+skp_cpp.cpp:131:move_forward_test| ========== fun_test(std::move(n)) end ==========  
+skp_cpp.cpp:132:move_forward_test| ========== fun_forward_test(std::move(n)) start ==========  
+skp_cpp.cpp:91:fun_forward_test|in t = 10 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:40:fun|rvalue ref 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:93:fun_forward_test|out t = 11 
+skp_cpp.cpp:132:move_forward_test| ========== fun_forward_test(std::move(n)) end ==========  
+skp_cpp.cpp:133:move_forward_test| ========== fun_test_1(std::move(n)) start ==========  
+skp_cpp.cpp:99:fun_test_1|in t = 11 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) start ==========  
+skp_cpp.cpp:56:fun_1|lvalue ref 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) end ==========  
+skp_cpp.cpp:101:fun_test_1|out t = 20 
+skp_cpp.cpp:133:move_forward_test| ========== fun_test_1(std::move(n)) end ==========  
+skp_cpp.cpp:134:move_forward_test| ========== fun_forward_test_1(std::move(n)) start ==========  
+skp_cpp.cpp:107:fun_forward_test_1|in t = 20 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:63:fun_1|rvalue ref 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:109:fun_forward_test_1|out t = 21 
+skp_cpp.cpp:134:move_forward_test| ========== fun_forward_test_1(std::move(n)) end ==========  
+skp_cpp.cpp:137:move_forward_test| ========== fun_test(m) start ==========  
+skp_cpp.cpp:83:fun_test|in t = 3 
+skp_cpp.cpp:84:fun_test| ========== fun(t) start ==========  
+skp_cpp.cpp:46:fun|const lvalue ref 
+skp_cpp.cpp:84:fun_test| ========== fun(t) end ==========  
+skp_cpp.cpp:85:fun_test|out t = 3 
+skp_cpp.cpp:137:move_forward_test| ========== fun_test(m) end ==========  
+skp_cpp.cpp:138:move_forward_test| ========== fun_forward_test(m) start ==========  
+skp_cpp.cpp:91:fun_forward_test|in t = 3 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:46:fun|const lvalue ref 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:93:fun_forward_test|out t = 3 
+skp_cpp.cpp:138:move_forward_test| ========== fun_forward_test(m) end ==========  
+skp_cpp.cpp:139:move_forward_test| ========== fun_test_1(m) start ==========  
+skp_cpp.cpp:99:fun_test_1|in t = 3 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) start ==========  
+skp_cpp.cpp:70:fun_1|const lvalue ref 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) end ==========  
+skp_cpp.cpp:101:fun_test_1|out t = 3 
+skp_cpp.cpp:139:move_forward_test| ========== fun_test_1(m) end ==========  
+skp_cpp.cpp:140:move_forward_test| ========== fun_forward_test_1(m) start ==========  
+skp_cpp.cpp:107:fun_forward_test_1|in t = 3 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:70:fun_1|const lvalue ref 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:109:fun_forward_test_1|out t = 3 
+skp_cpp.cpp:140:move_forward_test| ========== fun_forward_test_1(m) end ==========  
+skp_cpp.cpp:142:move_forward_test| ========== fun_test(std::move(m)) start ==========  
+skp_cpp.cpp:83:fun_test|in t = 3 
+skp_cpp.cpp:84:fun_test| ========== fun(t) start ==========  
+skp_cpp.cpp:46:fun|const lvalue ref 
+skp_cpp.cpp:84:fun_test| ========== fun(t) end ==========  
+skp_cpp.cpp:85:fun_test|out t = 3 
+skp_cpp.cpp:142:move_forward_test| ========== fun_test(std::move(m)) end ==========  
+skp_cpp.cpp:143:move_forward_test| ========== fun_forward_test(std::move(m)) start ==========  
+skp_cpp.cpp:91:fun_forward_test|in t = 3 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:50:fun|const rvalue ref 
+skp_cpp.cpp:92:fun_forward_test| ========== fun(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:93:fun_forward_test|out t = 3 
+skp_cpp.cpp:143:move_forward_test| ========== fun_forward_test(std::move(m)) end ==========  
+skp_cpp.cpp:144:move_forward_test| ========== fun_test_1(std::move(m)) start ==========  
+skp_cpp.cpp:99:fun_test_1|in t = 3 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) start ==========  
+skp_cpp.cpp:70:fun_1|const lvalue ref 
+skp_cpp.cpp:100:fun_test_1| ========== fun_1(t) end ==========  
+skp_cpp.cpp:101:fun_test_1|out t = 3 
+skp_cpp.cpp:144:move_forward_test| ========== fun_test_1(std::move(m)) end ==========  
+skp_cpp.cpp:145:move_forward_test| ========== fun_forward_test_1(std::move(m)) start ==========  
+skp_cpp.cpp:107:fun_forward_test_1|in t = 3 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) start ==========  
+skp_cpp.cpp:76:fun_1|const rvalue ref 
+skp_cpp.cpp:108:fun_forward_test_1| ========== fun_1(std::forward<T>(t)) end ==========  
+skp_cpp.cpp:109:fun_forward_test_1|out t = 3 
+skp_cpp.cpp:145:move_forward_test| ========== fun_forward_test_1(std::move(m)) end ==========  
+skp_cpp.cpp:181:cpp_test| ========== move_forward_test() end ==========  
+main.cpp:9:main| ========== cpp_test() end ==========  
+main.cpp:10:main| ========== lua_test() start ==========  
+skp_lua.cpp:247:lua_test| ========== lua_test_1() start ==========  
+skp_lua_log.cpp:71:lua_log_print|10 + 15 = 25  
+skp_lua.cpp:105:lua_test_1|sum = 25 
+skp_lua.cpp:247:lua_test| ========== lua_test_1() end ==========  
+skp_lua.cpp:248:lua_test| ========== lua_test_2() start ==========  
+skp_lua.cpp:114:lua_test_2| ========== skp_lua_base_dostring(str) start ==========  
+skp_lua_log.cpp:71:lua_log_print|Hello world!  
+skp_lua.cpp:114:lua_test_2| ========== skp_lua_base_dostring(str) end ==========  
+skp_lua.cpp:248:lua_test| ========== lua_test_2() end ==========  
+skp_lua.cpp:249:lua_test| ========== lua_test_3() start ==========  
+skp_lua.cpp:120:lua_test_3| ========== skp_lua_base_dofile(path) start ==========  
+skp_lua_log.cpp:71:lua_log_print|3  
+skp_lua_log.cpp:71:lua_log_print|3  
+skp_lua.cpp:120:lua_test_3| ========== skp_lua_base_dofile(path) end ==========  
+skp_lua.cpp:123:lua_test_3| ========== loadFile(lua_config_path + "lua_lib.lua", data) start ==========  
+skp_lua.cpp:123:lua_test_3| ========== loadFile(lua_config_path + "lua_lib.lua", data) end ==========  
+skp_lua.cpp:124:lua_test_3| ========== skp_lua_base_dostring(data) start ==========  
+skp_lua_log.cpp:71:lua_log_print|3  
+skp_lua_log.cpp:71:lua_log_print|3  
+skp_lua.cpp:124:lua_test_3| ========== skp_lua_base_dostring(data) end ==========  
+skp_lua.cpp:249:lua_test| ========== lua_test_3() end ==========  
+skp_lua.cpp:250:lua_test| ========== lua_test_4() start ==========  
+skp_lua.cpp:139:lua_test_4|top = 0 
+skp_lua_lual_requiref.cpp:89:luaopen_lual_requiref|top = 1 
+skp_lua_lual_requiref.cpp:92:luaopen_lual_requiref|c++ : luaopen_lual_requiref 
+skp_lua_lual_requiref.cpp:95:luaopen_lual_requiref|top = 2 
+skp_lua_lual_requiref.cpp:98:luaopen_lual_requiref|top = 3 
+skp_lua_lual_requiref.cpp:101:luaopen_lual_requiref|top = 2 
+skp_lua_lual_requiref.cpp:103:luaopen_lual_requiref|top = 2 
+skp_lua_lual_requiref.cpp:105:luaopen_lual_requiref|top = 3 
+skp_lua.cpp:144:lua_test_4|top = 2 
+skp_lua_lual_requiref.cpp:37:lual_requiref_new|c++ : lual_requiref_new 
+skp_lua_lual_requiref.cpp:46:lual_requiref_add|c++ : lual_requiref_add 
+skp_lua_lual_requiref.cpp:52:lual_requiref_add|c++ : a = 1, b = 3 
+skp_lua_lual_requiref.cpp:54:lual_requiref_add|c++ : c = 4 
+skp_lua_log.cpp:71:lua_log_print|4  
+skp_lua_lual_requiref.cpp:61:lual_requiref_to_string|c++ : lual_requiref_to_string 
+skp_lua_lual_requiref.cpp:66:lual_requiref_to_string|c++ : add = 4 
+skp_lua_log.cpp:71:lua_log_print|add = 4  
+skp_lua_lual_requiref.cpp:147:lual_requiref_register|c++ : lual_requiref_register 
+skp_lua_lual_requiref.cpp:135:lual_requiref2|c++ : lual_requiref2 
+skp_lua_lual_requiref.cpp:120:lual_requiref2_add|c++ : lual_requiref2_add 
+skp_lua_lual_requiref.cpp:125:lual_requiref2_add|c++ : a = 4, b = 2 
+skp_lua_lual_requiref.cpp:127:lual_requiref2_add|c++ : c = 6 
+skp_lua_log.cpp:71:lua_log_print|6  
+skp_lua.cpp:250:lua_test| ========== lua_test_4() end ==========  
+skp_lua.cpp:251:lua_test| ========== lua_table_test_1() start ==========  
+skp_lua.cpp:179:lua_table_test_1| ========== skp_lua_base_loadbuffer(str) start ==========  
+skp_lua_log.cpp:71:lua_log_print|10 20 nil  
+skp_lua_log.cpp:71:lua_log_print|100  
+skp_lua.cpp:179:lua_table_test_1| ========== skp_lua_base_loadbuffer(str) end ==========  
+skp_lua.cpp:197:lua_table_test_1| ========== skp_lua_base_loadbuffer(str) start ==========  
+skp_lua_log.cpp:71:lua_log_print|newindex call  
+skp_lua.cpp:197:lua_table_test_1| ========== skp_lua_base_loadbuffer(str) end ==========  
+skp_lua.cpp:222:lua_table_test_1| ========== skp_lua_base_loadbuffer(str) start ==========  
+skp_lua_log.cpp:71:lua_log_print|111  
+skp_lua_log.cpp:71:lua_log_print|ttt:  
+skp_lua_log.cpp:71:lua_log_print|kkk:  
+skp_lua_log.cpp:71:lua_log_print|1 20  
+skp_lua.cpp:222:lua_table_test_1| ========== skp_lua_base_loadbuffer(str) end ==========  
+skp_lua.cpp:231:lua_table_test_1| ========== skp_lua_base_loadbuffer(str) start ==========  
+skp_lua_log.cpp:71:lua_log_print|1 apple  
+skp_lua_log.cpp:71:lua_log_print|2 pear  
+skp_lua_log.cpp:71:lua_log_print|3 orange  
+skp_lua_log.cpp:71:lua_log_print|4 grape  
+skp_lua.cpp:231:lua_table_test_1| ========== skp_lua_base_loadbuffer(str) end ==========  
+skp_lua.cpp:251:lua_test| ========== lua_table_test_1() end ==========  
+skp_lua.cpp:252:lua_test| ========== lua_table_test_2() start ==========  
+skp_lua.cpp:238:lua_table_test_2| ========== skp_lua_base_dofile(lua_config_path + "class1.lua") start ==========  
+skp_lua_log.cpp:71:lua_log_print|0  
+skp_lua_log.cpp:71:lua_log_print|11  
+skp_lua_log.cpp:71:lua_log_print|22  
+skp_lua_log.cpp:71:lua_log_print|1  
+skp_lua_log.cpp:71:lua_log_print|11  
+skp_lua_log.cpp:71:lua_log_print|22  
+skp_lua_log.cpp:71:lua_log_print|1  
+skp_lua_log.cpp:71:lua_log_print|12  
+skp_lua_log.cpp:71:lua_log_print|22  
+skp_lua_log.cpp:71:lua_log_print|2  
+skp_lua_log.cpp:71:lua_log_print|12  
+skp_lua_log.cpp:71:lua_log_print|22  
+skp_lua_log.cpp:71:lua_log_print|2  
+skp_lua_log.cpp:71:lua_log_print|2  
+skp_lua_log.cpp:71:lua_log_print|12  
+skp_lua_log.cpp:71:lua_log_print|22  
+skp_lua_log.cpp:71:lua_log_print|3  
+skp_lua_log.cpp:71:lua_log_print|3  
+skp_lua_log.cpp:71:lua_log_print|12  
+skp_lua_log.cpp:71:lua_log_print|22  
+skp_lua_log.cpp:71:lua_log_print|==============================  
+skp_lua_log.cpp:71:lua_log_print|value1  
+skp_lua_log.cpp:71:lua_log_print|nil 新值2  
+skp_lua_log.cpp:71:lua_log_print|新值1 nil  
+skp_lua_log.cpp:71:lua_log_print|mymetatable 1  
+skp_lua_log.cpp:71:lua_log_print|mytable nil  
+skp_lua.cpp:238:lua_table_test_2| ========== skp_lua_base_dofile(lua_config_path + "class1.lua") end ==========  
+skp_lua.cpp:240:lua_table_test_2| ========== skp_lua_base_dofile(lua_config_path + "class2.lua") start ==========  
+skp_lua_log.cpp:71:lua_log_print|****************************** [ Object1_new() ] ******************************  
+skp_lua_log.cpp:71:lua_log_print|obj1.o1 10  
+skp_lua_log.cpp:71:lua_log_print|Ob1:printf()  
+skp_lua_log.cpp:71:lua_log_print|*************** [ obj1:var_printf() ] ***************  
+skp_lua_log.cpp:71:lua_log_print|Ob1:printf()  
+skp_lua_log.cpp:71:lua_log_print|*************** [ print_table(obj1.parent_table) ] ***************  
+skp_lua_log.cpp:71:lua_log_print|*************** [ print_table(obj1) ] ***************  
+skp_lua_log.cpp:71:lua_log_print|key :  [ printf ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ o1 ]      |      value :  [ 10 ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ var_printf ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ add1 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|****************************** [ Object2_new() ] ******************************  
+skp_lua_log.cpp:71:lua_log_print|obj2.o1 10  
+skp_lua_log.cpp:71:lua_log_print|obj2.Object1.o1 10  
+skp_lua_log.cpp:71:lua_log_print|obj2.o2 20  
+skp_lua_log.cpp:71:lua_log_print|Ob1:printf()  
+skp_lua_log.cpp:71:lua_log_print|Ob2:printf()  
+skp_lua_log.cpp:71:lua_log_print|*************** [ obj2:var_printf() ] ***************  
+skp_lua_log.cpp:71:lua_log_print|Ob2:printf()  
+skp_lua_log.cpp:71:lua_log_print|*************** [ print_table(obj2.parent_table) ] ***************  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object1 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|*************** [ print_table(obj2) ] ***************  
+skp_lua_log.cpp:71:lua_log_print|key :  [ add2 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ printf ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ parent_table ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object1 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ o2 ]      |      value :  [ 20 ]  
+skp_lua_log.cpp:71:lua_log_print|****************************** [ Object3_new() ] ******************************  
+skp_lua_log.cpp:71:lua_log_print|obj3.o1 10  
+skp_lua_log.cpp:71:lua_log_print|obj3.Object1.o1 10  
+skp_lua_log.cpp:71:lua_log_print|obj3.o2 20  
+skp_lua_log.cpp:71:lua_log_print|obj3.Object2.o2 20  
+skp_lua_log.cpp:71:lua_log_print|obj3.o3 30  
+skp_lua_log.cpp:71:lua_log_print|Ob1:printf()  
+skp_lua_log.cpp:71:lua_log_print|Ob2:printf()  
+skp_lua_log.cpp:71:lua_log_print|Ob3:printf()  
+skp_lua_log.cpp:71:lua_log_print|*************** [ obj3:var_printf() ] ***************  
+skp_lua_log.cpp:71:lua_log_print|Ob3:printf()  
+skp_lua_log.cpp:71:lua_log_print|*************** [ print_table(obj3.parent_table) ] ***************  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object2 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object1 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|*************** [ print_table(obj3) ] ***************  
+skp_lua_log.cpp:71:lua_log_print|key :  [ add3 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object1 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object2 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ printf ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ o3 ]      |      value :  [ 30 ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ parent_table ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|****************************** [ Object4_new() ] ******************************  
+skp_lua_log.cpp:71:lua_log_print|obj4.o1 10  
+skp_lua_log.cpp:71:lua_log_print|obj4.Object1.o1 10  
+skp_lua_log.cpp:71:lua_log_print|obj4.o2 20  
+skp_lua_log.cpp:71:lua_log_print|obj4.Object2.o2 20  
+skp_lua_log.cpp:71:lua_log_print|obj4.o3 30  
+skp_lua_log.cpp:71:lua_log_print|obj4.Object3.o3 30  
+skp_lua_log.cpp:71:lua_log_print|obj4.o4 40  
+skp_lua_log.cpp:71:lua_log_print|Ob1:printf()  
+skp_lua_log.cpp:71:lua_log_print|Ob2:printf()  
+skp_lua_log.cpp:71:lua_log_print|Ob3:printf()  
+skp_lua_log.cpp:71:lua_log_print|Ob4:printf()  
+skp_lua_log.cpp:71:lua_log_print|*************** [ obj4:var_printf() ] ***************  
+skp_lua_log.cpp:71:lua_log_print|Ob4:printf()  
+skp_lua_log.cpp:71:lua_log_print|*************** [ print_table(obj4.parent_table) ] ***************  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object2 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object3 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object1 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|*************** [ print_table(obj4) ] ***************  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object3 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object1 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ Object2 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ printf ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ o4 ]      |      value :  [ 40 ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ add4 ]      |      value :  [ NULL ]  
+skp_lua_log.cpp:71:lua_log_print|key :  [ parent_table ]      |      value :  [ NULL ]  
+skp_lua.cpp:240:lua_table_test_2| ========== skp_lua_base_dofile(lua_config_path + "class2.lua") end ==========  
+skp_lua.cpp:242:lua_table_test_2| ========== skp_lua_base_dofile(lua_config_path + "class3.lua") start ==========  
+skp_lua_log.cpp:71:lua_log_print|base_type NULL  
+skp_lua_log.cpp:71:lua_log_print|test NULL  
+skp_lua_log.cpp:71:lua_log_print|_class NULL NULL  
+skp_lua_log.cpp:71:lua_log_print|_class NULL NULL  
+skp_lua_log.cpp:71:lua_log_print|_class[base_type] NULL  
+skp_lua_log.cpp:71:lua_log_print|_class[test] NULL  
+skp_lua_log.cpp:71:lua_log_print|****************************** pairs(base_type) ******************************  
+skp_lua_log.cpp:71:lua_log_print|_class new NULL  
+skp_lua_log.cpp:71:lua_log_print|_class ctor NULL  
+skp_lua_log.cpp:71:lua_log_print|****************************** pairs(test) ******************************  
+skp_lua_log.cpp:71:lua_log_print|_class super NULL  
+skp_lua_log.cpp:71:lua_log_print|_class new NULL  
+skp_lua_log.cpp:71:lua_log_print|_class ctor NULL  
+skp_lua_log.cpp:71:lua_log_print|****************************** pairs(_class[base_type]) ******************************  
+skp_lua_log.cpp:71:lua_log_print|_class print_x NULL  
+skp_lua_log.cpp:71:lua_log_print|_class hello NULL  
+skp_lua_log.cpp:71:lua_log_print|****************************** pairs(_class[test]) ******************************  
+skp_lua_log.cpp:71:lua_log_print|_class hello NULL  
+skp_lua_log.cpp:71:lua_log_print|****************************** a=test.new(1) ******************************  
+skp_lua_log.cpp:71:lua_log_print|base_type ctor  
+skp_lua_log.cpp:71:lua_log_print|test ctor  
+skp_lua_log.cpp:71:lua_log_print|****************************** pairs(_class[base_type]) ******************************  
+skp_lua_log.cpp:71:lua_log_print|_class print_x NULL  
+skp_lua_log.cpp:71:lua_log_print|_class hello NULL  
+skp_lua_log.cpp:71:lua_log_print|****************************** pairs(_class[test]) ******************************  
+skp_lua_log.cpp:71:lua_log_print|_class hello NULL  
+skp_lua_log.cpp:71:lua_log_print|****************************** pairs(a) ******************************  
+skp_lua_log.cpp:71:lua_log_print|_class x 1  
+skp_lua_log.cpp:71:lua_log_print|nil  
+skp_lua_log.cpp:71:lua_log_print|nil  
+skp_lua_log.cpp:71:lua_log_print|1  
+skp_lua_log.cpp:71:lua_log_print|hello test  
+skp_lua_log.cpp:71:lua_log_print|11  
+skp_lua_log.cpp:71:lua_log_print|nil  
+skp_lua_log.cpp:71:lua_log_print|base_type ctor  
+skp_lua_log.cpp:71:lua_log_print|test ctor  
+skp_lua_log.cpp:71:lua_log_print|1  
+skp_lua_log.cpp:71:lua_log_print|hello test  
+skp_lua_log.cpp:71:lua_log_print|111  
+skp_lua_log.cpp:71:lua_log_print|nil  
+skp_lua.cpp:242:lua_table_test_2| ========== skp_lua_base_dofile(lua_config_path + "class3.lua") end ==========  
+skp_lua.cpp:252:lua_test| ========== lua_table_test_2() end ==========  
+main.cpp:10:main| ========== lua_test() end ==========  
+main.cpp:12:main| ***** main end *****  

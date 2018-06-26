@@ -25,7 +25,8 @@ SOURCES += src/main.cpp \
     src/lua/skp_lua.cpp \
     src/cpp/skp_cpp.cpp \
     src/common.cpp \
-    src/lua/skp_lua_lual_requiref.cpp
+    src/lua/skp_lua_lual_requiref.cpp \
+    src/lua/skp_lua_log.cpp
 
 HEADERS += \
     src/cpp/skp_allocator.h \
@@ -33,7 +34,8 @@ HEADERS += \
     src/cpp/skp_cpp.h \
     src/common.h \
     src/lua/skp_lua_lual_requiref.h \
-    src/lua/skp_lua_common.h
+    src/lua/skp_lua_common.h \
+    src/lua/skp_lua_log.h
 
 DISTFILES += \
     ../lua/add.lua \
@@ -43,5 +45,6 @@ DISTFILES += \
     ../lua/class2.lua \
     ../lua/class3.lua \
     ../lua/class1.lua \
-    ../lua/common.lua
+    ../lua/common.lua \
+    ../lua/lua.log
 

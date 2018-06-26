@@ -1,3 +1,5 @@
+local lua_log = require("lua_log")
+
 local _class={}
 
 function class(super)
@@ -50,16 +52,16 @@ end
 base_type=class()		-- 定义一个基类 base_type
 
 function base_type:ctor(x)	-- 定义 base_type 的构造函数
-        print("base_type ctor")
+        lua_log.print("base_type ctor")
         self.x=x
 end
 
 function base_type:print_x()	-- 定义一个成员函数 base_type:print_x
-        print(self.x)
+        lua_log.print(self.x)
 end
 
 function base_type:hello()	-- 定义另一个成员函数 base_type:hello
-        print("hello base_type")
+        lua_log.print("hello base_type")
 end
 
 
@@ -67,71 +69,71 @@ end
 test=class(base_type)	-- 定义一个类 test 继承于 base_type
 
 function test:ctor()	-- 定义 test 的构造函数
-        print("test ctor")
+        lua_log.print("test ctor")
 end
 
 function test:hello()	-- 重载 base_type:hello 为 test:hello
-        print("hello test")
+        lua_log.print("hello test")
 end
 
 
-print("base_type", base_type);
-print("test", test);
+lua_log.print("base_type", base_type);
+lua_log.print("test", test);
 
 for k,v in pairs(_class) do
-    print("_class", k ,v)
+    lua_log.print("_class", k ,v)
 end
 
-print("_class[base_type]", _class[base_type]);
-print("_class[test]", _class[test]);
+lua_log.print("_class[base_type]", _class[base_type]);
+lua_log.print("_class[test]", _class[test]);
 
-print(string.rep("*",30), "pairs(base_type)", string.rep("*",30))
+lua_log.print(string.rep("*",30), "pairs(base_type)", string.rep("*",30))
 for k,v in pairs(base_type) do
-    print("_class", k ,v)
+    lua_log.print("_class", k ,v)
 end
 
-print(string.rep("*",30), "pairs(test)", string.rep("*",30))
+lua_log.print(string.rep("*",30), "pairs(test)", string.rep("*",30))
 for k,v in pairs(test) do
-    print("_class", k ,v)
+    lua_log.print("_class", k ,v)
 end
 
-print(string.rep("*",30), "pairs(_class[base_type])", string.rep("*",30))
+lua_log.print(string.rep("*",30), "pairs(_class[base_type])", string.rep("*",30))
 for k,v in pairs(_class[base_type]) do
-    print("_class", k ,v)
+    lua_log.print("_class", k ,v)
 end
 
-print(string.rep("*",30), "pairs(_class[test])", string.rep("*",30))
+lua_log.print(string.rep("*",30), "pairs(_class[test])", string.rep("*",30))
 for k,v in pairs(_class[test]) do
-    print("_class", k ,v)
+    lua_log.print("_class", k ,v)
 end
 
 
-print(string.rep("*",30), "a=test.new(1)", string.rep("*",30))
+lua_log.print(string.rep("*",30), "a=test.new(1)", string.rep("*",30))
 a=test.new(1)	-- 输出两行，base_type ctor 和 test ctor 。这个对象被正确的构造了。
 
 
-print(string.rep("*",30), "pairs(_class[base_type])", string.rep("*",30))
+lua_log.print(string.rep("*",30), "pairs(_class[base_type])", string.rep("*",30))
 for k,v in pairs(_class[base_type]) do
-    print("_class", k ,v)
+    lua_log.print("_class", k ,v)
 end
 
-print(string.rep("*",30), "pairs(_class[test])", string.rep("*",30))
+lua_log.print(string.rep("*",30), "pairs(_class[test])", string.rep("*",30))
 for k,v in pairs(_class[test]) do
-    print("_class", k ,v)
+    lua_log.print("_class", k ,v)
 end
 
 
-print(string.rep("*",30), "pairs(a)", string.rep("*",30))
+lua_log.print(string.rep("*",30), "pairs(a)", string.rep("*",30))
 for k,v in pairs(a) do
-    print("_class", k ,v)
+    lua_log.print("_class", k ,v)
 end
 
 
 
 mb=_class[base_type]
 mt=_class[test]
-print(mb.x);
-print(mt.x);
+lua_log.print(mb.x);
+lua_log.print(mt.x);
 
 a:print_x()	-- 输出 1 ，这个是基类 base_type 中的成员函数。
 a:hello()	-- 输出 hello test ，这个函数被重载了。

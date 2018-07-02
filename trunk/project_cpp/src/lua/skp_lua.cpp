@@ -4,6 +4,7 @@
 #include "skp_lua_lual_requiref.h"
 #include "skp_lua_common.h"
 #include "skp_lua_log.h"
+#include "skp_lua_call.h"
 
 extern "C"{
 #include "lua.h"
@@ -11,11 +12,12 @@ extern "C"{
 #include "lualib.h"
 }
 
-static const std::string lua_config_path = "../../../cpp_study/trunk/lua/";
+static const std::string lua_config_path = "../../../cpp_study/trunk/lua/src/test/";
 
 void loadFile(const std::string &str, std::string &data)
 {
     FILE *f = fopen(str.c_str(), "rb");
+    assert_ret(f);
     while (!feof(f)) {
         char line[1024] = "";
         fgets(line, sizeof(line), f);
@@ -25,86 +27,164 @@ void loadFile(const std::string &str, std::string &data)
     fclose(f);
 }
 
-
-void skp_lua_base_loadbuffer(const std::string &str)
-{
-    /* create state */
-    lua_State *L = NULL;
-    assert_ret((L =  luaL_newstate()) != NULL);
-    luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
-    /*load Lua base libraries*/
-    luaL_openlibs(L);
-    //执行内存脚本
-    assert_ret(luaL_loadbuffer(L, str.c_str(), str.length(), "line") == 0);
-    assert_ret(lua_pcall(L, 0, 0, 0) == 0);
-    lua_close(L);
-}
-
-void skp_lua_base_dostring(const std::string &str)
-{
-    /* create state */
-    lua_State *L = NULL;
-    assert_ret((L =  luaL_newstate()) != NULL);
-    luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
-    /*load Lua base libraries*/
-    luaL_openlibs(L);
-    //执行内存脚本
-    luaL_dostring(L, str.c_str());
-    lua_close(L);
-}
-
-void skp_lua_base_dofile(const std::string &str)
-{
-    /* create state */
-    lua_State *L = NULL;
-    assert_ret((L =  luaL_newstate()) != NULL);
-    luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
-    /*load Lua base libraries*/
-    luaL_openlibs(L);
-    /*load the script*/
-    assert_ret(luaL_dofile(L,str.c_str()) == 0);
-    /*cleanup Lua*/
-    lua_close(L);
-}
-
-
-int lua_test_1_add(lua_State *L, int x,int y)
-{
-    int sum;
-    /*the function name*/
-    lua_getglobal(L,"add");
-    /*the first argument*/
-    lua_pushnumber(L,x);
-    /*the second argument*/
-    lua_pushnumber(L,y);
-    /*call the function with 2 arguments, return 1 result.*/
-    lua_call(L,2,1);
-    /*get the result.*/
-    sum = (int)lua_tonumber(L,-1);
-    assert_ret(sum == x + y);
-    /*cleanup the return*/
-    lua_pop(L,1);
-
-    return sum;
-}
-
 void lua_test_1()
 {
-    /* create state */
-    lua_State *L = NULL;
-    assert_ret((L =  luaL_newstate()) != NULL);
-    luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
-    /*load Lua base libraries*/
-    luaL_openlibs(L);
-    /*load the script*/
-    std::string path = lua_config_path + "add.lua";
-    assert_ret(luaL_dofile(L,path.c_str()) == 0);
-    /*call the add function*/
-    int sum = lua_test_1_add(L,10,15);
-    /*print the result*/
-    log_print("sum = %d", sum);
-    /*cleanup Lua*/
-    lua_close(L);
+    if(true)
+    {
+        int32_t x = 10;
+        int32_t y = 15;
+        int32_t z = 0;
+        TLuaBind bindIn[] =
+        {
+            {FIELD_INT32, &x},
+            {FIELD_INT32, &y},
+            {FIELD_END}
+        };
+
+        TLuaBind binOut[] =
+        {
+            {FIELD_INT32, &z},
+            {FIELD_END}
+        };
+
+        std::string data;
+        func_run(loadFile(lua_config_path + "func.lua", data));
+
+        skp_lua_base_loadbuffer(data, "add", bindIn, binOut);
+        assert_ret(x + y == z);
+        log_print("%d + %d = %d", x, y, z);
+    }
+
+
+    if(true)
+    {
+        int32_t x = 10;
+        int32_t y = 15;
+        int32_t z = 0;
+        TLuaBind bindIn[] =
+        {
+            {FIELD_INT32, &x},
+            {FIELD_INT32, &y},
+            {FIELD_END}
+        };
+
+        TLuaBind binOut[] =
+        {
+            {FIELD_INT32, &z},
+            {FIELD_END}
+        };
+
+        std::string data;
+        func_run(loadFile(lua_config_path + "func.lua", data));
+        skp_lua_base_dostring(data, "add", bindIn, binOut);
+        assert_ret(x + y == z);
+        log_print("%d + %d = %d", x, y, z);
+    }
+
+
+    if(true)
+    {
+        int32_t x = 10;
+        int32_t y = 15;
+        int32_t z = 0;
+        TLuaBind bindIn[] =
+        {
+            {FIELD_INT32, &x},
+            {FIELD_INT32, &y},
+            {FIELD_END}
+        };
+
+        TLuaBind binOut[] =
+        {
+            {FIELD_INT32, &z},
+            {FIELD_END}
+        };
+
+        std::string path = lua_config_path + "func.lua";
+        skp_lua_base_dofile(path, "add", bindIn, binOut);
+        assert_ret(x + y == z);
+        log_print("%d + %d = %d", x, y, z);
+    }
+
+    if(true)
+    {
+        int8_t arg_int8 = 1;
+        uint8_t arg_uint8 = 2;
+        int16_t arg_int16 = 3;
+        uint16_t arg_uint16 = 4;
+        int32_t arg_int32 = 5;
+        uint32_t arg_uint32 = 6;
+        int64_t arg_int64 = 7;
+        uint64_t arg_uint64 = 8;
+        double arg_double = 9;
+        char *arg_char = "12345";
+        char *arg_binary = "ab\0cde";
+        int arg_size = 6;
+
+        TLuaBind bindIn[] =
+        {
+            {FIELD_INT8, &arg_int8},
+            {FIELD_UINT8, &arg_uint8},
+            {FIELD_INT16, &arg_int16},
+            {FIELD_UINT16, &arg_uint16},
+            {FIELD_INT32, &arg_int32},
+            {FIELD_UINT32, &arg_uint32},
+            {FIELD_INT64, &arg_int64},
+            {FIELD_UINT64, &arg_uint64},
+            {FIELD_DOUBLE, &arg_double},
+            {FIELD_CHAR, arg_char},
+            {FIELD_BINARY, arg_binary, arg_size},
+            {FIELD_END}
+        };
+
+
+        int8_t out_arg_int8 = 0;
+        uint8_t out_arg_uint8 = 0;
+        int16_t out_arg_int16 = 0;
+        uint16_t out_arg_uint16 = 0;
+        int32_t out_arg_int32 = 0;
+        uint32_t out_arg_uint32 = 0;
+        int64_t out_arg_int64 = 0;
+        uint64_t out_arg_uint64 = 0;
+        double out_arg_double = 0;
+        char out_arg_char[128] = "";
+        char out_arg_binary[128] = "";
+
+        TLuaBind binOut[] =
+        {
+            {FIELD_INT8, &out_arg_int8},
+            {FIELD_UINT8, &out_arg_uint8},
+            {FIELD_INT16, &out_arg_int16},
+            {FIELD_UINT16, &out_arg_uint16},
+            {FIELD_INT32, &out_arg_int32},
+            {FIELD_UINT32, &out_arg_uint32},
+            {FIELD_INT64, &out_arg_int64},
+            {FIELD_UINT64, &out_arg_uint64},
+            {FIELD_DOUBLE, &out_arg_double},
+            {FIELD_CHAR, out_arg_char, sizeof(out_arg_char)},
+            {FIELD_BINARY, out_arg_binary, sizeof(out_arg_binary)},
+            {FIELD_END}
+        };
+
+        std::string path = lua_config_path + "func.lua";
+        skp_lua_base_dofile(path, "more_arg", bindIn, binOut);
+
+        assert_ret(arg_int8 == out_arg_int8);
+        assert_ret(arg_uint8 == out_arg_uint8);
+        assert_ret(arg_int16 == out_arg_int16);
+        assert_ret(arg_uint16 == out_arg_uint16);
+        assert_ret(arg_int32 == out_arg_int32);
+        assert_ret(arg_uint32 == out_arg_uint32);
+        assert_ret(arg_int64 == out_arg_int64);
+        assert_ret(arg_uint64 == out_arg_uint64);
+        assert_ret(arg_double == out_arg_double);
+        assert_ret(strcmp(arg_char, out_arg_char) == 0);
+        assert_ret(arg_size == binOut[10].size);
+        assert_ret(memcmp(arg_binary, out_arg_binary, arg_size) == 0);
+
+        log_print("%d %d %d %d %d %u, %lld, %llu, %lf, %s, %s", out_arg_int8, out_arg_uint8, out_arg_int16, out_arg_uint16, out_arg_int32, out_arg_uint32, out_arg_int64, out_arg_uint64, out_arg_double, out_arg_char, out_arg_binary);
+    }
+
 }
 
 
@@ -245,9 +325,9 @@ void lua_table_test_2()
 void lua_test()
 {
     func_run(lua_test_1());
-    func_run(lua_test_2());
-    func_run(lua_test_3());
-    func_run(lua_test_4());
-    func_run(lua_table_test_1());
-    func_run(lua_table_test_2());
+//    func_run(lua_test_2());
+//    func_run(lua_test_3());
+//    func_run(lua_test_4());
+//    func_run(lua_table_test_1());
+//    func_run(lua_table_test_2());
 }

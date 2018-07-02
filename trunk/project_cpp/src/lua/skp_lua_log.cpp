@@ -33,9 +33,29 @@ static int lua_log_print(lua_State* L) {
         int index = 0 - i - 1;
         //printf("index = %d \n", index);
         //lua_isnumber(L, index);
+
         if(lua_isstring(L, index))
         {
-            const char *str = luaL_checkstring(L, index);
+            const char *str = NULL;
+            size_t size = 0;
+            char lstr[1024] = "";
+            if((str = luaL_checklstring(L, index, &size)) != NULL)
+            {
+                printf();
+                memcpy(lstr, str, size);
+                for(int k = 0; k < size; ++k)
+                {
+                    if(lstr[k] = '\0')
+                    {
+                        lstr[k] = ' ';
+                    }
+                }
+                str = lstr;
+            }
+            else
+            {
+                str = luaL_checkstring(L, index);
+            }
             bufferIndex += snprintf(&buffer[bufferIndex], sizeof(buffer) - bufferIndex, "%s ", str);
             //printf("lua_isstring = %s \n", str);
         }

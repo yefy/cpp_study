@@ -66,7 +66,7 @@ void do_write_log(const char *file, uint16 line, const char *function, LogFile *
 
 
     snprintf(fullLogMsg, sizeof(fullLogMsg), "%s:%d:%s|%s \n", p, line, function, logmsg);
-
+    printf(fullLogMsg);
     logFile->writeLog(fullLogMsg);
 }
 

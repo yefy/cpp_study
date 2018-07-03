@@ -1,6 +1,7 @@
 #include "skp_cpp.h"
 #include "src/common.h"
 #include "src/common.h"
+#include "gtest/gtest.h"
 
 #include <iostream>
 #include <list>
@@ -81,7 +82,7 @@ template<typename T>
 void fun_test(T &&t)
 {
     log_print("in t = %d", t);
-    func_run(fun(t));
+    fun(t);
     log_print("out t = %d", t);
 }
 
@@ -89,7 +90,7 @@ template<typename T>
 void fun_forward_test(T &&t)
 {
     log_print("in t = %d", t);
-    func_run(fun(std::forward<T>(t)));
+    fun(std::forward<T>(t));
     log_print("out t = %d", t);
 }
 
@@ -97,7 +98,7 @@ template<typename T>
 void fun_test_1(T &&t)
 {
     log_print("in t = %d", t);
-    func_run(fun_1(t));
+    fun_1(t);
     log_print("out t = %d", t);
 }
 
@@ -105,7 +106,7 @@ template<typename T>
 void fun_forward_test_1(T &&t)
 {
     log_print("in t = %d", t);
-    func_run(fun_1(std::forward<T>(t)));
+    fun_1(std::forward<T>(t));
     log_print("out t = %d", t);
 }
 
@@ -117,32 +118,32 @@ int && gfaaa()
 
 void move_forward_test()
 {
-    func_run(fun_test(1));
-    func_run(fun_forward_test(1));
-    func_run(fun_test_1(1));
-    func_run(fun_forward_test_1(1));
+    fun_test(1);
+    fun_forward_test(1);
+    fun_test_1(1);
+    fun_forward_test_1(1);
 
     int n = 2;
-    func_run(fun_test(n));
-    func_run(fun_forward_test(n));
-    func_run(fun_test_1(n));
-    func_run(fun_forward_test_1(n));
+    fun_test(n);
+    fun_forward_test(n);
+    fun_test_1(n);
+    fun_forward_test_1(n);
 
-    func_run(fun_test(std::move(n)));
-    func_run(fun_forward_test(std::move(n)));
-    func_run(fun_test_1(std::move(n)));
-    func_run(fun_forward_test_1(std::move(n)));
+    fun_test(std::move(n));
+    fun_forward_test(std::move(n));
+    fun_test_1(std::move(n));
+    fun_forward_test_1(std::move(n));
 
     const int m = 3;
-    func_run(fun_test(m));
-    func_run(fun_forward_test(m));
-    func_run(fun_test_1(m));
-    func_run(fun_forward_test_1(m));
+    fun_test(m);
+    fun_forward_test(m);
+    fun_test_1(m);
+    fun_forward_test_1(m);
 
-    func_run(fun_test(std::move(m)));
-    func_run(fun_forward_test(std::move(m)));
-    func_run(fun_test_1(std::move(m)));
-    func_run(fun_forward_test_1(std::move(m)));
+    fun_test(std::move(m));
+    fun_forward_test(std::move(m));
+    fun_test_1(std::move(m));
+    fun_forward_test_1(std::move(m));
 
     int &&a = std::move(1);
     int &&b = std::move(n);
@@ -151,7 +152,7 @@ void move_forward_test()
 
 #include "project_cpp_lib_test.h"
 
-void cpp_lib_test()
+TEST(cpp, lib)
 {
     Project_cpp_lib_test cpplib;
     (void)cpplib;
@@ -160,23 +161,15 @@ void cpp_lib_test()
 
 #include "skp_allocator.h"
 
-void allocator_test()
+TEST(cpp, allocator)
 {
     std::list<int, std::allocator<int>> alloc_list;
     alloc_list.push_back(1);
     alloc_list.push_back(2);
 }
 
-void allocator_make_test()
+TEST(cpp, allocator_make)
 {
     std::list<int> *make_list = NULL;
-    assert_ret((make_list = skp::make_data<std::list<int>>()) != NULL);
-}
-
-void cpp_test()
-{
-    func_run(cpp_lib_test());
-    func_run(allocator_test());
-    func_run(allocator_make_test());
-    func_run(move_forward_test());
+    assert_null(make_list = skp::make_data<std::list<int>>());
 }

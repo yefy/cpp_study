@@ -147,15 +147,10 @@ int32_t skp_lua_bindIn(lua_State *L, TLuaBind *binds, int32_t &size)
         }
         case FIELD_BINARY:
         {
-            log_print("index[%d], name[%s] type[%d], size[%d]",
-                i + 1, FieldTypeName[bind.type], bind.type, bind.size);
-            log_print("**********start data**********");
-            char *dataAddr = (char *)bind.dataAddr;
-            for(int k = 0; k < bind.size; ++k)
-            {
-                log_print("%#x", dataAddr[k]);
-            }
-            log_print("**********end data**********");
+            char bufferBinary[1024] = "";
+            log_print("index[%d], name[%s] type[%d], size[%d], data[%s]",
+                i + 1, FieldTypeName[bind.type], bind.type, bind.size, getBinary(bufferBinary, sizeof(bufferBinary), (char *)bind.dataAddr, bind.size));
+
             lua_pushlstring(L, (char *)bind.dataAddr,  bind.size);
             break;
         }
@@ -385,15 +380,10 @@ int32_t skp_lua_bindOut(lua_State *L, TLuaBind *binds, int32_t size)
             memcpy((char *)bind.dataAddr, data, minSize);
             bind.size = minSize;
 
-            log_print("index[%d], name[%s] type[%d], size[%d]",
-                i + 1, FieldTypeName[bind.type], bind.type, bind.size);
-            log_print("**********start data**********");
-            char *dataAddr = (char *)bind.dataAddr;
-            for(int k = 0; k < bind.size; ++k)
-            {
-                log_print("%#x", dataAddr[k]);
-            }
-            log_print("**********end data**********");
+            char bufferBinary[1024] = "";
+            log_print("index[%d], name[%s] type[%d], size[%d], data[%s]",
+                i + 1, FieldTypeName[bind.type], bind.type, bind.size, getBinary(bufferBinary, sizeof(bufferBinary), (char *)bind.dataAddr, bind.size));
+
             break;
         }
 
@@ -420,16 +410,16 @@ int32_t skp_lua_call(lua_State *L, const char * func, TLuaBind *bindIn, TLuaBind
     lua_getglobal(L, func);//函数入栈
 
 
-    assert_ret(skp_lua_bindIn(L, bindIn, sizeBindIn) == 0);
+    assert_func(skp_lua_bindIn(L, bindIn, sizeBindIn));
 
     for(int32_t i = 0; binOut[i].type != 0; ++i)
     {
         ++sizeBindOut;
     }
     //调用Lua函数
-    assert_ret(lua_pcall(L,sizeBindIn,sizeBindOut,0)==0);
+    assert_func(lua_pcall(L,sizeBindIn,sizeBindOut,0));
 
-    assert_ret(skp_lua_bindOut(L, binOut, sizeBindOut) == 0);
+    assert_func(skp_lua_bindOut(L, binOut, sizeBindOut));
 
     return 0;
 }
@@ -438,16 +428,16 @@ void skp_lua_base_loadbuffer(const std::string &str, const char * func, TLuaBind
 {
     /* create state */
     lua_State *L = NULL;
-    assert_ret((L =  luaL_newstate()) != NULL);
+    assert_null(L =  luaL_newstate());
     luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
     /*load Lua base libraries*/
     luaL_openlibs(L);
     //执行内存脚本
-    assert_ret(luaL_loadbuffer(L, str.c_str(), str.length(), "line") == 0);
-    assert_ret(lua_pcall(L, 0, 0, 0) == 0);
+    assert_func(luaL_loadbuffer(L, str.c_str(), str.length(), "line"));
+    assert_func(lua_pcall(L, 0, 0, 0));
     if(func)
     {
-        assert_ret(skp_lua_call(L, func, bindIn, binOut) == 0);
+        assert_func(skp_lua_call(L, func, bindIn, binOut));
     }
     lua_close(L);
 }
@@ -456,7 +446,7 @@ void skp_lua_base_dostring(const std::string &str, const char * func, TLuaBind *
 {
     /* create state */
     lua_State *L = NULL;
-    assert_ret((L =  luaL_newstate()) != NULL);
+    assert_null(L =  luaL_newstate());
     luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
     /*load Lua base libraries*/
     luaL_openlibs(L);
@@ -464,25 +454,42 @@ void skp_lua_base_dostring(const std::string &str, const char * func, TLuaBind *
     luaL_dostring(L, str.c_str());
     if(func)
     {
-        assert_ret(skp_lua_call(L, func, bindIn, binOut) == 0);
+        assert_func(skp_lua_call(L, func, bindIn, binOut));
     }
     lua_close(L);
 }
 
-void skp_lua_base_dofile(const std::string &str, const char * func, TLuaBind *bindIn, TLuaBind *binOut)
+void skp_lua_base_dofile(const std::string &name, const char * func, TLuaBind *bindIn, TLuaBind *binOut)
 {
+    std::string full_path = lua_config_path + name;
+
     /* create state */
     lua_State *L = NULL;
-    assert_ret((L =  luaL_newstate()) != NULL);
+    assert_null(L =  luaL_newstate());
     luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
     /*load Lua base libraries*/
     luaL_openlibs(L);
     /*load the script*/
-    assert_ret(luaL_dofile(L,str.c_str()) == 0);
+    assert_func(luaL_dofile(L,full_path.c_str()));
     if(func)
     {
-        assert_ret(skp_lua_call(L, func, bindIn, binOut) == 0);
+        assert_func(skp_lua_call(L, func, bindIn, binOut));
     }
     /*cleanup Lua*/
     lua_close(L);
+}
+
+void loadFile(const std::string &name, std::string &data)
+{
+    std::string full_path = lua_config_path + name;
+
+    FILE *f = fopen(full_path.c_str(), "rb");
+    assert_null(f);
+    while (!feof(f)) {
+        char line[1024] = "";
+        fgets(line, sizeof(line), f);
+        data += line;
+    }
+
+    fclose(f);
 }

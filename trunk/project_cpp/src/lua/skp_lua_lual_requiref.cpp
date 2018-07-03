@@ -86,23 +86,16 @@ static luaL_Reg lual_requiref_func_lib[] = {
 
 int luaopen_lual_requiref(lua_State* L) {
 
-    LUA_TOP_PRINT;//1
-
-
     log_print("c++ : luaopen_lual_requiref");
-    assert_ret(luaL_newmetatable(L, "lual_requiref"));
-
-    LUA_TOP_PRINT;//2
+    assert(luaL_newmetatable(L, "lual_requiref") == 1);
 
     lua_pushvalue(L, -1);
-    LUA_TOP_PRINT;//3
 
     lua_setfield(L, -2, "__index");
-    LUA_TOP_PRINT;//2
+
     luaL_setfuncs(L, lual_requiref_func_lib, 0);
-    LUA_TOP_PRINT;//2
+
     luaL_newlib(L, lual_requiref_lib);
-    LUA_TOP_PRINT;//3
 
     return 1;
 }

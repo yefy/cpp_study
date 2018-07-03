@@ -10,6 +10,7 @@
 #include<string.h>
 #include <unistd.h>
 #include <vector>
+#include <functional>
 
 #define uint16 unsigned int
 
@@ -34,10 +35,12 @@ void write_log(const char *file, uint16 line, const char *function, LogFile *log
 
 #define log_print(msg, ...) write_log(__FILE__, __LINE__, __FUNCTION__, msg, ##__VA_ARGS__)
 
-#define assert_ret(ret) do {assert(ret);} while(false)
-#define check_ret(ret) do {if(!(ret)) log_print("%s \n", #ret);} while(false)
-#define func_run(func) do {log_print(" ========== start %s ========== ", #func); func; log_print(" ========== end %s ========== ", #func);} while(false)
+const char *getBinary(char *buffer, int bufferSize, const char *msg, int msgSize);
 
+
+#define assert_null(ret) do {assert((ret) != 0);} while(false)
+#define assert_func(ret) do {assert((ret) == 0);} while(false)
+#define check_func(ret) do {if((ret) != 0) log_print("error %s \n", #ret);} while(false)
 
 
 #endif // COMMON_H

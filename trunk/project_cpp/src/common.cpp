@@ -19,6 +19,18 @@ void LogFile::openLog(const std::string &path)
     //m_fd = ::open(path.c_str(), O_APPEND|O_WRONLY|O_CREAT, S_IRWXU);
     m_fd = ::open(path.c_str(), O_WRONLY|O_TRUNC|O_CREAT, S_IRWXU);
     assert(m_fd != -1);
+
+    /* 重定向 */
+    if (-1 == dup2(m_fd, STDOUT_FILENO) ) {
+        printf("can't redirect fd error\n");
+        exit(1);
+    }
+
+
+    if (-1 == dup2(m_fd, STDERR_FILENO) ) {
+        printf("can't redirect fd error\n");
+        exit(1);
+    }
 }
 
 void LogFile::writeLog(const char *str)
@@ -46,7 +58,7 @@ void LogFile::closeLog()
 }
 
 
-LogFile g_logfile("../../../cpp_study/trunk/lua/lua.log");
+LogFile g_logfile("lua.log");
 
 
 void do_write_log(const char *file, uint16 line, const char *function, LogFile *logFile, const char *logmsg)
@@ -62,11 +74,8 @@ void do_write_log(const char *file, uint16 line, const char *function, LogFile *
     }
     ++p;
 
-
-
-
     snprintf(fullLogMsg, sizeof(fullLogMsg), "%s:%d:%s|%s \n", p, line, function, logmsg);
-    printf(fullLogMsg);
+    //printf(fullLogMsg);
     logFile->writeLog(fullLogMsg);
 }
 
@@ -108,4 +117,27 @@ void write_log(const char *file, uint16 line, const char *function, LogFile *log
 
 
     do_write_log(file, line, function, logFile, logmsg);
+}
+
+const char *getBinary(char *buffer, int bufferSize, const char *msg, int msgSize)
+{
+    int size = bufferSize;
+    if(size <= msgSize)
+    {
+        --size;
+    }
+    else
+    {
+        size = msgSize;
+    }
+    memcpy(buffer, msg, size);
+    for(int i = 0; i < size; ++i)
+    {
+        if('\0' == buffer[i])\
+        {
+            buffer[i] = '~';\
+        }
+    }
+    buffer[size] = '\0';
+    return buffer;
 }

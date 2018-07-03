@@ -33,7 +33,10 @@ struct TLuaBind
 int32_t skp_lua_call(lua_State *L, const char * func, TLuaBind *bindIn, TLuaBind *binOut);
 void skp_lua_base_loadbuffer(const std::string &str, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
 void skp_lua_base_dostring(const std::string &str, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
-void skp_lua_base_dofile(const std::string &str, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
+void skp_lua_base_dofile(const std::string &name, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
+void loadFile(const std::string &name, std::string &data);
 
+
+static const std::string lua_config_path = "../../../cpp_study/trunk/lua/src/test/";
 
 #endif // SKP_LUA_CALL_H

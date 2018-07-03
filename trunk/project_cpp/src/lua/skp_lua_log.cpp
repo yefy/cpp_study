@@ -41,16 +41,19 @@ static int lua_log_print(lua_State* L) {
             char lstr[1024] = "";
             if((str = luaL_checklstring(L, index, &size)) != NULL)
             {
-                printf();
+                bool islStr = false;
                 memcpy(lstr, str, size);
                 for(int k = 0; k < size; ++k)
                 {
-                    if(lstr[k] = '\0')
+                    if('\0' == lstr[k])
                     {
-                        lstr[k] = ' ';
+                        lstr[k] = '~';
+                        islStr = true;
                     }
                 }
                 str = lstr;
+                if(islStr)
+                    log_print("FIELD_BINARY size = %d, lstr = %s", size, str);
             }
             else
             {

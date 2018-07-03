@@ -1,15 +1,8 @@
-#include "src/common.h"
-#include "src/cpp/skp_cpp.h"
-#include "src/lua/skp_lua.h"
+#include "gtest/gtest.h"
 
 int main(int argc, char *argv[])
 {
-    log_print(" ***** main start ***** ");
+    testing::InitGoogleTest(&argc, argv);
 
-    func_run(cpp_test());
-    func_run(lua_test());
-
-    log_print(" ***** main end ***** ");
-
-    return 0;
+    return RUN_ALL_TESTS();
 }

@@ -8,17 +8,18 @@ message("project_cpp path = "$$PWD)
 
 INCLUDEPATH +=  ../project_cpp_lib_test/src \
                 ../project_lua/src \
-                ../project_lua_lib_test/src
+                ../project_lua_lib_test/src \
+                ../project_gtest
 
 
 CONFIG(debug, debug|release) {
 DESTDIR +=          ../../build_debug/bin
 OBJECTS_DIR +=      ../../build_debug/objects
-LIBS += -L../../build_debug/bin -lproject_cpp_lib_test -lproject_lua
+LIBS += -L../../build_debug/bin -lproject_cpp_lib_test -lproject_lua -lproject_gtest
 } else {
 DESTDIR +=          ../../build_release/bin
 OBJECTS_DIR +=      ../../build_release/objects
-LIBS += -L../../build_release/bin -lproject_cpp_lib_test -lproject_lua
+LIBS += -L../../build_release/bin -lproject_cpp_lib_test -lproject_lua -lproject_gtest
 }
 
 SOURCES += src/main.cpp \
@@ -40,21 +41,15 @@ HEADERS += \
     src/lua/skp_lua_call.h
 
 DISTFILES += \
-    ../lua/add.lua \
-    ../lua/class.lua \
-    ../lua/lua_lib.lua \
-    ../lua/lual_requiref.lua \
-    ../lua/class2.lua \
-    ../lua/class3.lua \
-    ../lua/class1.lua \
-    ../lua/common.lua \
-    ../lua/lua.log \
     ../lua/src/base/class.lua \
     ../lua/src/base/common.lua \
     ../lua/src/test/class1.lua \
     ../lua/src/test/class2.lua \
     ../lua/src/test/class3.lua \
+    ../lua/src/test/func.lua \
     ../lua/src/test/lua_lib.lua \
-    ../lua/src/test/lual_requiref.lua \
-    ../lua/src/test/func.lua
+    ../lua/src/test/lual_requiref.lua
+
+
+
 

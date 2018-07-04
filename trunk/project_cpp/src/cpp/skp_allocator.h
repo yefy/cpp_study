@@ -1,3 +1,7 @@
+#ifndef SKP_ALLOCATOR_H
+#define SKP_ALLOCATOR_H
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory>
@@ -143,6 +147,12 @@ T* make_data(U&&... u)
 }
 
 template<class T, class U>
+std::unique_ptr<T> make_unique()
+{
+    return std::unique_ptr<T>(new T());
+}
+
+template<class T, class U>
 std::unique_ptr<T> make_unique(U&& u)
 {
     return std::unique_ptr<T>(new T(std::forward<U>(u)));
@@ -156,3 +166,5 @@ std::unique_ptr<T> make_unique(U&&... u)
 
 
 }
+
+#endif // SKP_ALLOCATOR_H

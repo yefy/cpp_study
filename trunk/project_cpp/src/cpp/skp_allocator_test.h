@@ -1,0 +1,4 @@
+#ifndef SKP_ALLOCATOR_TEST_H
+#define SKP_ALLOCATOR_TEST_H
+
+#endif // SKP_ALLOCATOR_TEST_H

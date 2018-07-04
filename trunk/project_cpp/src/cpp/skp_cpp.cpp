@@ -1,6 +1,6 @@
 #include "skp_cpp.h"
-#include "src/common.h"
-#include "src/common.h"
+#include "src/skp_common.h"
+#include "src/skp_log.h"
 #include "gtest/gtest.h"
 
 #include <iostream>
@@ -15,19 +15,23 @@
 
 
 
-///    struct AAA
-///    {
-///        int a;
-///    };
+struct AAA
+{
+    int a;
+};
 
-///    AAA *aaa = (AAA *)0x10000;
-////    aaa + 0x10 =  0x10000 + sizeof(AAA) * 0x10;
-////    (char *)aaa + 0x10 =  0x10000  + 0x10;
-////    (int *)aaa + 0x10 =  0x10000 + sizeof(int) * 0x10;
+SKP_TEST(cpp, cpp_ptr)
+{
+    START_INFO_TOP(cpp_ptr);
 
-//     std::cout << "  AAA  " << (int)(aaa + 0x10) << "  AAA  " << (int)(0x10000 + sizeof(AAA) * 0x10) << std::endl;
-//     std::cout << "  AAA  " << (int)((char *)aaa + 0x10)<< "  AAA  " <<  (int)(0x10000  + 0x10) << std::endl;
-//     std::cout << "  AAA  " << (int)((int *)aaa + 0x10)<< "  AAA  "<< (int)(0x10000 + sizeof(int) * 0x10) << std::endl;
+    AAA *aaa = (AAA *)0x10000;
+
+    ASSERT_EQ(int64_t(aaa + 0x10) ,  0x10000 + sizeof(AAA) * 0x10);
+    ASSERT_EQ(int64_t((char *)aaa + 0x10) ,  0x10000  + 0x10);
+    ASSERT_EQ(int64_t((int *)aaa + 0x10) ,  0x10000 + sizeof(int) * 0x10);
+}
+
+
 
 
 void fun(int &x)
@@ -52,27 +56,27 @@ void fun(const int &&x)
 }
 
 template<typename T>
-void fun_1(T &x)
+void fun_t(T &x)
 {
     log_print("lvalue ref");
     x = 20;
 }
 
 template<typename T>
-void fun_1(T &&x)
+void fun_t(T &&x)
 {
     log_print("rvalue ref");
     x = 21;
 }
 
 template<typename T>
-void fun_1(const T &x)
+void fun_t(const T &x)
 {
     log_print("const lvalue ref");
 }
 
 template<typename T>
-void fun_1(const T &&x)
+void fun_t(const T &&x)
 {
     log_print("const rvalue ref");
 }
@@ -95,18 +99,18 @@ void fun_forward_test(T &&t)
 }
 
 template<typename T>
-void fun_test_1(T &&t)
+void fun_t_test(T &&t)
 {
     log_print("in t = %d", t);
-    fun_1(t);
+    fun_t(t);
     log_print("out t = %d", t);
 }
 
 template<typename T>
-void fun_forward_test_1(T &&t)
+void fun_t_forward_test(T &&t)
 {
     log_print("in t = %d", t);
-    fun_1(std::forward<T>(t));
+    fun_t(std::forward<T>(t));
     log_print("out t = %d", t);
 }
 
@@ -120,56 +124,43 @@ void move_forward_test()
 {
     fun_test(1);
     fun_forward_test(1);
-    fun_test_1(1);
-    fun_forward_test_1(1);
+    fun_t_test(1);
+    fun_t_forward_test(1);
 
     int n = 2;
     fun_test(n);
     fun_forward_test(n);
-    fun_test_1(n);
-    fun_forward_test_1(n);
+    fun_t_test(n);
+    fun_t_forward_test(n);
 
     fun_test(std::move(n));
     fun_forward_test(std::move(n));
-    fun_test_1(std::move(n));
-    fun_forward_test_1(std::move(n));
+    fun_t_test(std::move(n));
+    fun_t_forward_test(std::move(n));
 
     const int m = 3;
     fun_test(m);
     fun_forward_test(m);
-    fun_test_1(m);
-    fun_forward_test_1(m);
+    fun_t_test(m);
+    fun_t_forward_test(m);
 
     fun_test(std::move(m));
     fun_forward_test(std::move(m));
-    fun_test_1(std::move(m));
-    fun_forward_test_1(std::move(m));
+    fun_t_test(std::move(m));
+    fun_t_forward_test(std::move(m));
 
     int &&a = std::move(1);
     int &&b = std::move(n);
     const int &&c = std::move(m);
 }
 
+
 #include "project_cpp_lib_test.h"
 
-TEST(cpp, lib)
+SKP_TEST(cpp, cpp_lib)
 {
+    START_INFO_TOP(cpp_lib);
+
     Project_cpp_lib_test cpplib;
     (void)cpplib;
-}
-
-
-#include "skp_allocator.h"
-
-TEST(cpp, allocator)
-{
-    std::list<int, std::allocator<int>> alloc_list;
-    alloc_list.push_back(1);
-    alloc_list.push_back(2);
-}
-
-TEST(cpp, allocator_make)
-{
-    std::list<int> *make_list = NULL;
-    assert_null(make_list = skp::make_data<std::list<int>>());
 }

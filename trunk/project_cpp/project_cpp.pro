@@ -25,20 +25,24 @@ LIBS += -L../../build_release/bin -lproject_cpp_lib_test -lproject_lua -lproject
 SOURCES += src/main.cpp \
     src/lua/skp_lua.cpp \
     src/cpp/skp_cpp.cpp \
-    src/common.cpp \
     src/lua/skp_lua_lual_requiref.cpp \
     src/lua/skp_lua_log.cpp \
-    src/lua/skp_lua_call.cpp
+    src/lua/skp_lua_call.cpp \
+    src/skp_common.cpp \
+    src/skp_log.cpp \
+    src/cpp/skp_allocator_test.cpp
 
 HEADERS += \
     src/cpp/skp_allocator.h \
     src/lua/skp_lua.h \
     src/cpp/skp_cpp.h \
-    src/common.h \
     src/lua/skp_lua_lual_requiref.h \
     src/lua/skp_lua_common.h \
     src/lua/skp_lua_log.h \
-    src/lua/skp_lua_call.h
+    src/lua/skp_lua_call.h \
+    src/skp_common.h \
+    src/skp_log.h \
+    src/cpp/skp_allocator_test.h
 
 DISTFILES += \
     ../lua/src/base/class.lua \

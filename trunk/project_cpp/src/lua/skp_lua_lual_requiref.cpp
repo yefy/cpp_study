@@ -1,8 +1,10 @@
 #include "skp_lua_lual_requiref.h"
-#include "src/common.h"
+#include "src/skp_common.h"
+#include "src/skp_log.h"
 #include <stdio.h>
 #include <iostream>
 #include "skp_lua_common.h"
+#include <assert.h>
 
 extern "C"{
 #include "lua.h"

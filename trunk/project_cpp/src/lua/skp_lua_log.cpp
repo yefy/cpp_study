@@ -1,8 +1,11 @@
 #include "skp_lua_log.h"
-#include "src/common.h"
+#include "src/skp_common.h"
+#include "src/skp_log.h"
 #include <stdio.h>
 #include <iostream>
 #include "skp_lua_common.h"
+
+#include <string.h>
 
 extern "C"{
 #include "lua.h"

@@ -1,6 +1,17 @@
-#include "common.h"
+#include "skp_log.h"
 #include <stdarg.h>
+#include <stdio.h>
+#include <assert.h>
+#include <string>
+#include<sys/types.h>
+#include<sys/stat.h>
+#include<fcntl.h>
+#include<string.h>
+#include <unistd.h>
+#include <vector>
+#include <functional>
 
+LogFile g_logfile("test.log");
 
 LogFile::LogFile(const std::string &path) :
     m_fd(-1)
@@ -18,19 +29,11 @@ void LogFile::openLog(const std::string &path)
 {
     //m_fd = ::open(path.c_str(), O_APPEND|O_WRONLY|O_CREAT, S_IRWXU);
     m_fd = ::open(path.c_str(), O_WRONLY|O_TRUNC|O_CREAT, S_IRWXU);
-    assert(m_fd != -1);
+    assert(m_fd > 0);
 
-    /* 重定向 */
-    if (-1 == dup2(m_fd, STDOUT_FILENO) ) {
-        printf("can't redirect fd error\n");
-        exit(1);
-    }
-
-
-    if (-1 == dup2(m_fd, STDERR_FILENO) ) {
-        printf("can't redirect fd error\n");
-        exit(1);
-    }
+//    /* 重定向 */
+//    assert(dup2(m_fd, STDOUT_FILENO) != -1);
+//    assert(dup2(m_fd, STDERR_FILENO) != -1);
 }
 
 void LogFile::writeLog(const char *str)
@@ -57,11 +60,7 @@ void LogFile::closeLog()
     ::close(m_fd);
 }
 
-
-LogFile g_logfile("lua.log");
-
-
-void do_write_log(const char *file, uint16 line, const char *function, LogFile *logFile, const char *logmsg)
+void do_write_log(const char *file, uint16_t line, const char *function, LogFile *logFile, const char *logmsg)
 {
     char fullLogMsg[4096] = "";
     //snprintf(fullLogMsg, sizeof(fullLogMsg), "%s:%d:%s|%s \n", file, line, function, logmsg);
@@ -80,7 +79,7 @@ void do_write_log(const char *file, uint16 line, const char *function, LogFile *
 }
 
 
-void write_log(const char *file, uint16 line, const char *function, const char * format, ...)
+void write_log(const char *file, uint16_t line, const char *function, const char * format, ...)
 {
     char logmsg[4096] = "";
 
@@ -100,7 +99,7 @@ void write_log(const char *file, uint16 line, const char *function, const char *
 }
 
 
-void write_log(const char *file, uint16 line, const char *function, LogFile *logFile, const char * format, ...)
+void write_log(const char *file, uint16_t line, const char *function, LogFile *logFile, const char * format, ...)
 {
     char logmsg[4096] = "";
 
@@ -117,27 +116,4 @@ void write_log(const char *file, uint16 line, const char *function, LogFile *log
 
 
     do_write_log(file, line, function, logFile, logmsg);
-}
-
-const char *getBinary(char *buffer, int bufferSize, const char *msg, int msgSize)
-{
-    int size = bufferSize;
-    if(size <= msgSize)
-    {
-        --size;
-    }
-    else
-    {
-        size = msgSize;
-    }
-    memcpy(buffer, msg, size);
-    for(int i = 0; i < size; ++i)
-    {
-        if('\0' == buffer[i])\
-        {
-            buffer[i] = '~';\
-        }
-    }
-    buffer[size] = '\0';
-    return buffer;
 }

@@ -1,10 +1,12 @@
 #include "skp_lua.h"
-#include "src/common.h"
-#include <string>
+#include "src/skp_common.h"
+#include "src/skp_log.h"
+
 #include "skp_lua_lual_requiref.h"
 #include "skp_lua_common.h"
 #include "skp_lua_log.h"
 #include "skp_lua_call.h"
+
 #include "gtest/gtest.h"
 
 extern "C"{
@@ -13,8 +15,10 @@ extern "C"{
 #include "lualib.h"
 }
 
-TEST(lua, loadbuffer)
+
+SKP_TEST(lua, lua_loadbuffer)
 {
+    START_INFO_TOP(lua_loadbuffer);
 
     int32_t x = 10;
     int32_t y = 15;
@@ -33,17 +37,17 @@ TEST(lua, loadbuffer)
     };
 
     std::string data;
-    loadFile("func.lua", data);
-
-    skp_lua_base_loadbuffer(data, "add", bindIn, binOut);
-    EXPECT_EQ(x + y, z);
-    log_print("%d + %d = %d", x, y, z);
+    ASSERT_FALSE(loadFile("func.lua", data));
+    ASSERT_FALSE(skp_lua_base_loadbuffer(data, "add", bindIn, binOut));
+    ASSERT_EQ(x + y , z) << "x + y == z";
 }
 
 
 
-TEST(lua, dostring)
+SKP_TEST(lua, lua_dostring)
 {
+    START_INFO_TOP(lua_dostring);
+
     int32_t x = 10;
     int32_t y = 15;
     int32_t z = 0;
@@ -61,14 +65,15 @@ TEST(lua, dostring)
     };
 
     std::string data;
-    loadFile("func.lua", data);
-    skp_lua_base_dostring(data, "add", bindIn, binOut);
-    EXPECT_EQ(x + y, z);
-    log_print("%d + %d = %d", x, y, z);
+    ASSERT_FALSE(loadFile("func.lua", data));
+    ASSERT_FALSE(skp_lua_base_dostring(data, "add", bindIn, binOut));
+    ASSERT_EQ(x + y, z);
 }
 
-TEST(lua, dofile)
+SKP_TEST(lua, lua_dofile)
 {
+    START_INFO_TOP(lua_dofile);
+
     int32_t x = 10;
     int32_t y = 15;
     int32_t z = 0;
@@ -85,14 +90,15 @@ TEST(lua, dofile)
         {FIELD_END}
     };
 
-    skp_lua_base_dofile("func.lua", "add", bindIn, binOut);
-    EXPECT_EQ(x + y, z);
-    log_print("%d + %d = %d", x, y, z);
+    ASSERT_FALSE(skp_lua_base_dofile("func.lua", "add", bindIn, binOut));
+    ASSERT_EQ(x + y, z);
 }
 
 
-TEST(lua, call)
+SKP_TEST(lua, lua_call)
 {
+    START_INFO_TOP(lua_call);
+
     int8_t arg_int8 = 1;
     uint8_t arg_uint8 = 2;
     int16_t arg_int16 = 3;
@@ -150,42 +156,50 @@ TEST(lua, call)
         {FIELD_END}
     };
 
-    skp_lua_base_dofile("func.lua", "more_arg", bindIn, binOut);
+    ASSERT_FALSE(skp_lua_base_dofile("func.lua", "more_arg", bindIn, binOut));
 
-    assert(arg_int8 == out_arg_int8);
-    assert(arg_uint8 == out_arg_uint8);
-    assert(arg_int16 == out_arg_int16);
-    assert(arg_uint16 == out_arg_uint16);
-    assert(arg_int32 == out_arg_int32);
-    assert(arg_uint32 == out_arg_uint32);
-    assert(arg_int64 == out_arg_int64);
-    assert(arg_uint64 == out_arg_uint64);
-    assert(arg_double == out_arg_double);
-    assert(strcmp(arg_char, out_arg_char) == 0);
-    assert(sizeof(arg_binary) == binOut[10].size);
-    assert(memcmp(arg_binary, out_arg_binary, sizeof(arg_binary)) == 0);
+    ASSERT_EQ(arg_int8 , out_arg_int8);
+    ASSERT_EQ(arg_uint8 , out_arg_uint8);
+    ASSERT_EQ(arg_int16 , out_arg_int16);
+    ASSERT_EQ(arg_uint16 , out_arg_uint16);
+    ASSERT_EQ(arg_int32 , out_arg_int32);
+    ASSERT_EQ(arg_uint32 , out_arg_uint32);
+    ASSERT_EQ(arg_int64 , out_arg_int64);
+    ASSERT_EQ(arg_uint64 , out_arg_uint64);
+    ASSERT_EQ(arg_double , out_arg_double);
+    ASSERT_STREQ(arg_char, out_arg_char);
+    ASSERT_EQ(sizeof(arg_binary) , binOut[10].size);
+    ASSERT_TRUE(memcmp(arg_binary, out_arg_binary, sizeof(arg_binary)) == 0);
 
     char bufferBinary[1024] = "";
-    log_print("%d %d %d %d %d %u, %lld, %llu, %lf, %s, %s", out_arg_int8, out_arg_uint8, out_arg_int16, out_arg_uint16, out_arg_int32, out_arg_uint32, out_arg_int64, out_arg_uint64, out_arg_double, out_arg_char, getBinary(bufferBinary, sizeof(bufferBinary), out_arg_binary, binOut[10].size));
+    log_print("%d %d %d %d %d %u, %lld, %llu, %lf, %s, %s", out_arg_int8, out_arg_uint8, out_arg_int16,
+              out_arg_uint16, out_arg_int32, out_arg_uint32, out_arg_int64, out_arg_uint64, out_arg_double, out_arg_char,
+              binaryToStr(bufferBinary, sizeof(bufferBinary), out_arg_binary, binOut[10].size));
 
 }
 
 
-TEST(lua, helloWorld)
+SKP_TEST(lua, lua_helloWorld)
 {
+    START_INFO_TOP(lua_helloWorld);
+
     std::string str = "local lua_log = require(\"lua_log\")  lua_log.print (\"Hello world!\")";
-    skp_lua_base_dostring(str);
+    ASSERT_FALSE(skp_lua_base_dostring(str));
 }
 
-TEST(lua, lib)
+SKP_TEST(lua, lua_lib)
 {
-    skp_lua_base_dofile("lua_lib.lua");
+    START_INFO_TOP(lua_lib);
+
+    ASSERT_FALSE(skp_lua_base_dofile("lua_lib.lua"));
 }
 
-TEST(lua, requiref)
+SKP_TEST(lua, lua_requiref)
 {
+    START_INFO_TOP(lua_requiref);
+
     lua_State *L = NULL;
-    assert_null(L =  luaL_newstate());
+    ASSERT_TRUE(L =  luaL_newstate());
 
     //    luaopen_base(L);
     //    luaopen_table(L);
@@ -198,13 +212,15 @@ TEST(lua, requiref)
 
     luaL_openlibs(L);
     std::string path = lua_config_path + "lual_requiref.lua";
-    assert_func(luaL_dofile(L, path.c_str()));
+    ASSERT_FALSE(luaL_dofile(L, path.c_str()));
 
     lua_close(L);
 }
 
-TEST(lua, table)
+SKP_TEST(lua, lua_table)
 {
+    START_INFO_TOP(lua_table);
+
     std::string str =   "local lua_log = require(\"lua_log\") " \
                         "function setDefaultValues(t,d)  " \
                         "local mt = {__index = function() return d end} " \
@@ -220,7 +236,7 @@ TEST(lua, table)
     //    " setDefaultValues(tab,100) --设置默认值（设置__index元方法）"\
     //    " print(tab.z) --检查到有__index的元方法则返回默认值" ;
 
-    skp_lua_base_loadbuffer(str);
+    ASSERT_FALSE(skp_lua_base_loadbuffer(str));
 
 
 
@@ -238,7 +254,7 @@ TEST(lua, table)
             "lua_log.print(k ,v)  "
             "end  "
             ;
-    skp_lua_base_loadbuffer(str);
+    ASSERT_FALSE(skp_lua_base_loadbuffer(str));
 
 
     str =   "local lua_log = require(\"lua_log\") "
@@ -263,7 +279,7 @@ TEST(lua, table)
             "end  "
             ;
 
-    skp_lua_base_loadbuffer(str);
+    ASSERT_FALSE(skp_lua_base_loadbuffer(str));
 
     str =   "local lua_log = require(\"lua_log\") "
             "local tb = {\"apple\", \"pear\", \"orange\", \"grape\"}"
@@ -272,21 +288,28 @@ TEST(lua, table)
             "end  "
             ;
 
-    skp_lua_base_loadbuffer(str);
+    ASSERT_FALSE(skp_lua_base_loadbuffer(str));
 }
 
-TEST(lua, class1)
+SKP_TEST(lua, lua_class1)
 {
-    skp_lua_base_dofile("class1.lua");
+    START_INFO_TOP(lua_class1);
+
+    ASSERT_FALSE(skp_lua_base_dofile("class1.lua"));
 }
 
-TEST(lua, class2)
+SKP_TEST(lua, lua_class2)
 {
-    skp_lua_base_dofile("class2.lua");
+    START_INFO_TOP(lua_class2);
+
+    ASSERT_FALSE(skp_lua_base_dofile("class2.lua"));
 }
 
 
-TEST(lua, class3)
+SKP_TEST(lua, lua_class3)
 {
-    skp_lua_base_dofile("class3.lua");
+    START_INFO_TOP(lua_class3);
+
+    ASSERT_FALSE(skp_lua_base_dofile("class3.lua"));
 }
+

@@ -9,7 +9,7 @@ message("project_cpp path = "$$PWD)
 INCLUDEPATH +=  ../project_cpp_lib_test/src \
                 ../project_lua/src \
                 ../project_lua_lib_test/src \
-                ../project_gtest
+                ../project_gtest/src
 
 
 CONFIG(debug, debug|release) {

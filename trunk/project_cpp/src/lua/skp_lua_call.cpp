@@ -3,6 +3,7 @@
 #include "src/skp_common.h"
 #include "src/skp_log.h"
 #include "skp_lua_log.h"
+#include "skp_lua_lual_requiref.h"
 
 #include <stdio.h>
 #include <assert.h>
@@ -379,14 +380,21 @@ int32_t skp_lua_call(lua_State *L, const char * func, TLuaBind *bindIn, TLuaBind
     check_success(true);
 }
 
-int32_t skp_lua_base_loadbuffer(const std::string &str, const char * func, TLuaBind *bindIn, TLuaBind *binOut)
+int32_t skp_lua_base_loadbuffer(lua_State *L, const std::string &str, const char * func, TLuaBind *bindIn, TLuaBind *binOut)
 {
     /* create state */
-    lua_State *L = NULL;
-    check_true(L =  luaL_newstate());
-    luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
-    /*load Lua base libraries*/
-    luaL_openlibs(L);
+    //lua_State *L = NULL;
+    bool isClose = false;
+    if(NULL == L)
+    {
+        isClose = true;
+        check_true(L =  luaL_newstate());
+        luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
+        luaL_requiref(L, "lual_requiref", luaopen_lual_requiref, 1);
+        /*load Lua base libraries*/
+        luaL_openlibs(L);
+    }
+
     //执行内存脚本
     check_func(luaL_loadbuffer(L, str.c_str(), str.length(), "line"));
     check_func(lua_pcall(L, 0, 0, 0));
@@ -394,46 +402,74 @@ int32_t skp_lua_base_loadbuffer(const std::string &str, const char * func, TLuaB
     {
         check_func(skp_lua_call(L, func, bindIn, binOut));
     }
-    lua_close(L);
+
+    if(isClose)
+    {
+        lua_close(L);
+    }
+
     check_success(true);
 }
 
-int32_t skp_lua_base_dostring(const std::string &str, const char * func, TLuaBind *bindIn, TLuaBind *binOut)
+int32_t skp_lua_base_dostring(lua_State *L, const std::string &str, const char * func, TLuaBind *bindIn, TLuaBind *binOut)
 {
     /* create state */
-    lua_State *L = NULL;
-    check_true(L =  luaL_newstate());
-    luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
-    /*load Lua base libraries*/
-    luaL_openlibs(L);
+    //lua_State *L = NULL;
+    bool isClose = false;
+    if(NULL == L)
+    {
+        isClose = true;
+        check_true(L =  luaL_newstate());
+        luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
+        luaL_requiref(L, "lual_requiref", luaopen_lual_requiref, 1);
+        /*load Lua base libraries*/
+        luaL_openlibs(L);
+    }
+
     //执行内存脚本
     check_func(luaL_dostring(L, str.c_str()));
     if(func)
     {
         check_func(skp_lua_call(L, func, bindIn, binOut));
     }
-    lua_close(L);
+
+    if(isClose)
+    {
+        lua_close(L);
+    }
+
     check_success(true);
 }
 
-int32_t skp_lua_base_dofile(const std::string &name, const char * func, TLuaBind *bindIn, TLuaBind *binOut)
+int32_t skp_lua_base_dofile(lua_State *L, const std::string &name, const char * func, TLuaBind *bindIn, TLuaBind *binOut)
 {
     std::string full_path = lua_config_path + name;
 
     /* create state */
-    lua_State *L = NULL;
-    check_true(L = luaL_newstate());
-    luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
-    /*load Lua base libraries*/
-    luaL_openlibs(L);
+    //lua_State *L = NULL;
+    bool isClose = false;
+    if(NULL == L)
+    {
+        isClose = true;
+        check_true(L =  luaL_newstate());
+        luaL_requiref(L, "lua_log", luaopen_lua_log, 1);
+        luaL_requiref(L, "lual_requiref", luaopen_lual_requiref, 1);
+        /*load Lua base libraries*/
+        luaL_openlibs(L);
+    }
+
     /*load the script*/
     check_func(luaL_dofile(L,full_path.c_str()));
     if(func)
     {
         check_func(skp_lua_call(L, func, bindIn, binOut));
     }
+
     /*cleanup Lua*/
-    lua_close(L);
+    if(isClose)
+    {
+        lua_close(L);
+    }
 
     check_success(true);
 }

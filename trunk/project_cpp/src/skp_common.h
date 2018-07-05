@@ -25,6 +25,7 @@ public:
 #define START_INFO_TOP(info) CStartInfo _info_tmp_##info(#info, "\n\n\n\n");
 
 #define SKP_TEST TEST
+#define SKP_TEST_F TEST_F
 
 #define cmd_error -1
 #define cmd_success 0

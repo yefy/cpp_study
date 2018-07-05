@@ -31,9 +31,9 @@ struct TLuaBind
 };
 
 int32_t skp_lua_call(lua_State *L, const char * func, TLuaBind *bindIn, TLuaBind *binOut);
-int32_t skp_lua_base_loadbuffer(const std::string &str, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
-int32_t skp_lua_base_dostring(const std::string &str, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
-int32_t skp_lua_base_dofile(const std::string &name, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
+int32_t skp_lua_base_loadbuffer(lua_State *L, const std::string &str, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
+int32_t skp_lua_base_dostring(lua_State *L, const std::string &str, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
+int32_t skp_lua_base_dofile(lua_State *L, const std::string &name, const char * func = NULL, TLuaBind *bindIn = NULL, TLuaBind *binOut = NULL);
 int32_t loadFile(const std::string &name, std::string &data);
 
 

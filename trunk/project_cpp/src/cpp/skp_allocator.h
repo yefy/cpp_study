@@ -14,20 +14,20 @@ public:
 
     static void* allocate(size_t __n)
     {
-        log_print("skp allocate \n");
+        log_print("skp __malloc_alloc_template allocate \n");
         void* __result = ::malloc(__n);
         return __result;
     }
 
     static void deallocate(void* __p, size_t /* __n */)
     {
-        log_print("skp deallocate \n");
+        log_print("skp __malloc_alloc_template deallocate \n");
         ::free(__p);
     }
 
     static void* reallocate(void* __p, size_t /* old_sz */, size_t __new_sz)
     {
-        log_print("skp reallocate \n");
+        log_print("skp __malloc_alloc_template reallocate \n");
         void* __result = ::realloc(__p, __new_sz);
         return __result;
     }
@@ -52,9 +52,9 @@ public:
         typedef allocator<_Tp1> other;
     };
 
-    allocator()  {log_print("skp allocator() 111 \n");}
-    allocator(const allocator&)  {log_print("skp allocator() 222 \n");}
-    template <class _Tp1> allocator(const allocator<_Tp1>&)  {log_print("skp allocator() 333 \n");}
+    allocator()  {log_print("skp allocator()\n");}
+    allocator(const allocator&)  {log_print("skp allocator(const allocator&) \n");}
+    template <class _Tp1> allocator(const allocator<_Tp1>&)  {log_print("skp template <class _Tp1> allocator(const allocator<_Tp1>&) \n");}
     ~allocator()  {log_print("skp ~allocator() \n");}
 
     pointer address(reference __x) const { return &__x; }

@@ -32,126 +32,138 @@ SKP_TEST(cpp, cpp_ptr)
 }
 
 
-
-
-void fun(int &x)
+enum _arg_ref
 {
-    log_print("lvalue ref");
-    x = 10;
+    arg_lvalue_ref = 0,
+    arg_rvalue_ref = 1,
+    arg_const_lvalue_ref = 2,
+    arg_const_rvalue_ref = 3,
+};
+
+char *_arg_ref_info[] =
+{
+    "lvalue ref",
+    "rvalue ref",
+    "const lvalue ref",
+    "const rvalue ref"
+};
+
+
+//======================================
+int32_t fun(int &x)
+{
+    log_print(_arg_ref_info[arg_lvalue_ref]);
+    return arg_lvalue_ref;
 }
 
-void fun(int &&x)
+int32_t fun(int &&x)
 {
-    log_print("rvalue ref");
-    x = 11;
+    log_print(_arg_ref_info[arg_rvalue_ref]);
+    return arg_rvalue_ref;
 }
 
-void fun(const int &x)
+int32_t fun(const int &x)
 {
-    log_print("const lvalue ref");
+    log_print(_arg_ref_info[arg_const_lvalue_ref]);
+    return arg_const_lvalue_ref;
 }
-void fun(const int &&x)
+int32_t fun(const int &&x)
 {
-    log_print("const rvalue ref");
+    log_print(_arg_ref_info[arg_const_rvalue_ref]);
+    return arg_const_rvalue_ref;
+}
+//========================================
+template<typename T>
+int32_t fun_t(T &x)
+{
+    log_print(_arg_ref_info[arg_lvalue_ref]);
+    return arg_lvalue_ref;
 }
 
 template<typename T>
-void fun_t(T &x)
+int32_t fun_t(T &&x)
 {
-    log_print("lvalue ref");
-    x = 20;
+   log_print(_arg_ref_info[arg_rvalue_ref]);
+   return arg_rvalue_ref;
 }
 
 template<typename T>
-void fun_t(T &&x)
+int32_t fun_t(const T &x)
 {
-    log_print("rvalue ref");
-    x = 21;
+    log_print(_arg_ref_info[arg_const_lvalue_ref]);
+    return arg_const_lvalue_ref;
 }
 
 template<typename T>
-void fun_t(const T &x)
+int32_t fun_t(const T &&x)
 {
-    log_print("const lvalue ref");
+    log_print(_arg_ref_info[arg_const_rvalue_ref]);
+    return arg_const_rvalue_ref;
+}
+//========================================
+
+template<typename T>
+int32_t fun_test(T &&t)
+{
+    return fun(t);
 }
 
 template<typename T>
-void fun_t(const T &&x)
+int32_t fun_forward_test(T &&t)
 {
-    log_print("const rvalue ref");
+    return fun(std::forward<T>(t));
 }
 
-
+//========================================
 template<typename T>
-void fun_test(T &&t)
+int32_t fun_t_test(T &&t)
 {
-    log_print("in t = %d", t);
-    fun(t);
-    log_print("out t = %d", t);
+    return fun_t(t);
 }
 
 template<typename T>
-void fun_forward_test(T &&t)
+int32_t fun_t_forward_test(T &&t)
 {
-    log_print("in t = %d", t);
-    fun(std::forward<T>(t));
-    log_print("out t = %d", t);
+    return fun_t(std::forward<T>(t));
 }
+//========================================
 
-template<typename T>
-void fun_t_test(T &&t)
+SKP_TEST(cpp, cpp_fun_ref)
 {
-    log_print("in t = %d", t);
-    fun_t(t);
-    log_print("out t = %d", t);
-}
+    START_INFO_TOP(cpp_fun_ref);
 
-template<typename T>
-void fun_t_forward_test(T &&t)
-{
-    log_print("in t = %d", t);
-    fun_t(std::forward<T>(t));
-    log_print("out t = %d", t);
-}
+    int n = 1;
+    const int const_n = 1;
+    ASSERT_EQ(fun_test(1), arg_lvalue_ref);
+    ASSERT_EQ(fun_test(n), arg_lvalue_ref);
+    ASSERT_EQ(fun_test(const_n), arg_const_lvalue_ref);
+    ASSERT_EQ(fun_test(std::move(n)), arg_lvalue_ref);
+    ASSERT_EQ(fun_test(std::move(const_n)), arg_const_lvalue_ref);
 
-int && gaaa = 1;
-int && gfaaa()
-{
-    return static_cast<int &&>(gaaa);
-}
+    ASSERT_EQ(fun_forward_test(1), arg_rvalue_ref);
+    ASSERT_EQ(fun_forward_test(n), arg_lvalue_ref);
+    ASSERT_EQ(fun_forward_test(const_n), arg_const_lvalue_ref);
+    ASSERT_EQ(fun_forward_test(std::move(n)), arg_rvalue_ref);
+    ASSERT_EQ(fun_forward_test(std::move(const_n)), arg_const_rvalue_ref);
 
-void move_forward_test()
-{
-    fun_test(1);
-    fun_forward_test(1);
-    fun_t_test(1);
-    fun_t_forward_test(1);
+    ASSERT_EQ(fun_t_test(1), arg_lvalue_ref);
+    ASSERT_EQ(fun_t_test(n), arg_lvalue_ref);
+    ASSERT_EQ(fun_t_test(const_n), arg_const_lvalue_ref);
+    ASSERT_EQ(fun_t_test(std::move(n)), arg_lvalue_ref);
+    ASSERT_EQ(fun_t_test(std::move(const_n)), arg_const_lvalue_ref);
 
-    int n = 2;
-    fun_test(n);
-    fun_forward_test(n);
-    fun_t_test(n);
-    fun_t_forward_test(n);
+    ASSERT_EQ(fun_t_forward_test(1), arg_rvalue_ref);
+    ASSERT_EQ(fun_t_forward_test(n), arg_lvalue_ref);
+    ASSERT_EQ(fun_t_forward_test(const_n), arg_const_lvalue_ref);
+    ASSERT_EQ(fun_t_forward_test(std::move(n)), arg_rvalue_ref);
+    ASSERT_EQ(fun_t_forward_test(std::move(const_n)), arg_const_rvalue_ref);
 
-    fun_test(std::move(n));
-    fun_forward_test(std::move(n));
-    fun_t_test(std::move(n));
-    fun_t_forward_test(std::move(n));
-
-    const int m = 3;
-    fun_test(m);
-    fun_forward_test(m);
-    fun_t_test(m);
-    fun_t_forward_test(m);
-
-    fun_test(std::move(m));
-    fun_forward_test(std::move(m));
-    fun_t_test(std::move(m));
-    fun_t_forward_test(std::move(m));
-
-    int &&a = std::move(1);
-    int &&b = std::move(n);
-    const int &&c = std::move(m);
+    int &&a1 = std::move(1);
+    const int &&a2 = std::move(1);
+    int &&b1 = std::move(n);
+    const int &&b2 = std::move(n);
+    //int &&c1 = std::move(const_n); //error
+    const int &&c2 = std::move(const_n);
 }
 
 

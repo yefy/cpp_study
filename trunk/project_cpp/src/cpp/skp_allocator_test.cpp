@@ -40,7 +40,7 @@ SKP_TEST(cpp, cpp_skp_make_data1)
     std::list<int> *make_list = NULL;
     ASSERT_TRUE(make_list = skp::make_data<std::list<int>>());
 }
-
+//==================================================
 class CMakeDataTest
 {
 public:
@@ -63,7 +63,7 @@ public:
     int m_arg1;
     int m_arg2;
 };
-
+//==================================================
 SKP_TEST(cpp, cpp_skp_make_data2)
 {
     START_INFO_TOP(cpp_skp_make_data2);
@@ -96,7 +96,7 @@ SKP_TEST(cpp, cpp_skp_make_data4)
     ASSERT_EQ(data->m_arg1, 1);
     ASSERT_EQ(data->m_arg2, 2);
 }
-
+//==================================================
 
 SKP_TEST(cpp, cpp_skp_make_unique1)
 {

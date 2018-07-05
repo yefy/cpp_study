@@ -12,10 +12,14 @@ function more_arg(arg_int8, arg_uint8, arg_int16, arg_uint16, arg_int32, arg_uin
 
     lua_log.print(arg_int8, arg_uint8, arg_int16, arg_uint16, arg_int32, arg_uint32, arg_int64, arg_uint64, arg_double, arg_char, arg_binary);
 
-    print(arg_int8, arg_uint8, arg_int16, arg_uint16, arg_int32, arg_uint32, arg_int64, arg_uint64, arg_double, arg_char, get_binary(arg_binary));
+    print(arg_int8, arg_uint8, arg_int16, arg_uint16, arg_int32, arg_uint32, arg_int64, arg_uint64, arg_double, arg_char, binaryToStr(arg_binary));
 
     return arg_int8, arg_uint8, arg_int16, arg_uint16, arg_int32, arg_uint32, arg_int64, arg_uint64, arg_double, arg_char, arg_binary
 end
+
+--msg="abddfaf"
+--str, index = string.gsub(msg, "hak", "~")
+--print( str, index)
 
 lua_log.print("end func.lua");
 

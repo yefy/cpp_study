@@ -20,7 +20,10 @@ function print_table(table)
     end
 end
 
-function get_binary(msg)
+function binaryToStr(msg)
+    return (string.gsub(msg, "\0", "~"))
+
+    --[[
     local buffer = ""
     local index = 1
     local start = 0
@@ -32,6 +35,8 @@ function get_binary(msg)
         end
     end
     buffer = buffer .. string.sub(msg, index, start)
+
     return buffer
+    --]]
 end
 

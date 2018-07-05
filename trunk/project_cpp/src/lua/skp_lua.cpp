@@ -15,7 +15,6 @@ extern "C"{
 #include "lualib.h"
 }
 
-
 class CCalcTest: public testing::Test
 {
 protected:

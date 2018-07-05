@@ -176,3 +176,22 @@ SKP_TEST(cpp, cpp_lib)
     Project_cpp_lib_test cpplib;
     (void)cpplib;
 }
+
+TEST(cpp, zero)
+{
+    const char *str = "\0";
+    char c = '\0';
+    int n = 0;
+    ASSERT_EQ((int)str[0], (int)c);
+    ASSERT_EQ((int)str[0], n);
+    ASSERT_EQ((int)c, n);
+
+    char buffer1[] = "123\0";
+    ASSERT_EQ(5, sizeof(buffer1));
+
+    char buffer2[] = "\0";
+    ASSERT_EQ(2, sizeof(buffer2));
+
+    char buffer3[] = {'1'};
+    ASSERT_EQ(1, sizeof(buffer3));
+}

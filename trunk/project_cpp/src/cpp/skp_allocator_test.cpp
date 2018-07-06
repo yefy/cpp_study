@@ -46,18 +46,18 @@ class CMakeDataTest
 public:
     CMakeDataTest() : m_arg1(0), m_arg2(0)
     {
-        printf("CMakeDataTest() \n");
+        log_print("CMakeDataTest() \n");
     }
 
 
     CMakeDataTest(int &&arg1) : m_arg1(arg1), m_arg2(0)
     {
-        printf("CMakeDataTest(int &&arg1) : arg = %d \n", arg1);
+        log_print("CMakeDataTest(int &&arg1) : arg = %d \n", arg1);
     }
 
     CMakeDataTest(int &&arg1, int &&arg2) : m_arg1(arg1), m_arg2(arg2)
     {
-        printf("CMakeDataTest(int &&arg1, int &&arg2) : arg1 = %d, arg2 = %d \n", arg1, arg2);
+        log_print("CMakeDataTest(int &&arg1, int &&arg2) : arg1 = %d, arg2 = %d \n", arg1, arg2);
     }
 
     int m_arg1;

@@ -1,4 +1,4 @@
-#include "skp_cpp.h"
+#include "skp_cpp_test.h"
 #include "src/skp_common.h"
 #include "src/skp_log.h"
 #include "gtest/gtest.h"
@@ -177,8 +177,10 @@ SKP_TEST(cpp, cpp_lib)
     (void)cpplib;
 }
 
-TEST(cpp, zero)
+TEST(cpp, cpp_zero)
 {
+    START_INFO_TOP(cpp_zero);
+
     const char *str = "\0";
     char c = '\0';
     int n = 0;
@@ -194,4 +196,72 @@ TEST(cpp, zero)
 
     char buffer3[] = {'1'};
     ASSERT_EQ(1, sizeof(buffer3));
+}
+
+
+
+
+#include <string>
+#include <cstdlib>
+#include <gmock/gmock.h>
+
+class Bar
+{
+public:
+    int num;
+};
+
+class FooInterface {
+public:
+        virtual ~FooInterface() {}
+
+public:
+        virtual std::string getArbitraryString() = 0;
+        virtual void setValue(std::string& value) = 0;
+        virtual void setDoubleValues(int x, int y) = 0;
+        virtual int get(Bar &bar) = 0;
+};
+
+
+class MockFoo: public FooInterface {
+public:
+        MOCK_METHOD0(getArbitraryString, std::string());
+        MOCK_METHOD1(setValue, void(std::string& value));
+        MOCK_METHOD2(setDoubleValues, void(int x, int y));
+        MOCK_METHOD1(get, int(Bar &bar));
+};
+
+using ::testing::Assign;
+using ::testing::Eq;
+using ::testing::Ge;
+using ::testing::Field;
+using ::testing::Return;
+
+SKP_TEST(cpp, cpp_gmock)
+{
+    START_INFO_TOP(cpp_gmock);
+
+    std::string value = "Hello World!";
+    MockFoo mockFoo;
+
+    EXPECT_CALL(mockFoo, setValue(testing::_)).Times(2);
+    mockFoo.setValue(value);
+    mockFoo.setValue(value);
+
+
+    EXPECT_CALL(mockFoo, setDoubleValues(Eq(1), Ge(1)));
+    mockFoo.setDoubleValues(1, 2);
+
+
+    EXPECT_CALL(mockFoo, getArbitraryString()).Times(2).
+            WillOnce(Return(value)).WillOnce(Return(""));
+    //std::string returnValue = mockFoo.getArbitraryString();
+
+    ASSERT_STREQ(value.c_str(), mockFoo.getArbitraryString().c_str());
+    ASSERT_STREQ("", mockFoo.getArbitraryString().c_str());
+
+    Bar bar;
+    bar.num = 1;
+    EXPECT_CALL(mockFoo, get(Field(&Bar::num, Ge(0)))).Times(1);
+    mockFoo.get(bar);
 }

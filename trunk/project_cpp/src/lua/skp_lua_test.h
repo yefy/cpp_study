@@ -1,5 +1,5 @@
-#ifndef SKP_LUA_H
-#define SKP_LUA_H
+#ifndef SKP_LUA_TEST_H
+#define SKP_LUA_TEST_H
 
 #include "gtest/gtest.h"
 
@@ -19,4 +19,4 @@ class LuaEnvironment : public testing::Environment
  };
 
 
-#endif // SKP_LUA_H
+#endif // SKP_LUA_TEST_H

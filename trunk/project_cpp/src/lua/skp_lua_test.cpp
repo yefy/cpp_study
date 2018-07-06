@@ -1,4 +1,4 @@
-#include "skp_lua.h"
+#include "skp_lua_test.h"
 #include "src/skp_common.h"
 #include "src/skp_log.h"
 

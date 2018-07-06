@@ -9,40 +9,41 @@ message("project_cpp path = "$$PWD)
 INCLUDEPATH +=  ../project_cpp_lib_test/src \
                 ../project_lua/src \
                 ../project_lua_lib_test/src \
-                ../project_gtest/src
+                ../project_gtest/src \
+                ../project_gmock/src
 
 
 CONFIG(debug, debug|release) {
 DESTDIR +=          ../../build_debug/bin
 OBJECTS_DIR +=      ../../build_debug/objects
-LIBS += -L../../build_debug/bin -lproject_cpp_lib_test -lproject_lua -lproject_gtest
+LIBS += -L../../build_debug/bin -lproject_cpp_lib_test -lproject_lua -lproject_gtest -lproject_gmock
 } else {
 DESTDIR +=          ../../build_release/bin
 OBJECTS_DIR +=      ../../build_release/objects
-LIBS += -L../../build_release/bin -lproject_cpp_lib_test -lproject_lua -lproject_gtest
+LIBS += -L../../build_release/bin -lproject_cpp_lib_test -lproject_lua -lproject_gtest -lproject_gmock
 }
 
 SOURCES += src/main.cpp \
-    src/lua/skp_lua.cpp \
-    src/cpp/skp_cpp.cpp \
     src/lua/skp_lua_lual_requiref.cpp \
     src/lua/skp_lua_log.cpp \
     src/lua/skp_lua_call.cpp \
     src/skp_common.cpp \
     src/skp_log.cpp \
-    src/cpp/skp_allocator_test.cpp
+    src/cpp/skp_allocator_test.cpp \
+    src/cpp/skp_cpp_test.cpp \
+    src/lua/skp_lua_test.cpp
 
 HEADERS += \
     src/cpp/skp_allocator.h \
-    src/lua/skp_lua.h \
-    src/cpp/skp_cpp.h \
     src/lua/skp_lua_lual_requiref.h \
     src/lua/skp_lua_common.h \
     src/lua/skp_lua_log.h \
     src/lua/skp_lua_call.h \
     src/skp_common.h \
     src/skp_log.h \
-    src/cpp/skp_allocator_test.h
+    src/cpp/skp_allocator_test.h \
+    src/cpp/skp_cpp_test.h \
+    src/lua/skp_lua_test.h
 
 DISTFILES += \
     ../lua/src/base/class.lua \

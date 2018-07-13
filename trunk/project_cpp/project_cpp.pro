@@ -13,6 +13,26 @@ INCLUDEPATH +=  ../project_cpp_lib_test/src \
                 ../project_gmock/src
 
 
+#macx {
+# mac only
+#}
+#unix:!macx{
+# linux only
+#}
+#win32 {
+# windows only
+
+#INCLUDEPATH += D:\openssl-1.0.1c_static_w32_mingw\include
+#LIBS += -LD:\openssl-1.0.1c_static_w32_mingw -lssl -lcrypto -lws2_32 -lgdi32
+
+INCLUDEPATH += C:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\include
+LIBS += -LC:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\lib -lssl -lcrypto -lws2_32 -lgdi32
+
+#INCLUDEPATH += C:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\ssl_bak\include
+#LIBS += -LC:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\ssl_bak\lib -lssl -lcrypto -lws2_32 -lgdi32
+#}
+
+
 CONFIG(debug, debug|release) {
 DESTDIR +=          ../../build_debug/bin
 OBJECTS_DIR +=      ../../build_debug/objects
@@ -31,7 +51,12 @@ SOURCES += src/main.cpp \
     src/skp_log.cpp \
     src/cpp/skp_allocator_test.cpp \
     src/cpp/skp_cpp_test.cpp \
-    src/lua/skp_lua_test.cpp
+    src/lua/skp_lua_test.cpp \
+    src/openssl/skp_AES.cpp \
+    src/openssl/skp_sha256.cpp \
+    src/openssl/skp_DES.cpp \
+    src/openssl/crypt.cpp \
+    src/openssl/crypttool.cpp
 
 HEADERS += \
     src/cpp/skp_allocator.h \
@@ -43,7 +68,11 @@ HEADERS += \
     src/skp_log.h \
     src/cpp/skp_allocator_test.h \
     src/cpp/skp_cpp_test.h \
-    src/lua/skp_lua_test.h
+    src/lua/skp_lua_test.h \
+    src/openssl/skp_AES.h \
+    src/openssl/skp_sha256.h \
+    src/openssl/skp_DES.h \
+    src/openssl/crypt.h
 
 DISTFILES += \
     ../lua/src/base/class.lua \

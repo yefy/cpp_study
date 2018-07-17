@@ -6,6 +6,7 @@
 #include "src/skp_common.h"
 #include "src/skp_log.h"
 
+/*
 using namespace std;
 //using namespace lspublic::library::util;
 void cryptHelp()
@@ -59,12 +60,12 @@ SKP_TEST(openssl, openssl_tool)
         
         printf("加密后:[%s]\n", szDestStr);
         
-        /*char szdeCrypt[129] = "";
-        if (-1 == cCrypt.decryptECB((unsigned char*)szdeCrypt, sizeof(szdeCrypt), (unsigned char*)argv[2], (unsigned char*)szDestStr, strlen(szDestStr)))
-        {
-            return -1;
-        }  
-        printf("解密前:[%s],解密后:[%s]\n",szDestStr, szdeCrypt);*/
+//        char szdeCrypt[129] = "";
+//        if (-1 == cCrypt.decryptECB((unsigned char*)szdeCrypt, sizeof(szdeCrypt), (unsigned char*)argv[2], (unsigned char*)szDestStr, strlen(szDestStr)))
+//        {
+//            return -1;
+//        }
+//        printf("解密前:[%s],解密后:[%s]\n",szDestStr, szdeCrypt);
     }
     else if (4 == argc)
     {
@@ -98,7 +99,12 @@ SKP_TEST(openssl, openssl_tool)
 void openssl_tool(int32_t argc, char*argv[], std::string &str)
 {
     CCrypt cCrypt;
-    ASSERT_EQ(cCrypt.loadAesInKey(), 0);
+    if(cCrypt.setAesKey("1234567891234567") != 0)
+    {
+        printf("cCrypt.setAesKey error \n");
+    }
+    //cCrypt.setInitVectorKey("1234567891234567");
+    //ASSERT_EQ(cCrypt.loadAesInKey(), 0);
 
     if (2 == argc)
     {
@@ -123,7 +129,7 @@ void openssl_tool(int32_t argc, char*argv[], std::string &str)
     else if (3 == argc)
     {
         printf("加密前:[%s],加密后公钥(64位):[%s]\n", argv[1], argv[2]);
-        char szDestStr[2048]="";
+        char szDestStr[4096]="";
         if (64 == strlen(argv[2]))
         {
             if (-1 == cCrypt.encryptECB((unsigned char*)szDestStr, sizeof(szDestStr), (unsigned char*)argv[2], (unsigned char*)argv[1], strlen(argv[1])))
@@ -139,18 +145,18 @@ void openssl_tool(int32_t argc, char*argv[], std::string &str)
         printf("加密后:[%s]\n", szDestStr);
         str = std::string(szDestStr);
 
-        /*char szdeCrypt[129] = "";
-        if (-1 == cCrypt.decryptECB((unsigned char*)szdeCrypt, sizeof(szdeCrypt), (unsigned char*)argv[2], (unsigned char*)szDestStr, strlen(szDestStr)))
-        {
-            return -1;
-        }
-        printf("解密前:[%s],解密后:[%s]\n",szDestStr, szdeCrypt);*/
+//        char szdeCrypt[129] = "";
+//        if (-1 == cCrypt.decryptECB((unsigned char*)szdeCrypt, sizeof(szdeCrypt), (unsigned char*)argv[2], (unsigned char*)szDestStr, strlen(szDestStr)))
+//        {
+//            return -1;
+//        }
+//        printf("解密前:[%s],解密后:[%s]\n",szDestStr, szdeCrypt);
     }
     else if (4 == argc)
     {
         if (strncmp(argv[1], "-r", sizeof(argv[1])) == 0)
         {
-            char szDestStr[2048]="";
+            char szDestStr[4096]="";
             if (64 == strlen(argv[3]))
             {
                 if (-1 == cCrypt.decryptECB((unsigned char*)szDestStr, sizeof(szDestStr), (unsigned char*)argv[3], (unsigned char*)argv[2], strlen(argv[2])))
@@ -187,7 +193,9 @@ SKP_TEST(openssl, openssl_tool2)
         printf("en_key = %s \n", encrypt_key.c_str());
     }
 
-    std::string data = "abcdeffafafaefgagagagagfaegeagagagagagagagaggewgrehtruhytjytjytjytjwggagregrhtrhtrhtrhtrhtrhththrthtrhtrhtr";
+    std::string data(1601, 'A');
+    printf("data size = %d \n", data.size());
+    printf("data = %s \n", data.c_str());
     std::string encrypt_data = "";
     if(true)
     {
@@ -211,5 +219,115 @@ SKP_TEST(openssl, openssl_tool2)
     }
 
     ASSERT_STREQ(data.c_str(), decrypt_data.c_str());
+}
+*/
+
+int32_t encryptECB(unsigned char* pCipherText, int32_t nCipherTextLen, const unsigned char *pKeyStr, const unsigned char* pClearText, int32_t nClearTextLen)
+{
+    if(strlen((char*)pKeyStr) != AES_KEY_SIZE_BYTE)
+    {
+        printf("key != 16 error \n");
+        return -1;
+    }
+
+    int32_t size = 0;
+
+    CCrypt cCrypt;
+    if(cCrypt.setAesKey("1234567891234567") != 0)
+    {
+        printf("cCrypt.setAesKey error \n");
+        return -1;
+    }
+
+    char szcryptAesKey[129]= "";
+    if(-1 == (size = cCrypt.encryptEcbByInKey((unsigned char *) szcryptAesKey, sizeof(szcryptAesKey), pKeyStr, AES_KEY_SIZE_BYTE)))
+    {
+        printf("cCrypt.encryptEcbByInKey error \n");
+        return -1;
+
+    }
+
+    printf("cCrypt.encryptEcbByInKey size = %d \n", size);
+
+    if (-1 ==  (size = cCrypt.encryptECB(pCipherText, nCipherTextLen, (unsigned char *)szcryptAesKey, pClearText, nClearTextLen)))
+    {
+        printf("encryptECB error \n");
+        return -1;
+    }
+
+    printf("cCrypt.encryptECB size = %d \n", size);
+
+    return 0;
+
+}
+
+int32_t decryptECB(unsigned char* pCipherText, int32_t nCipherTextLen, const unsigned char *pKeyStr, const unsigned char* pClearText, int32_t nClearTextLen)
+{
+    if(strlen((char*)pKeyStr) != AES_KEY_SIZE_BYTE)
+    {
+        printf("key != 16 error \n");
+        return -1;
+    }
+
+    int32_t size = 0;
+
+    CCrypt cCrypt;
+    if(cCrypt.setAesKey("1234567891234567") != 0)
+    {
+        printf("cCrypt.setAesKey error \n");
+        return -1;
+    }
+
+    char szcryptAesKey[129]= "";
+    if(-1 == (size = cCrypt.encryptEcbByInKey((unsigned char *) szcryptAesKey, sizeof(szcryptAesKey), pKeyStr, AES_KEY_SIZE_BYTE)))
+    {
+        printf("cCrypt.encryptEcbByInKey error \n");
+        return -1;
+
+    }
+
+    printf("cCrypt.encryptEcbByInKey size = %d \n", size);
+
+    if (-1 ==  (size = cCrypt.decryptECB(pCipherText, nCipherTextLen, (unsigned char *)szcryptAesKey, pClearText, nClearTextLen)))
+    {
+        printf("encryptECB error \n");
+        return -1;
+    }
+
+    printf("cCrypt.decryptECB size = %d \n", size);
+
+    return 0;
+
+}
+
+
+
+SKP_TEST(openssl, openssl_tool3)
+{
+    const int maxDataSize = 1601;
+    const int encryptDataSize = maxDataSize * 3;
+    char *pKeyStr = "1234567891234567";
+    std::string data(1601, 'A');
+    printf("data size = %d \n", data.size());
+    printf("data = %s \n", data.c_str());
+
+    unsigned char* encryptData = (unsigned char*)calloc(encryptDataSize, sizeof(unsigned char));
+    unsigned char* decryptData = (unsigned char*)calloc(encryptDataSize, sizeof(unsigned char));
+
+    encryptECB(encryptData, encryptDataSize, (unsigned char*)pKeyStr, (unsigned char*)data.c_str(), data.size());
+    decryptECB(decryptData, encryptDataSize, (unsigned char*)pKeyStr, encryptData, strlen((char *)encryptData));
+
+    printf("encrypt_data size = %d \n", std::string((char *)encryptData).size());
+    printf("encrypt_data = %s \n", std::string((char *)encryptData).c_str());
+
+    printf("decrypt_data size = %d \n", std::string((char *)decryptData).size());
+    printf("decrypt_data = %s \n", std::string((char *)decryptData).c_str());
+
+    if(strcmp(data.c_str(), std::string((char *)decryptData).c_str()) != 0)
+    {
+        printf("strcmp error \n");
+    }
+
+    ASSERT_STREQ(data.c_str(), std::string((char *)decryptData).c_str());
 }
 

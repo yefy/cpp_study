@@ -135,6 +135,58 @@ CCrypt::~CCrypt()
     }
 }
 
+int32_t CCrypt:: setAesKey(const char *key)
+{
+    if(strlen(key) != AES_KEY_SIZE_BYTE)
+    {
+        strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey size != AES_KEY_SIZE_BYTE", sizeof(m_szLastErrMsg));
+        return -1;
+    }
+
+    if(NULL != m_pAesInKey)
+    {
+        strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey has been load once!", sizeof(m_szLastErrMsg));
+        return -1;
+    }
+
+    m_pAesInKey = (unsigned char*)calloc(AES_KEY_SIZE_BYTE, sizeof(unsigned char));
+    if(NULL == m_pAesInKey)
+    {
+        strncpy(m_szLastErrMsg,"Error in loadAesInKey, m_pAesInKey calloc error!", sizeof(m_szLastErrMsg));
+        return -1;
+    }
+
+    memcpy(m_pAesInKey, key, AES_KEY_SIZE_BYTE);
+
+    return 0;
+}
+
+int32_t CCrypt:: setInitVectorKey(const char *key)
+{
+    if(strlen(key) != AES_KEY_SIZE_BYTE)
+    {
+        strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey size != AES_KEY_SIZE_BYTE", sizeof(m_szLastErrMsg));
+        return -1;
+    }
+
+    if(NULL != m_pInitVector)
+    {
+        strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey has been load once!", sizeof(m_szLastErrMsg));
+        return -1;
+    }
+
+    m_pInitVector = (unsigned char*)calloc(AES_KEY_SIZE_BYTE, sizeof(unsigned char));
+    if(NULL == m_pInitVector)
+    {
+        strncpy(m_szLastErrMsg,"Error in loadAesInKey, m_pInitVector calloc error!", sizeof(m_szLastErrMsg));
+        return -1;
+    }
+
+    memcpy(m_pInitVector, key, AES_KEY_SIZE_BYTE);
+
+    return 0;
+}
+
 int32_t CCrypt:: loadAesInKey()
 {
     FILE *file = NULL;
@@ -642,6 +694,7 @@ RETURN_FLAG:
     return nRet;
 }
 
+#ifdef OPENSSL_RSA
 int32_t CCrypt:: getNewRsaKey(TRSAKeyPrivate *pPrivateKey, int32_t nBit)
 {
 
@@ -918,7 +971,7 @@ int32_t CCrypt::decryptVerify(int32_t nType, const unsigned char *pInfoText, int
         return -1;
     }
 }
-
+#endif
 int32_t CCrypt:: encodeSHA256(char *pCipherText, const char *pClearText, int32_t nClearTextLen)
 {
     unsigned char szResultData[SHA256_DIGEST_LENGTH] = "";

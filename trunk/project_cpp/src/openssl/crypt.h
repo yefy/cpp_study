@@ -21,6 +21,8 @@
 
 #define AES_KEY_ECB_ENCRYPT_LEN  64 //AES密钥经过ECB加密后长度
 
+//#define OPENSSL_RSA
+
 typedef int int32_t;
 
 //#define AES_IN_KEY         "/app/ibas85/ib85dev/user/lrj/crypt/aesin.key"      //内部用来加密密钥使用
@@ -83,6 +85,8 @@ public:
     */
     int32_t AsciiToHex(char *dptr, const char *sptr, int32_t len);
 
+
+
     /**
     * @brief 描述方法原型 CCrypt.getNewAesKey 功能
     * 生成 Aes的密钥，并用Aes128Ecb加密.
@@ -105,6 +109,8 @@ public:
     * 在使用类的Aes和Rsa算法前都需要先执行这个函数。
     */
     int32_t loadAesInKey();
+    int32_t setAesKey(const char *key);
+    int32_t setInitVectorKey(const char *key);
 
     /**
     * @brief 描述方法原型 CCrypt.encryptEcbByInKey 功能
@@ -183,7 +189,7 @@ public:
     调用后尽量在字符串末尾添加\0 结束符
     */
     int32_t decryptCBC(unsigned char *pClearText, int32_t nClearTextLen, const unsigned char *pKeyStr, const unsigned char *pCipherText, int32_t nCipherTextLen);
-
+#ifdef OPENSSL_RSA
     /**
     * @brief 描述方法原型 CCrypt.getNewRsaKey 功能
     * 获取一个随机的Rsa密钥
@@ -263,7 +269,7 @@ public:
     *
     */
     int32_t decryptVerify(int32_t nType, const unsigned char *pInfoText, int32_t nInfoTextLen, const unsigned char *pSigbuf, int32_t nSigLen, const TRSAKeyPrivate *pKey);
-
+#endif
     /**
     * @brief SHA256位加密算法
     * 密文长度固定为64字节ascii码。

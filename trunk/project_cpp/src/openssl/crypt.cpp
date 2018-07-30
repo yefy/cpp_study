@@ -137,17 +137,27 @@ CCrypt::~CCrypt()
 
 int32_t CCrypt:: setAesKey(const char *key)
 {
-    if(strlen(key) != AES_KEY_SIZE_BYTE)
-    {
-        strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey size != AES_KEY_SIZE_BYTE", sizeof(m_szLastErrMsg));
-        return -1;
-    }
-
     if(NULL != m_pAesInKey)
     {
         strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey has been load once!", sizeof(m_szLastErrMsg));
         return -1;
     }
+
+    const char *defKey = "1234567891234567";
+    if(key)
+    {
+        if(strlen(key) != AES_KEY_SIZE_BYTE)
+        {
+            strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey size != AES_KEY_SIZE_BYTE", sizeof(m_szLastErrMsg));
+            return -1;
+        }
+    }
+    else
+    {
+        key = defKey;
+    }
+
+
 
     m_pAesInKey = (unsigned char*)calloc(AES_KEY_SIZE_BYTE, sizeof(unsigned char));
     if(NULL == m_pAesInKey)
@@ -163,17 +173,27 @@ int32_t CCrypt:: setAesKey(const char *key)
 
 int32_t CCrypt:: setInitVectorKey(const char *key)
 {
-    if(strlen(key) != AES_KEY_SIZE_BYTE)
-    {
-        strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey size != AES_KEY_SIZE_BYTE", sizeof(m_szLastErrMsg));
-        return -1;
-    }
-
     if(NULL != m_pInitVector)
     {
         strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey has been load once!", sizeof(m_szLastErrMsg));
         return -1;
     }
+
+    const char *defKey = "1234567891234567";
+    if(key)
+    {
+        if(strlen(key) != AES_KEY_SIZE_BYTE)
+        {
+            strncpy(m_szLastErrMsg,"Error in loadAesInKey, InKey size != AES_KEY_SIZE_BYTE", sizeof(m_szLastErrMsg));
+            return -1;
+        }
+    }
+    else
+    {
+        key = defKey;
+    }
+
+
 
     m_pInitVector = (unsigned char*)calloc(AES_KEY_SIZE_BYTE, sizeof(unsigned char));
     if(NULL == m_pInitVector)

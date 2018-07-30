@@ -109,8 +109,8 @@ public:
     * 在使用类的Aes和Rsa算法前都需要先执行这个函数。
     */
     int32_t loadAesInKey();
-    int32_t setAesKey(const char *key);
-    int32_t setInitVectorKey(const char *key);
+    int32_t setAesKey(const char *key = NULL);
+    int32_t setInitVectorKey(const char *key = NULL);
 
     /**
     * @brief 描述方法原型 CCrypt.encryptEcbByInKey 功能

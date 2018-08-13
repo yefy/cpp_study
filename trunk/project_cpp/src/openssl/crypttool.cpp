@@ -722,6 +722,13 @@ SKP_TEST(openssl, openssl_tool4)
     ASSERT_FALSE(-1 == encryptECBFile((const unsigned char*)pKeyStr, "aes2.txt", "aes_b22.txt"));
 
     ASSERT_FALSE(-1 == decryptECBFile((const unsigned char*)pKeyStr, "aes_b22.txt", "aes_b222.txt"));
+
+
+    remove("aes_b33.txt");
+    remove("aes_b333.txt");
+    ASSERT_FALSE(-1 == encryptECBFile((const unsigned char*)pKeyStr, "aes3.txt", "aes_b33.txt"));
+
+    ASSERT_FALSE(-1 == decryptECBFile((const unsigned char*)pKeyStr, "aes_b33.txt", "aes_b333.txt"));
 }
 
 

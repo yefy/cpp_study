@@ -379,6 +379,7 @@ int32_t encryptECBFile2(const unsigned char *pKeyStr, const char *srcFile, const
     fclose(w_fp);
     w_fp = NULL;
 
+    remove(destFile);
     if(rename(destFileTmp, destFile) != 0)
     {
         printf("rename error [%s] \n", strerror(errno));
@@ -449,6 +450,7 @@ int32_t decryptECBFile2(const unsigned char *pKeyStr, const char *srcFile, const
     fclose(w_fp);
     w_fp = NULL;
 
+    remove(destFile);
     if(rename(destFileTmp, destFile) != 0)
     {
         printf("rename error [%s] \n", strerror(errno));
@@ -471,7 +473,7 @@ int32_t encryptECBFile(const unsigned char *pKeyStr, const char *srcFile, const 
     }
 
     char destFileTmp[256] = "";
-    snprintf(destFileTmp, sizeof(destFileTmp), "%s%s", destFile, ".tmp");
+    snprintf(destFileTmp, sizeof(destFileTmp), "%s%s", destFile, ".ECBTMP");
 
     FILE * r_fp = NULL;
     r_fp = fopen(srcFile, "rb");
@@ -532,6 +534,7 @@ int32_t encryptECBFile(const unsigned char *pKeyStr, const char *srcFile, const 
     fclose(w_fp);
     w_fp = NULL;
 
+    remove(destFile);
     if(rename(destFileTmp, destFile) != 0)
     {
         printf("rename error [%s] \n", strerror(errno));
@@ -549,7 +552,7 @@ int32_t decryptECBFile(const unsigned char *pKeyStr, const char *srcFile, const 
     }
 
     char destFileTmp[256] = "";
-    snprintf(destFileTmp, sizeof(destFileTmp), "%s%s", destFile, ".tmp");
+    snprintf(destFileTmp, sizeof(destFileTmp), "%s%s", destFile, ".ECBTMP");
 
     FILE * r_fp = NULL;
     r_fp = fopen(srcFile, "r");
@@ -605,6 +608,7 @@ int32_t decryptECBFile(const unsigned char *pKeyStr, const char *srcFile, const 
     fclose(w_fp);
     w_fp = NULL;
 
+    remove(destFile);
     if(rename(destFileTmp, destFile) != 0)
     {
         printf("rename error [%s] \n", strerror(errno));
@@ -697,38 +701,49 @@ SKP_TEST(openssl, openssl_tool4)
 
     const char *pKeyStr = "1234567891234567";
 
-    remove("aes11.txt");
-    remove("aes111.txt");
+//    remove("aes11.txt");
+//    remove("aes111.txt");
     ASSERT_FALSE(-1 == encryptECBFile2((const unsigned char*)pKeyStr, "aes1.txt", "aes11.txt"));
 
     ASSERT_FALSE(-1 == decryptECBFile2((const unsigned char*)pKeyStr, "aes11.txt", "aes111.txt"));
 
-    remove("aes22.txt");
-    remove("aes222.txt");
+//    remove("aes22.txt");
+//    remove("aes222.txt");
     ASSERT_FALSE(-1 == encryptECBFile2((const unsigned char*)pKeyStr, "aes2.txt", "aes22.txt"));
 
     ASSERT_FALSE(-1 == decryptECBFile2((const unsigned char*)pKeyStr, "aes22.txt", "aes222.txt"));
 
 
 
-    remove("aes_b11.txt");
-    remove("aes_b111.txt");
+//    remove("aes_b11.txt");
+//    remove("aes_b111.txt");
     ASSERT_FALSE(-1 == encryptECBFile((const unsigned char*)pKeyStr, "aes1.txt", "aes_b11.txt"));
 
     ASSERT_FALSE(-1 == decryptECBFile((const unsigned char*)pKeyStr, "aes_b11.txt", "aes_b111.txt"));
 
-    remove("aes_b22.txt");
-    remove("aes_b222.txt");
+//    remove("aes_b22.txt");
+//    remove("aes_b222.txt");
     ASSERT_FALSE(-1 == encryptECBFile((const unsigned char*)pKeyStr, "aes2.txt", "aes_b22.txt"));
 
     ASSERT_FALSE(-1 == decryptECBFile((const unsigned char*)pKeyStr, "aes_b22.txt", "aes_b222.txt"));
 
 
-    remove("aes_b33.txt");
-    remove("aes_b333.txt");
-    ASSERT_FALSE(-1 == encryptECBFile((const unsigned char*)pKeyStr, "aes3.txt", "aes_b33.txt"));
+//    remove("aes_b33.txt");
+//    remove("aes_b333.txt");
+    ASSERT_FALSE(-1 == encryptECBFile((const unsigned char*)pKeyStr, "aes3.txt", "aes3.txt"));
 
-    ASSERT_FALSE(-1 == decryptECBFile((const unsigned char*)pKeyStr, "aes_b33.txt", "aes_b333.txt"));
+    ASSERT_FALSE(-1 == decryptECBFile((const unsigned char*)pKeyStr, "aes3.txt", "aes3.txt"));
+
+
+//    remove("aes_b44.txt");
+//    remove("aes_b444.txt");
+    ASSERT_FALSE(-1 == encryptECBFile((const unsigned char*)pKeyStr, "aes4.txt", "aes4.txt"));
+
+    ASSERT_FALSE(-1 == decryptECBFile((const unsigned char*)pKeyStr, "aes4.txt", "aes4.txt"));
+
+
+    ASSERT_FALSE(-1 == decryptECBFile((const unsigned char*)pKeyStr, "aes5.txt", "aes555.txt"));
+
 }
 
 

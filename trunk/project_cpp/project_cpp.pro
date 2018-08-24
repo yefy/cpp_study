@@ -26,7 +26,7 @@ INCLUDEPATH +=  ../project_cpp_lib_test/src \
 #LIBS += -LD:\openssl-1.0.1c_static_w32_mingw -lssl -lcrypto -lws2_32 -lgdi32
 
 INCLUDEPATH += C:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\include
-LIBS += -LC:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\lib -lssl -lcrypto -lws2_32 -lgdi32
+LIBS += -LC:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\lib -lssl -lcrypto -lws2_32 -lgdi32 -lprotobuf
 
 #INCLUDEPATH += C:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\ssl_bak\include
 #LIBS += -LC:\msys+7za+wget+svn+git+mercurial+cvs-rev13\msys\local\ssl_bak\lib -lssl -lcrypto -lws2_32 -lgdi32
@@ -56,7 +56,10 @@ SOURCES += src/main.cpp \
     src/openssl/skp_sha256.cpp \
     src/openssl/skp_DES.cpp \
     src/openssl/crypt.cpp \
-    src/openssl/crypttool.cpp
+    src/openssl/crypttool.cpp \
+    src/protobuf/skp_protobuf_test.cpp \
+    src/protobuf/caffe.pb.cc \
+    src/protobuf/test.pb.cc
 
 HEADERS += \
     src/cpp/skp_allocator.h \
@@ -72,7 +75,10 @@ HEADERS += \
     src/openssl/skp_AES.h \
     src/openssl/skp_sha256.h \
     src/openssl/skp_DES.h \
-    src/openssl/crypt.h
+    src/openssl/crypt.h \
+    src/protobuf/skp_protobuf_test.h \
+    src/protobuf/caffe.pb.h \
+    src/protobuf/test.pb.h
 
 DISTFILES += \
     ../lua/src/base/class.lua \

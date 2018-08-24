@@ -1,0 +1,4 @@
+#ifndef SKP_PROTOBUF_TEST_H
+#define SKP_PROTOBUF_TEST_H
+
+#endif //SKP_PROTOBUF_TEST_H

@@ -24,8 +24,18 @@ public:
 #define START_INFO(info) CStartInfo _info_tmp_##info(#info, "");
 #define START_INFO_TOP(info) CStartInfo _info_tmp_##info(#info, "\n\n\n\n");
 
-#define SKP_TEST TEST
-#define SKP_TEST_F TEST_F
+#define SKP_TEST(x, y) TEST(x, y)
+#define SKP_TEST_F(x, y) TEST_F(x, y)
+
+#define SKP_TEST_ONECE(x, y) TEST(x, y)
+
+#ifdef SKP_TEST_ONECE
+#undef SKP_TEST
+//#undef SKP_TEST_F
+
+#define SKP_TEST(x, y) void x##y()
+//#define SKP_TEST_F(x, y) void x::y()
+#endif
 
 #define cmd_error -1
 #define cmd_success 0

@@ -15,43 +15,88 @@
 
 using namespace std;
 using namespace caffe;
+using namespace google::protobuf;
 
 SKP_TEST(protobuf, protobuf_test1)
 {
-    Person person;
+    AddressBook book;
 
-    person.set_name("flamingo");
-    person.set_age(18);
-    person.set_email("majianfei1023@gmail.com");
-    person.mutable_phone()->set_number("135525");
-    person.PrintDebugString();
+    Person *people1 = book.add_people();
+    people1->set_name("aaa");
+    people1->set_age(18);
+    people1->set_email("qq.com");
 
-    printf("******************************* \n");
+    Person::PhoneNumber *phone1 = people1->add_phone();
+    phone1->set_number("111");
+    phone1->set_type(::caffe::Person_PhoneType_MOBILE);
+
+    Person::PhoneNumber *phone2 = people1->add_phone();
+    phone2->set_number("222");
+    phone2->set_type(::caffe::Person_PhoneType_HOME);
+
+    Person::PhoneNumber *phone3 = people1->add_phone();
+    phone3->set_number("333");
+    phone3->set_type(::caffe::Person_PhoneType_WORK);
+
+    people1->add_test1(std::string("test1"));
+    people1->add_test1(std::string("test2"));
+
+    people1->add_test2(1);
+    people1->add_test2(2);
+
+
+    Person *people2 = book.add_people();
+    people2->set_name("bbb");
+    people2->set_age(18);
+    people2->set_email("sina.com");
+
+    Person::PhoneNumber *phone11 = people2->add_phone();
+    phone11->set_number("a111");
+    phone11->set_type(::caffe::Person_PhoneType_MOBILE);
+
+    Person::PhoneNumber *phone22 = people2->add_phone();
+    phone22->set_number("b222");
+    phone22->set_type(::caffe::Person_PhoneType_HOME);
+
+    Person::PhoneNumber *phone33 = people2->add_phone();
+    phone33->set_number("c333");
+    phone33->set_type(::caffe::Person_PhoneType_WORK);
+
+    people2->add_test1(std::string("test1a"));
+    people2->add_test1(std::string("test2b"));
+
+    people2->add_test2(11);
+    people2->add_test2(22);
+
+    printf("**************PrintDebugString***************** \n");
+    book.PrintDebugString();
+
 
     std::string output1;
-    person.SerializeToString(&output1);
-    printf("output1 = %s \n", output1.c_str());
-
-    printf("******************************* \n");
-
+    book.SerializeToString(&output1);
+    printf("************SerializeToString******************* \n");
+    printf("%s \n", output1.c_str());
 
     std::string output2;
-    google::protobuf::TextFormat::PrintToString(person, &output2);
-    printf("output2 = %s \n", output2.c_str());
+    google::protobuf::TextFormat::PrintToString(book, &output2);
+    printf("*************PrintToString****************** \n");
+    printf("%s \n", output2.c_str());
+    log_print("%s \n", output2.c_str());
 
+    AddressBook book2;
+    google::protobuf::TextFormat::ParseFromString(output2, &book2);
+    printf("*************ParseFromString****************** \n");
+    book2.PrintDebugString();
+
+  /*
     printf("******************************* \n");
-
-    Person person2;
-    google::protobuf::TextFormat::ParseFromString(output2, &person2);
-    person2.PrintDebugString();
-
-    printf("******************************* \n");
-    const google::protobuf::Descriptor* pNodeDescriptor   = person2.GetDescriptor();
+    const google::protobuf::Descriptor* pNodeDescriptor   = book2.GetDescriptor();
     ASSERT_TRUE(pNodeDescriptor != NULL);
     printf("pNodeDescriptor = %s \n", pNodeDescriptor->DebugString().c_str());
 
-    const google::protobuf::FieldDescriptor* pAttrField   = pNodeDescriptor->FindFieldByName("name");
+    const google::protobuf::FieldDescriptor* pAttrField   = pNodeDescriptor->FindFieldByName("people");
     ASSERT_TRUE(pAttrField != NULL);
+
 
     std::string output3;
     google::protobuf::TextFormat::PrintFieldValueToString(person2, pAttrField, 1, &output3);
@@ -104,9 +149,397 @@ SKP_TEST(protobuf, protobuf_test1)
 //    std::string output3;
 //    google::protobuf::TextFormat::PrintFieldValueToString(person, &field, index, &output3);
 //    printf("output3 = %s \n", output3.c_str());
+*/
 }
 
 
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <iostream>
+#include <google/protobuf/compiler/importer.h>
+#include <google/protobuf/dynamic_message.h>
+#include <google/protobuf/message.h>
+#include <google/protobuf/repeated_field.h>
+
+void serialize_message2(const google::protobuf::Message& message, std::string* serialized_string) {
+    const google::protobuf::Descriptor* descriptor = message.GetDescriptor();
+    const google::protobuf::Reflection* reflection = message.GetReflection();
+
+    printf("field_count = %d \n", descriptor->field_count());
+
+    for (int i = 0; i < descriptor->field_count(); ++i) {
+        const google::protobuf::FieldDescriptor* field = descriptor->field(i);
+        //reflection->MutableMessage(message, field)->;
+        //google::protobuf::RepeatedField<int> *repeatedField =reflection->GetRepeatedFieldRef(message, field);
+        //reflection->GetRepeatedField(message, field);
+        //google::protobuf::RepeatedField *repeatedField =
+        //repeatedField->size();
+        //repeatedField->
+        //printf("111111 \n");
+        //bool has_field = reflection->HasField(message, field);
+        //printf("222222 \n");
+        //if (has_field) {
+            //printf("33333 \n");
+            //arrays not supported
+            //assert(!field->is_repeated());
+            //reflection->MutableRepeatedField
+        if(!field->is_repeated()){
+            printf("type = %d \n", field->cpp_type());
+
+            switch (field->cpp_type()) {
+
+#define CASE_FIELD_TYPE(cpptype, method, valuetype) \
+                case google::protobuf::FieldDescriptor::CPPTYPE_##cpptype:{ \
+                    printf("CPPTYPE = %s \n", #cpptype);\
+                    break;\
+                }
+
+                CASE_FIELD_TYPE(INT32, Int32, int);
+                CASE_FIELD_TYPE(UINT32, UInt32, uint32_t);
+                CASE_FIELD_TYPE(FLOAT, Float, float);
+                CASE_FIELD_TYPE(DOUBLE, Double, double);
+                CASE_FIELD_TYPE(BOOL, Bool, bool);
+                CASE_FIELD_TYPE(INT64, Int64, int64_t);
+                CASE_FIELD_TYPE(UINT64, UInt64, uint64_t);
+//#undef CASE_FIELD_TYPE
+
+                case google::protobuf::FieldDescriptor::CPPTYPE_ENUM: {
+                printf("CPPTYPE_ENUM \n");
+                    break;
+                }
+                case google::protobuf::FieldDescriptor::CPPTYPE_STRING: {
+                printf("CPPTYPE_STRING \n");
+                    break;
+                }
+                case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE: {
+                printf("CPPTYPE_MESSAGE \n");
+                    std::string value;
+                    const google::protobuf::Message& submessage = reflection->GetMessage(message, field);
+                    serialize_message2(submessage, &value);
+                    break;
+                }
+            }
+        }
+        else
+        {
+            printf("is_repeated \n");
+                int32  FieldNum;
+               for (FieldNum = 0; FieldNum < reflection->FieldSize(message, field); FieldNum++) {
+                   printf("type = %d \n", field->cpp_type());
+
+                   switch (field->cpp_type()) {
+
+       #define CASE_FIELD_TYPE(cpptype, method, valuetype) \
+                       case google::protobuf::FieldDescriptor::CPPTYPE_##cpptype:{ \
+                           printf("CPPTYPE = %s \n", #cpptype);\
+                           break;\
+                       }
+
+                       CASE_FIELD_TYPE(INT32, Int32, int);
+                       CASE_FIELD_TYPE(UINT32, UInt32, uint32_t);
+                       CASE_FIELD_TYPE(FLOAT, Float, float);
+                       CASE_FIELD_TYPE(DOUBLE, Double, double);
+                       CASE_FIELD_TYPE(BOOL, Bool, bool);
+                       CASE_FIELD_TYPE(INT64, Int64, int64_t);
+                       CASE_FIELD_TYPE(UINT64, UInt64, uint64_t);
+       //#undef CASE_FIELD_TYPE
+
+                       case google::protobuf::FieldDescriptor::CPPTYPE_ENUM: {
+                       printf("CPPTYPE_ENUM \n");
+                           break;
+                       }
+                       case google::protobuf::FieldDescriptor::CPPTYPE_STRING: {
+                       printf("CPPTYPE_STRING \n");
+                           break;
+                       }
+                       case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE: {
+                       printf("CPPTYPE_MESSAGE \n");
+                           std::string value;
+                           const google::protobuf::Message& submessage = reflection->GetRepeatedMessage(message, field, FieldNum);
+                           serialize_message2(submessage, &value);
+                           break;
+                       }
+                   }
+               }
+        }
+    }
+}
+
+
+void serialize_message(const google::protobuf::Message& message, std::string* serialized_string) {
+    const google::protobuf::Descriptor* descriptor = message.GetDescriptor();
+    const google::protobuf::Reflection* reflection = message.GetReflection();
+
+    printf("field_count = %d \n", descriptor->field_count());
+
+    for (int i = 0; i < descriptor->field_count(); ++i) {
+        const google::protobuf::FieldDescriptor* field = descriptor->field(i);
+        //printf("111111 \n");
+        //bool has_field = reflection->HasField(message, field);
+        //printf("222222 \n");
+        //if (has_field) {
+            //printf("33333 \n");
+            //arrays not supported
+            //assert(!field->is_repeated()); field->has
+            //reflection->MutableRepeatedField
+        if(true){
+            printf("type = %d \n", field->cpp_type());
+
+            switch (field->cpp_type()) {
+
+#define CASE_FIELD_TYPE(cpptype, method, valuetype) \
+                case google::protobuf::FieldDescriptor::CPPTYPE_##cpptype:{ \
+                    printf("CPPTYPE = %s \n", #cpptype);\
+                    valuetype value = reflection->Get##method(message, field); \
+                    int wsize = field->name().size();\
+                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));\
+                    serialized_string->append(field->name().c_str(), field->name().size());\
+                    printf("    name = %s, size = %d \n", field->name().c_str(), field->name().size());\
+                    wsize = sizeof(value);\
+                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));\
+                    serialized_string->append(reinterpret_cast<char *>(&value), sizeof(value));\
+                    printf("    value = %d, size = %d \n", value, sizeof(value));\
+                    break;\
+                }
+
+                CASE_FIELD_TYPE(INT32, Int32, int);
+                CASE_FIELD_TYPE(UINT32, UInt32, uint32_t);
+                CASE_FIELD_TYPE(FLOAT, Float, float);
+                CASE_FIELD_TYPE(DOUBLE, Double, double);
+                CASE_FIELD_TYPE(BOOL, Bool, bool);
+                CASE_FIELD_TYPE(INT64, Int64, int64_t);
+                CASE_FIELD_TYPE(UINT64, UInt64, uint64_t);
+//#undef CASE_FIELD_TYPE
+
+                case google::protobuf::FieldDescriptor::CPPTYPE_ENUM: {
+                printf("CPPTYPE_ENUM \n");
+                    int value = reflection->GetEnum(message, field)->number();
+                    int wsize = field->name().size();
+                    //写入name占用字节数
+                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
+                    //写入name
+                    serialized_string->append(field->name().c_str(), field->name().size());
+                    printf("    name = %s, size = %d \n", field->name().c_str(), field->name().size());
+                    wsize = sizeof(value);
+                    //写入value占用字节数
+                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
+                    //写入value
+                    serialized_string->append(reinterpret_cast<char *>(&value), sizeof(value));
+                    printf("    value = %d, size = %d \n", value, sizeof(value));
+                    break;
+                }
+                case google::protobuf::FieldDescriptor::CPPTYPE_STRING: {
+                printf("CPPTYPE_STRING \n");
+                    std::string value = reflection->GetString(message, field);
+                    int wsize = field->name().size();
+                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
+                    serialized_string->append(field->name().c_str(), field->name().size());
+                    printf("    name = %s, size = %d \n", field->name().c_str(), field->name().size());
+                    wsize = value.size();
+                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
+                    serialized_string->append(value.c_str(), value.size());
+                    printf("    value = %s, size = %d \n", value.c_str(), value.size());
+                    break;
+                }
+                case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE: {
+                printf("CPPTYPE_MESSAGE \n");
+                    std::string value;
+                    int wsize = field->name().size();
+                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
+                    serialized_string->append(field->name().c_str(), field->name().size());
+                    printf("    name = %s, size = %d \n", field->name().c_str(), field->name().size());
+                    const google::protobuf::Message& submessage = reflection->GetMessage(message, field);
+                    serialize_message(submessage, &value);
+                    wsize = value.size();
+                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
+                    serialized_string->append(value.c_str(), value.size());
+                    printf("    name = %s, size = %d \n", value.c_str(), value.size());
+                    break;
+                }
+            }
+        }
+    }
+}
+
+/*
+void parse_message(const std::string& serialized_string, google::protobuf::Message* message) {
+    const google::protobuf::Descriptor* descriptor = message->GetDescriptor();
+    const google::protobuf::Reflection* reflection = message->GetReflection();
+    std::map field_map;
+
+    for (int i = 0; i < descriptor->field_count(); ++i) {
+        const google::protobuf::FieldDescriptor* field = descriptor->field(i);
+        field_map[field->name()] = field;
+    }
+
+    const google::protobuf::FieldDescriptor* field = NULL;
+    size_t pos = 0;
+    string str;
+    while (!(str = serialized_string.substr(pos, sizeof(int))).empty())
+    {
+        pos += sizeof(int);
+        int name_size = 0;
+        memcpy(name_size, str.c_str(), sizeof(name_size);
+        std::string name = serialized_string.substr(pos, name_size);
+        pos += name_size;
+
+        char  *pvalue = reinterpret_cast<char *>(serialized_string.substr(pos, sizeof(int)).c_str());
+        int value_size = 0;
+        memcpy(value_size, pvalue, sizeof(value_size);
+        pos += sizeof(int);
+        std::string value = serialized_string.substr(pos, value_size);
+        pos += value_size;
+
+        std::map::iterator iter =
+            field_map.find(name);
+        if (iter == field_map.end()) {
+            fprintf(stderr, "no field found.n");
+            continue;
+        } else {
+            field = iter->second;
+        }
+
+        /*
+        assert(!field->is_repeated());
+        switch (field->cpp_type()) {
+#define CASE_FIELD_TYPE(cpptype, method, valuetype)\
+            case google::protobuf::FieldDescriptor::CPPTYPE_##cpptype: {\
+                reflection->Set##method(\
+                        message,\
+                        field,\
+                        *(reinterpret_cast(value.c_str())));\
+                std::cout name() (value.c_str())) enum_type()->FindValueByNumber(*(reinterpret_cast(value.c_str())));\
+                reflection->SetEnum(message, field, enum_value_descriptor);\
+                std::cout name() (value.c_str())) SetString(message, field, value);\
+                std::cout name() MutableMessage(message, field);\
+                parse_message(value, submessage);\
+                break;\
+            }
+            default: {
+                break;
+            }
+        }
+    }
+}
+*/
+SKP_TEST_ONECE(protobuf, protobuf_test3)
+{
+    char buffer[1024] = "";
+
+    //获取当前的工作目录，注意：长度必须大于工作目录的长度加一
+    char *p = getcwd(buffer , sizeof(buffer));
+    printf("p:[%s] size:[%d]  \n" , p , strlen(p));
+
+
+    const std::string path = "../../../cpp_study/trunk/project_cpp/src/protobuf/";
+    std::string fullPath = path + "caffe.proto";
+
+    ASSERT_TRUE(access(fullPath.c_str(), 0) == 0);
+    ASSERT_TRUE(access("./proto/caffe.proto", 0) == 0);
+
+    // 准备配置好文件系统
+    google::protobuf::compiler::DiskSourceTree sourceTree;
+    // 将当前路径映射为项目根目录 ， project_root 仅仅是个名字，你可以你想要的合法名字.
+    sourceTree.MapPath("project_root","./");
+    // 配置动态编译器.
+    google::protobuf::compiler::Importer importer(&sourceTree, NULL);
+    // 动态编译proto源文件
+    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("project_root/proto/caffe.proto");
+
+    ASSERT_TRUE(nullptr != tFileDescriptor);
+    // 现在可以从编译器中提取类型的描述信息.
+    auto descriptor = importer.pool()->FindMessageTypeByName("caffe.AddressBook");
+    ASSERT_TRUE(nullptr != descriptor);
+
+    // 创建一个动态的消息工厂.
+    google::protobuf::DynamicMessageFactory factory;
+    // 从消息工厂中创建出一个类型原型.
+    auto proto = factory.GetPrototype(descriptor);
+    // 构造一个可用的消息.
+    auto message= proto->New();
+
+
+    std::string str = \
+    "people {\
+      name: \"aaa111\"\
+      age: 18\
+      email: \"qq.com\"\
+      phone {\
+        number: \"111\"\
+        type: MOBILE\
+      }\
+      phone {\
+        number: \"222\"\
+        type: HOME\
+      }\
+      phone {\
+        number: \"333\"\
+        type: WORK\
+      }\
+    test1 : \"test1\"\
+    test1 : \"test11\"\
+    test2 : 1\
+    test2 : 11\
+    }\
+    people {\
+      name: \"bbb111\"\
+      age: 18\
+      email: \"sina.com\"\
+      phone {\
+        number: \"a111\"\
+        type: MOBILE\
+      }\
+      phone {\
+        number: \"b222\"\
+        type: HOME\
+      }\
+      phone {\
+        number: \"c333\"\
+        type: WORK\
+      }\
+    test1 : \"test1\"\
+    test1 : \"test11\"\
+    test2 : 1\
+    test2 : 11\
+    } \
+    t1 : \"t1\"\
+    t1 : \"t11\"\
+    t2 : 1\
+    t2 : 11";
+
+
+
+    google::protobuf::TextFormat::ParseFromString(str, message);
+    printf("*************ParseFromString****************** \n");
+    message->PrintDebugString();
+
+
+    std::string seriStr;
+    serialize_message2(*message, &seriStr);
+    printf("*************serialize_message****************** \n");
+    printf("%s \n", seriStr.c_str());
+    message->Clear();
+
+    //parse_message(seriStr, message);
+    //printf("*************parse_message****************** \n");
+    //message->PrintDebugString();
+
+
+
+
+
+    //    // 下面是通过反射接口给字段赋值.
+    //    auto reflection1 = message->GetReflection();
+    //    auto filed1 = descriptor->FindFieldByName("id");
+    //    reflection1->SetInt32(message1,filed1,1);
+    //    // 打印看看
+    //    std::cout << message1->DebugString();
+    //    printf("id = %d \n", reflection1->GetInt32(*message, filed1));
+
+    // 删除消息.
+    delete message ;
+}
 
 //! 利用类型名字构造对象.
 /*!
@@ -138,48 +571,6 @@ SKP_TEST(protobuf, protobuf_test2)
     std::cout<<test->Utf8DebugString()<<std::endl;
     delete message ;
 }
-
-
-#include <iostream>
-#include <google/protobuf/compiler/importer.h>
-#include <google/protobuf/dynamic_message.h>
-SKP_TEST(protobuf, protobuf_test3)
-{
-    const std::string path = "../../../cpp_study/trunk/project_cpp/src/protobuf/";
-    std::string fullPath = path + "test.proto";
-
-    ASSERT_TRUE(access(fullPath.c_str(), 0) == 0);
-
-    // 准备配置好文件系统
-    google::protobuf::compiler::DiskSourceTree sourceTree;
-    // 将当前路径映射为项目根目录 ， project_root 仅仅是个名字，你可以你想要的合法名字.
-    sourceTree.MapPath("project_root","./");
-    // 配置动态编译器.
-    google::protobuf::compiler::Importer importer(&sourceTree, NULL);
-    // 动态编译proto源文件
-    //const google::protobuf::FileDescriptor *tFileDescriptor =importer.Import(fullPath.c_str());
-    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("project_root/test.proto");
-    tFileDescriptor->DebugString();
-    ASSERT_TRUE(nullptr != tFileDescriptor);
-    // 现在可以从编译器中提取类型的描述信息.
-    auto descriptor1 = importer.pool()->FindMessageTypeByName("T.Test");
-    ASSERT_TRUE(nullptr != descriptor1);
-    // 创建一个动态的消息工厂.
-    google::protobuf::DynamicMessageFactory factory;
-    // 从消息工厂中创建出一个类型原型.
-    auto proto1 = factory.GetPrototype(descriptor1);
-    // 构造一个可用的消息.
-    auto message1= proto1->New();
-    // 下面是通过反射接口给字段赋值.
-    auto reflection1 = message1->GetReflection();
-    auto filed1 = descriptor1->FindFieldByName("id");
-    reflection1->SetInt32(message1,filed1,1);
-    // 打印看看
-    std::cout << message1->DebugString();
-    // 删除消息.
-    delete message1 ;
-}
-
 
 SKP_TEST(protobuf, protobuf_test4)
 {

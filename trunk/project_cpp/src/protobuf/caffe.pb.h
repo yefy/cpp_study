@@ -39,7 +39,7 @@ namespace protobuf_caffe_2eproto {
 struct TableStruct {
   static const ::google::protobuf::internal::ParseTableField entries[];
   static const ::google::protobuf::internal::AuxillaryParseTableField aux[];
-  static const ::google::protobuf::internal::ParseTable schema[2];
+  static const ::google::protobuf::internal::ParseTable schema[3];
   static const ::google::protobuf::internal::FieldMetadata field_metadata[];
   static const ::google::protobuf::internal::SerializationTable serialization_table[];
   static const ::google::protobuf::uint32 offsets[];
@@ -47,6 +47,9 @@ struct TableStruct {
 void AddDescriptors();
 }  // namespace protobuf_caffe_2eproto
 namespace caffe {
+class AddressBook;
+class AddressBookDefaultTypeInternal;
+extern AddressBookDefaultTypeInternal _AddressBook_default_instance_;
 class Person;
 class PersonDefaultTypeInternal;
 extern PersonDefaultTypeInternal _Person_default_instance_;
@@ -56,6 +59,7 @@ extern Person_PhoneNumberDefaultTypeInternal _Person_PhoneNumber_default_instanc
 }  // namespace caffe
 namespace google {
 namespace protobuf {
+template<> ::caffe::AddressBook* Arena::CreateMaybeMessage<::caffe::AddressBook>(Arena*);
 template<> ::caffe::Person* Arena::CreateMaybeMessage<::caffe::Person>(Arena*);
 template<> ::caffe::Person_PhoneNumber* Arena::CreateMaybeMessage<::caffe::Person_PhoneNumber>(Arena*);
 }  // namespace protobuf
@@ -340,6 +344,52 @@ class Person : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
 
   // accessors -------------------------------------------------------
 
+  // repeated .caffe.Person.PhoneNumber phone = 4;
+  int phone_size() const;
+  void clear_phone();
+  static const int kPhoneFieldNumber = 4;
+  ::caffe::Person_PhoneNumber* mutable_phone(int index);
+  ::google::protobuf::RepeatedPtrField< ::caffe::Person_PhoneNumber >*
+      mutable_phone();
+  const ::caffe::Person_PhoneNumber& phone(int index) const;
+  ::caffe::Person_PhoneNumber* add_phone();
+  const ::google::protobuf::RepeatedPtrField< ::caffe::Person_PhoneNumber >&
+      phone() const;
+
+  // repeated string test1 = 5;
+  int test1_size() const;
+  void clear_test1();
+  static const int kTest1FieldNumber = 5;
+  const ::std::string& test1(int index) const;
+  ::std::string* mutable_test1(int index);
+  void set_test1(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_test1(int index, ::std::string&& value);
+  #endif
+  void set_test1(int index, const char* value);
+  void set_test1(int index, const char* value, size_t size);
+  ::std::string* add_test1();
+  void add_test1(const ::std::string& value);
+  #if LANG_CXX11
+  void add_test1(::std::string&& value);
+  #endif
+  void add_test1(const char* value);
+  void add_test1(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& test1() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_test1();
+
+  // repeated int32 test2 = 6;
+  int test2_size() const;
+  void clear_test2();
+  static const int kTest2FieldNumber = 6;
+  ::google::protobuf::int32 test2(int index) const;
+  void set_test2(int index, ::google::protobuf::int32 value);
+  void add_test2(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      test2() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_test2();
+
   // required string name = 1;
   bool has_name() const;
   void clear_name();
@@ -370,18 +420,6 @@ class Person : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::std::string* release_email();
   void set_allocated_email(::std::string* email);
 
-  // optional .caffe.Person.PhoneNumber phone = 4;
-  bool has_phone() const;
-  void clear_phone();
-  static const int kPhoneFieldNumber = 4;
-  private:
-  const ::caffe::Person_PhoneNumber& _internal_phone() const;
-  public:
-  const ::caffe::Person_PhoneNumber& phone() const;
-  ::caffe::Person_PhoneNumber* release_phone();
-  ::caffe::Person_PhoneNumber* mutable_phone();
-  void set_allocated_phone(::caffe::Person_PhoneNumber* phone);
-
   // required int32 age = 2;
   bool has_age() const;
   void clear_age();
@@ -397,8 +435,6 @@ class Person : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   void clear_has_age();
   void set_has_email();
   void clear_has_email();
-  void set_has_phone();
-  void clear_has_phone();
 
   // helper for ByteSizeLong()
   size_t RequiredFieldsByteSizeFallback() const;
@@ -406,10 +442,165 @@ class Person : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::caffe::Person_PhoneNumber > phone_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> test1_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > test2_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::internal::ArenaStringPtr email_;
-  ::caffe::Person_PhoneNumber* phone_;
   ::google::protobuf::int32 age_;
+  friend struct ::protobuf_caffe_2eproto::TableStruct;
+};
+// -------------------------------------------------------------------
+
+class AddressBook : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:caffe.AddressBook) */ {
+ public:
+  AddressBook();
+  virtual ~AddressBook();
+
+  AddressBook(const AddressBook& from);
+
+  inline AddressBook& operator=(const AddressBook& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  #if LANG_CXX11
+  AddressBook(AddressBook&& from) noexcept
+    : AddressBook() {
+    *this = ::std::move(from);
+  }
+
+  inline AddressBook& operator=(AddressBook&& from) noexcept {
+    if (GetArenaNoVirtual() == from.GetArenaNoVirtual()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+  #endif
+  inline const ::google::protobuf::UnknownFieldSet& unknown_fields() const {
+    return _internal_metadata_.unknown_fields();
+  }
+  inline ::google::protobuf::UnknownFieldSet* mutable_unknown_fields() {
+    return _internal_metadata_.mutable_unknown_fields();
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const AddressBook& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const AddressBook* internal_default_instance() {
+    return reinterpret_cast<const AddressBook*>(
+               &_AddressBook_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  void Swap(AddressBook* other);
+  friend void swap(AddressBook& a, AddressBook& b) {
+    a.Swap(&b);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline AddressBook* New() const final {
+    return CreateMaybeMessage<AddressBook>(NULL);
+  }
+
+  AddressBook* New(::google::protobuf::Arena* arena) const final {
+    return CreateMaybeMessage<AddressBook>(arena);
+  }
+  void CopyFrom(const ::google::protobuf::Message& from) final;
+  void MergeFrom(const ::google::protobuf::Message& from) final;
+  void CopyFrom(const AddressBook& from);
+  void MergeFrom(const AddressBook& from);
+  void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input) final;
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const final;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* target) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AddressBook* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return NULL;
+  }
+  inline void* MaybeArenaPtr() const {
+    return NULL;
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // repeated .caffe.Person people = 1;
+  int people_size() const;
+  void clear_people();
+  static const int kPeopleFieldNumber = 1;
+  ::caffe::Person* mutable_people(int index);
+  ::google::protobuf::RepeatedPtrField< ::caffe::Person >*
+      mutable_people();
+  const ::caffe::Person& people(int index) const;
+  ::caffe::Person* add_people();
+  const ::google::protobuf::RepeatedPtrField< ::caffe::Person >&
+      people() const;
+
+  // repeated string t1 = 2;
+  int t1_size() const;
+  void clear_t1();
+  static const int kT1FieldNumber = 2;
+  const ::std::string& t1(int index) const;
+  ::std::string* mutable_t1(int index);
+  void set_t1(int index, const ::std::string& value);
+  #if LANG_CXX11
+  void set_t1(int index, ::std::string&& value);
+  #endif
+  void set_t1(int index, const char* value);
+  void set_t1(int index, const char* value, size_t size);
+  ::std::string* add_t1();
+  void add_t1(const ::std::string& value);
+  #if LANG_CXX11
+  void add_t1(::std::string&& value);
+  #endif
+  void add_t1(const char* value);
+  void add_t1(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& t1() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_t1();
+
+  // repeated int32 t2 = 3;
+  int t2_size() const;
+  void clear_t2();
+  static const int kT2FieldNumber = 3;
+  ::google::protobuf::int32 t2(int index) const;
+  void set_t2(int index, ::google::protobuf::int32 value);
+  void add_t2(::google::protobuf::int32 value);
+  const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+      t2() const;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+      mutable_t2();
+
+  // @@protoc_insertion_point(class_scope:caffe.AddressBook)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::HasBits<1> _has_bits_;
+  mutable ::google::protobuf::internal::CachedSize _cached_size_;
+  ::google::protobuf::RepeatedPtrField< ::caffe::Person > people_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> t1_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > t2_;
   friend struct ::protobuf_caffe_2eproto::TableStruct;
 };
 // ===================================================================
@@ -586,13 +777,13 @@ inline void Person::set_allocated_name(::std::string* name) {
 
 // required int32 age = 2;
 inline bool Person::has_age() const {
-  return (_has_bits_[0] & 0x00000008u) != 0;
+  return (_has_bits_[0] & 0x00000004u) != 0;
 }
 inline void Person::set_has_age() {
-  _has_bits_[0] |= 0x00000008u;
+  _has_bits_[0] |= 0x00000004u;
 }
 inline void Person::clear_has_age() {
-  _has_bits_[0] &= ~0x00000008u;
+  _has_bits_[0] &= ~0x00000004u;
 }
 inline void Person::clear_age() {
   age_ = 0;
@@ -674,67 +865,273 @@ inline void Person::set_allocated_email(::std::string* email) {
   // @@protoc_insertion_point(field_set_allocated:caffe.Person.email)
 }
 
-// optional .caffe.Person.PhoneNumber phone = 4;
-inline bool Person::has_phone() const {
-  return (_has_bits_[0] & 0x00000004u) != 0;
-}
-inline void Person::set_has_phone() {
-  _has_bits_[0] |= 0x00000004u;
-}
-inline void Person::clear_has_phone() {
-  _has_bits_[0] &= ~0x00000004u;
+// repeated .caffe.Person.PhoneNumber phone = 4;
+inline int Person::phone_size() const {
+  return phone_.size();
 }
 inline void Person::clear_phone() {
-  if (phone_ != NULL) phone_->Clear();
-  clear_has_phone();
+  phone_.Clear();
 }
-inline const ::caffe::Person_PhoneNumber& Person::_internal_phone() const {
-  return *phone_;
-}
-inline const ::caffe::Person_PhoneNumber& Person::phone() const {
-  const ::caffe::Person_PhoneNumber* p = phone_;
-  // @@protoc_insertion_point(field_get:caffe.Person.phone)
-  return p != NULL ? *p : *reinterpret_cast<const ::caffe::Person_PhoneNumber*>(
-      &::caffe::_Person_PhoneNumber_default_instance_);
-}
-inline ::caffe::Person_PhoneNumber* Person::release_phone() {
-  // @@protoc_insertion_point(field_release:caffe.Person.phone)
-  clear_has_phone();
-  ::caffe::Person_PhoneNumber* temp = phone_;
-  phone_ = NULL;
-  return temp;
-}
-inline ::caffe::Person_PhoneNumber* Person::mutable_phone() {
-  set_has_phone();
-  if (phone_ == NULL) {
-    auto* p = CreateMaybeMessage<::caffe::Person_PhoneNumber>(GetArenaNoVirtual());
-    phone_ = p;
-  }
+inline ::caffe::Person_PhoneNumber* Person::mutable_phone(int index) {
   // @@protoc_insertion_point(field_mutable:caffe.Person.phone)
+  return phone_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::caffe::Person_PhoneNumber >*
+Person::mutable_phone() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.Person.phone)
+  return &phone_;
+}
+inline const ::caffe::Person_PhoneNumber& Person::phone(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.Person.phone)
+  return phone_.Get(index);
+}
+inline ::caffe::Person_PhoneNumber* Person::add_phone() {
+  // @@protoc_insertion_point(field_add:caffe.Person.phone)
+  return phone_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::caffe::Person_PhoneNumber >&
+Person::phone() const {
+  // @@protoc_insertion_point(field_list:caffe.Person.phone)
   return phone_;
 }
-inline void Person::set_allocated_phone(::caffe::Person_PhoneNumber* phone) {
-  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
-  if (message_arena == NULL) {
-    delete phone_;
-  }
-  if (phone) {
-    ::google::protobuf::Arena* submessage_arena = NULL;
-    if (message_arena != submessage_arena) {
-      phone = ::google::protobuf::internal::GetOwnedMessage(
-          message_arena, phone, submessage_arena);
-    }
-    set_has_phone();
-  } else {
-    clear_has_phone();
-  }
-  phone_ = phone;
-  // @@protoc_insertion_point(field_set_allocated:caffe.Person.phone)
+
+// repeated string test1 = 5;
+inline int Person::test1_size() const {
+  return test1_.size();
+}
+inline void Person::clear_test1() {
+  test1_.Clear();
+}
+inline const ::std::string& Person::test1(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.Person.test1)
+  return test1_.Get(index);
+}
+inline ::std::string* Person::mutable_test1(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.Person.test1)
+  return test1_.Mutable(index);
+}
+inline void Person::set_test1(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:caffe.Person.test1)
+  test1_.Mutable(index)->assign(value);
+}
+#if LANG_CXX11
+inline void Person::set_test1(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:caffe.Person.test1)
+  test1_.Mutable(index)->assign(std::move(value));
+}
+#endif
+inline void Person::set_test1(int index, const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  test1_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:caffe.Person.test1)
+}
+inline void Person::set_test1(int index, const char* value, size_t size) {
+  test1_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:caffe.Person.test1)
+}
+inline ::std::string* Person::add_test1() {
+  // @@protoc_insertion_point(field_add_mutable:caffe.Person.test1)
+  return test1_.Add();
+}
+inline void Person::add_test1(const ::std::string& value) {
+  test1_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:caffe.Person.test1)
+}
+#if LANG_CXX11
+inline void Person::add_test1(::std::string&& value) {
+  test1_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:caffe.Person.test1)
+}
+#endif
+inline void Person::add_test1(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  test1_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:caffe.Person.test1)
+}
+inline void Person::add_test1(const char* value, size_t size) {
+  test1_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:caffe.Person.test1)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+Person::test1() const {
+  // @@protoc_insertion_point(field_list:caffe.Person.test1)
+  return test1_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+Person::mutable_test1() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.Person.test1)
+  return &test1_;
+}
+
+// repeated int32 test2 = 6;
+inline int Person::test2_size() const {
+  return test2_.size();
+}
+inline void Person::clear_test2() {
+  test2_.Clear();
+}
+inline ::google::protobuf::int32 Person::test2(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.Person.test2)
+  return test2_.Get(index);
+}
+inline void Person::set_test2(int index, ::google::protobuf::int32 value) {
+  test2_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.Person.test2)
+}
+inline void Person::add_test2(::google::protobuf::int32 value) {
+  test2_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.Person.test2)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+Person::test2() const {
+  // @@protoc_insertion_point(field_list:caffe.Person.test2)
+  return test2_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+Person::mutable_test2() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.Person.test2)
+  return &test2_;
+}
+
+// -------------------------------------------------------------------
+
+// AddressBook
+
+// repeated .caffe.Person people = 1;
+inline int AddressBook::people_size() const {
+  return people_.size();
+}
+inline void AddressBook::clear_people() {
+  people_.Clear();
+}
+inline ::caffe::Person* AddressBook::mutable_people(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.AddressBook.people)
+  return people_.Mutable(index);
+}
+inline ::google::protobuf::RepeatedPtrField< ::caffe::Person >*
+AddressBook::mutable_people() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.AddressBook.people)
+  return &people_;
+}
+inline const ::caffe::Person& AddressBook::people(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.AddressBook.people)
+  return people_.Get(index);
+}
+inline ::caffe::Person* AddressBook::add_people() {
+  // @@protoc_insertion_point(field_add:caffe.AddressBook.people)
+  return people_.Add();
+}
+inline const ::google::protobuf::RepeatedPtrField< ::caffe::Person >&
+AddressBook::people() const {
+  // @@protoc_insertion_point(field_list:caffe.AddressBook.people)
+  return people_;
+}
+
+// repeated string t1 = 2;
+inline int AddressBook::t1_size() const {
+  return t1_.size();
+}
+inline void AddressBook::clear_t1() {
+  t1_.Clear();
+}
+inline const ::std::string& AddressBook::t1(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.AddressBook.t1)
+  return t1_.Get(index);
+}
+inline ::std::string* AddressBook::mutable_t1(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.AddressBook.t1)
+  return t1_.Mutable(index);
+}
+inline void AddressBook::set_t1(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:caffe.AddressBook.t1)
+  t1_.Mutable(index)->assign(value);
+}
+#if LANG_CXX11
+inline void AddressBook::set_t1(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:caffe.AddressBook.t1)
+  t1_.Mutable(index)->assign(std::move(value));
+}
+#endif
+inline void AddressBook::set_t1(int index, const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  t1_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:caffe.AddressBook.t1)
+}
+inline void AddressBook::set_t1(int index, const char* value, size_t size) {
+  t1_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:caffe.AddressBook.t1)
+}
+inline ::std::string* AddressBook::add_t1() {
+  // @@protoc_insertion_point(field_add_mutable:caffe.AddressBook.t1)
+  return t1_.Add();
+}
+inline void AddressBook::add_t1(const ::std::string& value) {
+  t1_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:caffe.AddressBook.t1)
+}
+#if LANG_CXX11
+inline void AddressBook::add_t1(::std::string&& value) {
+  t1_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:caffe.AddressBook.t1)
+}
+#endif
+inline void AddressBook::add_t1(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  t1_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:caffe.AddressBook.t1)
+}
+inline void AddressBook::add_t1(const char* value, size_t size) {
+  t1_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:caffe.AddressBook.t1)
+}
+inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
+AddressBook::t1() const {
+  // @@protoc_insertion_point(field_list:caffe.AddressBook.t1)
+  return t1_;
+}
+inline ::google::protobuf::RepeatedPtrField< ::std::string>*
+AddressBook::mutable_t1() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.AddressBook.t1)
+  return &t1_;
+}
+
+// repeated int32 t2 = 3;
+inline int AddressBook::t2_size() const {
+  return t2_.size();
+}
+inline void AddressBook::clear_t2() {
+  t2_.Clear();
+}
+inline ::google::protobuf::int32 AddressBook::t2(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.AddressBook.t2)
+  return t2_.Get(index);
+}
+inline void AddressBook::set_t2(int index, ::google::protobuf::int32 value) {
+  t2_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.AddressBook.t2)
+}
+inline void AddressBook::add_t2(::google::protobuf::int32 value) {
+  t2_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.AddressBook.t2)
+}
+inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
+AddressBook::t2() const {
+  // @@protoc_insertion_point(field_list:caffe.AddressBook.t2)
+  return t2_;
+}
+inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
+AddressBook::mutable_t2() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.AddressBook.t2)
+  return &t2_;
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

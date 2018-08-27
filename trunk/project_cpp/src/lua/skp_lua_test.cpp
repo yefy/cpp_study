@@ -31,13 +31,13 @@ protected:
     std::vector<int> vec;
 };
 
-TEST_F(CCalcTest, CCalcTest1)
+SKP_TEST_F(CCalcTest, CCalcTest1)
 {
     ASSERT_EQ(vec[0], 1);
     ASSERT_EQ(vec[1], 2);
 }
 
-TEST_F(CCalcTest, CCalcTest2)
+SKP_TEST_F(CCalcTest, CCalcTest2)
 {
     ASSERT_EQ(vec[0], 1);
     ASSERT_EQ(vec[1], 2);

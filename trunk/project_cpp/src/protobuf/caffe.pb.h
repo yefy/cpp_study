@@ -356,39 +356,39 @@ class Person : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   const ::google::protobuf::RepeatedPtrField< ::caffe::Person_PhoneNumber >&
       phone() const;
 
-  // repeated string test1 = 5;
-  int test1_size() const;
-  void clear_test1();
-  static const int kTest1FieldNumber = 5;
-  const ::std::string& test1(int index) const;
-  ::std::string* mutable_test1(int index);
-  void set_test1(int index, const ::std::string& value);
+  // repeated string string_arg5 = 5;
+  int string_arg5_size() const;
+  void clear_string_arg5();
+  static const int kStringArg5FieldNumber = 5;
+  const ::std::string& string_arg5(int index) const;
+  ::std::string* mutable_string_arg5(int index);
+  void set_string_arg5(int index, const ::std::string& value);
   #if LANG_CXX11
-  void set_test1(int index, ::std::string&& value);
+  void set_string_arg5(int index, ::std::string&& value);
   #endif
-  void set_test1(int index, const char* value);
-  void set_test1(int index, const char* value, size_t size);
-  ::std::string* add_test1();
-  void add_test1(const ::std::string& value);
+  void set_string_arg5(int index, const char* value);
+  void set_string_arg5(int index, const char* value, size_t size);
+  ::std::string* add_string_arg5();
+  void add_string_arg5(const ::std::string& value);
   #if LANG_CXX11
-  void add_test1(::std::string&& value);
+  void add_string_arg5(::std::string&& value);
   #endif
-  void add_test1(const char* value);
-  void add_test1(const char* value, size_t size);
-  const ::google::protobuf::RepeatedPtrField< ::std::string>& test1() const;
-  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_test1();
+  void add_string_arg5(const char* value);
+  void add_string_arg5(const char* value, size_t size);
+  const ::google::protobuf::RepeatedPtrField< ::std::string>& string_arg5() const;
+  ::google::protobuf::RepeatedPtrField< ::std::string>* mutable_string_arg5();
 
-  // repeated int32 test2 = 6;
-  int test2_size() const;
-  void clear_test2();
-  static const int kTest2FieldNumber = 6;
-  ::google::protobuf::int32 test2(int index) const;
-  void set_test2(int index, ::google::protobuf::int32 value);
-  void add_test2(::google::protobuf::int32 value);
+  // repeated int32 int32_arg6 = 6;
+  int int32_arg6_size() const;
+  void clear_int32_arg6();
+  static const int kInt32Arg6FieldNumber = 6;
+  ::google::protobuf::int32 int32_arg6(int index) const;
+  void set_int32_arg6(int index, ::google::protobuf::int32 value);
+  void add_int32_arg6(::google::protobuf::int32 value);
   const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-      test2() const;
+      int32_arg6() const;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-      mutable_test2();
+      mutable_int32_arg6();
 
   // required string name = 1;
   bool has_name() const;
@@ -427,6 +427,48 @@ class Person : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::int32 age() const;
   void set_age(::google::protobuf::int32 value);
 
+  // optional uint32 uint32_arg7 = 7;
+  bool has_uint32_arg7() const;
+  void clear_uint32_arg7();
+  static const int kUint32Arg7FieldNumber = 7;
+  ::google::protobuf::uint32 uint32_arg7() const;
+  void set_uint32_arg7(::google::protobuf::uint32 value);
+
+  // optional int64 int64_arg8 = 8;
+  bool has_int64_arg8() const;
+  void clear_int64_arg8();
+  static const int kInt64Arg8FieldNumber = 8;
+  ::google::protobuf::int64 int64_arg8() const;
+  void set_int64_arg8(::google::protobuf::int64 value);
+
+  // optional uint64 uint64_arg9 = 9;
+  bool has_uint64_arg9() const;
+  void clear_uint64_arg9();
+  static const int kUint64Arg9FieldNumber = 9;
+  ::google::protobuf::uint64 uint64_arg9() const;
+  void set_uint64_arg9(::google::protobuf::uint64 value);
+
+  // optional double double_arg10 = 10;
+  bool has_double_arg10() const;
+  void clear_double_arg10();
+  static const int kDoubleArg10FieldNumber = 10;
+  double double_arg10() const;
+  void set_double_arg10(double value);
+
+  // optional float float_arg11 = 11;
+  bool has_float_arg11() const;
+  void clear_float_arg11();
+  static const int kFloatArg11FieldNumber = 11;
+  float float_arg11() const;
+  void set_float_arg11(float value);
+
+  // optional bool bool_arg12 = 12;
+  bool has_bool_arg12() const;
+  void clear_bool_arg12();
+  static const int kBoolArg12FieldNumber = 12;
+  bool bool_arg12() const;
+  void set_bool_arg12(bool value);
+
   // @@protoc_insertion_point(class_scope:caffe.Person)
  private:
   void set_has_name();
@@ -435,6 +477,18 @@ class Person : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   void clear_has_age();
   void set_has_email();
   void clear_has_email();
+  void set_has_uint32_arg7();
+  void clear_has_uint32_arg7();
+  void set_has_int64_arg8();
+  void clear_has_int64_arg8();
+  void set_has_uint64_arg9();
+  void clear_has_uint64_arg9();
+  void set_has_double_arg10();
+  void clear_has_double_arg10();
+  void set_has_float_arg11();
+  void clear_has_float_arg11();
+  void set_has_bool_arg12();
+  void clear_has_bool_arg12();
 
   // helper for ByteSizeLong()
   size_t RequiredFieldsByteSizeFallback() const;
@@ -443,11 +497,17 @@ class Person : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::google::protobuf::internal::HasBits<1> _has_bits_;
   mutable ::google::protobuf::internal::CachedSize _cached_size_;
   ::google::protobuf::RepeatedPtrField< ::caffe::Person_PhoneNumber > phone_;
-  ::google::protobuf::RepeatedPtrField< ::std::string> test1_;
-  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > test2_;
+  ::google::protobuf::RepeatedPtrField< ::std::string> string_arg5_;
+  ::google::protobuf::RepeatedField< ::google::protobuf::int32 > int32_arg6_;
   ::google::protobuf::internal::ArenaStringPtr name_;
   ::google::protobuf::internal::ArenaStringPtr email_;
   ::google::protobuf::int32 age_;
+  ::google::protobuf::uint32 uint32_arg7_;
+  ::google::protobuf::int64 int64_arg8_;
+  ::google::protobuf::uint64 uint64_arg9_;
+  double double_arg10_;
+  float float_arg11_;
+  bool bool_arg12_;
   friend struct ::protobuf_caffe_2eproto::TableStruct;
 };
 // -------------------------------------------------------------------
@@ -895,103 +955,247 @@ Person::phone() const {
   return phone_;
 }
 
-// repeated string test1 = 5;
-inline int Person::test1_size() const {
-  return test1_.size();
+// repeated string string_arg5 = 5;
+inline int Person::string_arg5_size() const {
+  return string_arg5_.size();
 }
-inline void Person::clear_test1() {
-  test1_.Clear();
+inline void Person::clear_string_arg5() {
+  string_arg5_.Clear();
 }
-inline const ::std::string& Person::test1(int index) const {
-  // @@protoc_insertion_point(field_get:caffe.Person.test1)
-  return test1_.Get(index);
+inline const ::std::string& Person::string_arg5(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.Person.string_arg5)
+  return string_arg5_.Get(index);
 }
-inline ::std::string* Person::mutable_test1(int index) {
-  // @@protoc_insertion_point(field_mutable:caffe.Person.test1)
-  return test1_.Mutable(index);
+inline ::std::string* Person::mutable_string_arg5(int index) {
+  // @@protoc_insertion_point(field_mutable:caffe.Person.string_arg5)
+  return string_arg5_.Mutable(index);
 }
-inline void Person::set_test1(int index, const ::std::string& value) {
-  // @@protoc_insertion_point(field_set:caffe.Person.test1)
-  test1_.Mutable(index)->assign(value);
+inline void Person::set_string_arg5(int index, const ::std::string& value) {
+  // @@protoc_insertion_point(field_set:caffe.Person.string_arg5)
+  string_arg5_.Mutable(index)->assign(value);
 }
 #if LANG_CXX11
-inline void Person::set_test1(int index, ::std::string&& value) {
-  // @@protoc_insertion_point(field_set:caffe.Person.test1)
-  test1_.Mutable(index)->assign(std::move(value));
+inline void Person::set_string_arg5(int index, ::std::string&& value) {
+  // @@protoc_insertion_point(field_set:caffe.Person.string_arg5)
+  string_arg5_.Mutable(index)->assign(std::move(value));
 }
 #endif
-inline void Person::set_test1(int index, const char* value) {
+inline void Person::set_string_arg5(int index, const char* value) {
   GOOGLE_DCHECK(value != NULL);
-  test1_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:caffe.Person.test1)
+  string_arg5_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:caffe.Person.string_arg5)
 }
-inline void Person::set_test1(int index, const char* value, size_t size) {
-  test1_.Mutable(index)->assign(
+inline void Person::set_string_arg5(int index, const char* value, size_t size) {
+  string_arg5_.Mutable(index)->assign(
     reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:caffe.Person.test1)
+  // @@protoc_insertion_point(field_set_pointer:caffe.Person.string_arg5)
 }
-inline ::std::string* Person::add_test1() {
-  // @@protoc_insertion_point(field_add_mutable:caffe.Person.test1)
-  return test1_.Add();
+inline ::std::string* Person::add_string_arg5() {
+  // @@protoc_insertion_point(field_add_mutable:caffe.Person.string_arg5)
+  return string_arg5_.Add();
 }
-inline void Person::add_test1(const ::std::string& value) {
-  test1_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:caffe.Person.test1)
+inline void Person::add_string_arg5(const ::std::string& value) {
+  string_arg5_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:caffe.Person.string_arg5)
 }
 #if LANG_CXX11
-inline void Person::add_test1(::std::string&& value) {
-  test1_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:caffe.Person.test1)
+inline void Person::add_string_arg5(::std::string&& value) {
+  string_arg5_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:caffe.Person.string_arg5)
 }
 #endif
-inline void Person::add_test1(const char* value) {
+inline void Person::add_string_arg5(const char* value) {
   GOOGLE_DCHECK(value != NULL);
-  test1_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:caffe.Person.test1)
+  string_arg5_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:caffe.Person.string_arg5)
 }
-inline void Person::add_test1(const char* value, size_t size) {
-  test1_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:caffe.Person.test1)
+inline void Person::add_string_arg5(const char* value, size_t size) {
+  string_arg5_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:caffe.Person.string_arg5)
 }
 inline const ::google::protobuf::RepeatedPtrField< ::std::string>&
-Person::test1() const {
-  // @@protoc_insertion_point(field_list:caffe.Person.test1)
-  return test1_;
+Person::string_arg5() const {
+  // @@protoc_insertion_point(field_list:caffe.Person.string_arg5)
+  return string_arg5_;
 }
 inline ::google::protobuf::RepeatedPtrField< ::std::string>*
-Person::mutable_test1() {
-  // @@protoc_insertion_point(field_mutable_list:caffe.Person.test1)
-  return &test1_;
+Person::mutable_string_arg5() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.Person.string_arg5)
+  return &string_arg5_;
 }
 
-// repeated int32 test2 = 6;
-inline int Person::test2_size() const {
-  return test2_.size();
+// repeated int32 int32_arg6 = 6;
+inline int Person::int32_arg6_size() const {
+  return int32_arg6_.size();
 }
-inline void Person::clear_test2() {
-  test2_.Clear();
+inline void Person::clear_int32_arg6() {
+  int32_arg6_.Clear();
 }
-inline ::google::protobuf::int32 Person::test2(int index) const {
-  // @@protoc_insertion_point(field_get:caffe.Person.test2)
-  return test2_.Get(index);
+inline ::google::protobuf::int32 Person::int32_arg6(int index) const {
+  // @@protoc_insertion_point(field_get:caffe.Person.int32_arg6)
+  return int32_arg6_.Get(index);
 }
-inline void Person::set_test2(int index, ::google::protobuf::int32 value) {
-  test2_.Set(index, value);
-  // @@protoc_insertion_point(field_set:caffe.Person.test2)
+inline void Person::set_int32_arg6(int index, ::google::protobuf::int32 value) {
+  int32_arg6_.Set(index, value);
+  // @@protoc_insertion_point(field_set:caffe.Person.int32_arg6)
 }
-inline void Person::add_test2(::google::protobuf::int32 value) {
-  test2_.Add(value);
-  // @@protoc_insertion_point(field_add:caffe.Person.test2)
+inline void Person::add_int32_arg6(::google::protobuf::int32 value) {
+  int32_arg6_.Add(value);
+  // @@protoc_insertion_point(field_add:caffe.Person.int32_arg6)
 }
 inline const ::google::protobuf::RepeatedField< ::google::protobuf::int32 >&
-Person::test2() const {
-  // @@protoc_insertion_point(field_list:caffe.Person.test2)
-  return test2_;
+Person::int32_arg6() const {
+  // @@protoc_insertion_point(field_list:caffe.Person.int32_arg6)
+  return int32_arg6_;
 }
 inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
-Person::mutable_test2() {
-  // @@protoc_insertion_point(field_mutable_list:caffe.Person.test2)
-  return &test2_;
+Person::mutable_int32_arg6() {
+  // @@protoc_insertion_point(field_mutable_list:caffe.Person.int32_arg6)
+  return &int32_arg6_;
+}
+
+// optional uint32 uint32_arg7 = 7;
+inline bool Person::has_uint32_arg7() const {
+  return (_has_bits_[0] & 0x00000008u) != 0;
+}
+inline void Person::set_has_uint32_arg7() {
+  _has_bits_[0] |= 0x00000008u;
+}
+inline void Person::clear_has_uint32_arg7() {
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline void Person::clear_uint32_arg7() {
+  uint32_arg7_ = 0u;
+  clear_has_uint32_arg7();
+}
+inline ::google::protobuf::uint32 Person::uint32_arg7() const {
+  // @@protoc_insertion_point(field_get:caffe.Person.uint32_arg7)
+  return uint32_arg7_;
+}
+inline void Person::set_uint32_arg7(::google::protobuf::uint32 value) {
+  set_has_uint32_arg7();
+  uint32_arg7_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Person.uint32_arg7)
+}
+
+// optional int64 int64_arg8 = 8;
+inline bool Person::has_int64_arg8() const {
+  return (_has_bits_[0] & 0x00000010u) != 0;
+}
+inline void Person::set_has_int64_arg8() {
+  _has_bits_[0] |= 0x00000010u;
+}
+inline void Person::clear_has_int64_arg8() {
+  _has_bits_[0] &= ~0x00000010u;
+}
+inline void Person::clear_int64_arg8() {
+  int64_arg8_ = GOOGLE_LONGLONG(0);
+  clear_has_int64_arg8();
+}
+inline ::google::protobuf::int64 Person::int64_arg8() const {
+  // @@protoc_insertion_point(field_get:caffe.Person.int64_arg8)
+  return int64_arg8_;
+}
+inline void Person::set_int64_arg8(::google::protobuf::int64 value) {
+  set_has_int64_arg8();
+  int64_arg8_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Person.int64_arg8)
+}
+
+// optional uint64 uint64_arg9 = 9;
+inline bool Person::has_uint64_arg9() const {
+  return (_has_bits_[0] & 0x00000020u) != 0;
+}
+inline void Person::set_has_uint64_arg9() {
+  _has_bits_[0] |= 0x00000020u;
+}
+inline void Person::clear_has_uint64_arg9() {
+  _has_bits_[0] &= ~0x00000020u;
+}
+inline void Person::clear_uint64_arg9() {
+  uint64_arg9_ = GOOGLE_ULONGLONG(0);
+  clear_has_uint64_arg9();
+}
+inline ::google::protobuf::uint64 Person::uint64_arg9() const {
+  // @@protoc_insertion_point(field_get:caffe.Person.uint64_arg9)
+  return uint64_arg9_;
+}
+inline void Person::set_uint64_arg9(::google::protobuf::uint64 value) {
+  set_has_uint64_arg9();
+  uint64_arg9_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Person.uint64_arg9)
+}
+
+// optional double double_arg10 = 10;
+inline bool Person::has_double_arg10() const {
+  return (_has_bits_[0] & 0x00000040u) != 0;
+}
+inline void Person::set_has_double_arg10() {
+  _has_bits_[0] |= 0x00000040u;
+}
+inline void Person::clear_has_double_arg10() {
+  _has_bits_[0] &= ~0x00000040u;
+}
+inline void Person::clear_double_arg10() {
+  double_arg10_ = 0;
+  clear_has_double_arg10();
+}
+inline double Person::double_arg10() const {
+  // @@protoc_insertion_point(field_get:caffe.Person.double_arg10)
+  return double_arg10_;
+}
+inline void Person::set_double_arg10(double value) {
+  set_has_double_arg10();
+  double_arg10_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Person.double_arg10)
+}
+
+// optional float float_arg11 = 11;
+inline bool Person::has_float_arg11() const {
+  return (_has_bits_[0] & 0x00000080u) != 0;
+}
+inline void Person::set_has_float_arg11() {
+  _has_bits_[0] |= 0x00000080u;
+}
+inline void Person::clear_has_float_arg11() {
+  _has_bits_[0] &= ~0x00000080u;
+}
+inline void Person::clear_float_arg11() {
+  float_arg11_ = 0;
+  clear_has_float_arg11();
+}
+inline float Person::float_arg11() const {
+  // @@protoc_insertion_point(field_get:caffe.Person.float_arg11)
+  return float_arg11_;
+}
+inline void Person::set_float_arg11(float value) {
+  set_has_float_arg11();
+  float_arg11_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Person.float_arg11)
+}
+
+// optional bool bool_arg12 = 12;
+inline bool Person::has_bool_arg12() const {
+  return (_has_bits_[0] & 0x00000100u) != 0;
+}
+inline void Person::set_has_bool_arg12() {
+  _has_bits_[0] |= 0x00000100u;
+}
+inline void Person::clear_has_bool_arg12() {
+  _has_bits_[0] &= ~0x00000100u;
+}
+inline void Person::clear_bool_arg12() {
+  bool_arg12_ = false;
+  clear_has_bool_arg12();
+}
+inline bool Person::bool_arg12() const {
+  // @@protoc_insertion_point(field_get:caffe.Person.bool_arg12)
+  return bool_arg12_;
+}
+inline void Person::set_bool_arg12(bool value) {
+  set_has_bool_arg12();
+  bool_arg12_ = value;
+  // @@protoc_insertion_point(field_set:caffe.Person.bool_arg12)
 }
 
 // -------------------------------------------------------------------

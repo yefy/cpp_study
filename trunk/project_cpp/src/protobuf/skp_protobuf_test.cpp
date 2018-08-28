@@ -17,7 +17,7 @@ using namespace std;
 using namespace caffe;
 using namespace google::protobuf;
 
-SKP_TEST(protobuf, protobuf_test1)
+SKP_TEST_ONECE(protobuf, protobuf_test1)
 {
     AddressBook book;
 
@@ -38,11 +38,18 @@ SKP_TEST(protobuf, protobuf_test1)
     phone3->set_number("333");
     phone3->set_type(::caffe::Person_PhoneType_WORK);
 
-    people1->add_test1(std::string("test1"));
-    people1->add_test1(std::string("test2"));
+    people1->add_string_arg5(std::string("string_arg5"));
+    people1->add_string_arg5(std::string("string_arg5"));
 
-    people1->add_test2(1);
-    people1->add_test2(2);
+    people1->add_int32_arg6(6);
+    people1->add_int32_arg6(6);
+
+    people1->set_uint32_arg7(7);
+    people1->set_int64_arg8(8);
+    people1->set_uint64_arg9(9);
+    people1->set_double_arg10(10.1);
+    people1->set_float_arg11(11.11);
+    people1->set_bool_arg12(false);
 
 
     Person *people2 = book.add_people();
@@ -62,11 +69,18 @@ SKP_TEST(protobuf, protobuf_test1)
     phone33->set_number("c333");
     phone33->set_type(::caffe::Person_PhoneType_WORK);
 
-    people2->add_test1(std::string("test1a"));
-    people2->add_test1(std::string("test2b"));
+    people2->add_string_arg5(std::string("add_string_arg5"));
+    people2->add_string_arg5(std::string("add_string_arg5"));
 
-    people2->add_test2(11);
-    people2->add_test2(22);
+    people2->add_int32_arg6(66);
+    people2->add_int32_arg6(66);
+
+    people2->set_uint32_arg7(77);
+    people2->set_int64_arg8(88);
+    people2->set_uint64_arg9(99);
+    people2->set_double_arg10(100.2);
+    people2->set_float_arg11(110.22);
+    people2->set_bool_arg12(true);
 
     printf("**************PrintDebugString***************** \n");
     book.PrintDebugString();
@@ -162,102 +176,138 @@ SKP_TEST(protobuf, protobuf_test1)
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 
-void serialize_message2(const google::protobuf::Message& message, std::string* serialized_string) {
+#define SPACE_NUMBER 2
+
+void addSpace(std::string &strData, int depth)
+{
+    for(int i = 0; i < depth * SPACE_NUMBER; ++i)
+    {
+        strData.append(" ");
+    }
+}
+
+void appendData(std::string &strData, int depth, const std::string &strValue)
+{
+    addSpace(strData, depth);
+    strData.append(strValue);
+    strData.append("\n");
+}
+
+void appendData(std::string &strData, int depth, const std::string &strName, const std::string &strValue)
+{
+    addSpace(strData, depth);
+    strData.append(strName);
+    strData.append(" : ");
+    strData.append(strValue);
+    strData.append("\n");
+}
+
+void serialize_message(const google::protobuf::Message& message, std::string &strData, int depth) {
     const google::protobuf::Descriptor* descriptor = message.GetDescriptor();
     const google::protobuf::Reflection* reflection = message.GetReflection();
-
-    printf("field_count = %d \n", descriptor->field_count());
-
     for (int i = 0; i < descriptor->field_count(); ++i) {
         const google::protobuf::FieldDescriptor* field = descriptor->field(i);
-        //reflection->MutableMessage(message, field)->;
-        //google::protobuf::RepeatedField<int> *repeatedField =reflection->GetRepeatedFieldRef(message, field);
-        //reflection->GetRepeatedField(message, field);
-        //google::protobuf::RepeatedField *repeatedField =
-        //repeatedField->size();
-        //repeatedField->
-        //printf("111111 \n");
-        //bool has_field = reflection->HasField(message, field);
-        //printf("222222 \n");
-        //if (has_field) {
-            //printf("33333 \n");
-            //arrays not supported
-            //assert(!field->is_repeated());
-            //reflection->MutableRepeatedField
         if(!field->is_repeated()){
-            printf("type = %d \n", field->cpp_type());
-
             switch (field->cpp_type()) {
 
-#define CASE_FIELD_TYPE(cpptype, method, valuetype) \
-                case google::protobuf::FieldDescriptor::CPPTYPE_##cpptype:{ \
-                    printf("CPPTYPE = %s \n", #cpptype);\
+#define CASE_FIELD_TYPE(cpptype, method, valuetype, format) \
+                case google::protobuf::FieldDescriptor::CPPTYPE_##cpptype:{\
+                    valuetype value = reflection->Get##method(message, field);\
+                    char buffer[128] = "";\
+                    if(google::protobuf::FieldDescriptor::CPPTYPE_##cpptype != google::protobuf::FieldDescriptor::CPPTYPE_BOOL)\
+                    {\
+                        snprintf(buffer, sizeof(buffer), format, value);\
+                    } else\
+                    {\
+                        snprintf(buffer, sizeof(buffer), format, value?"true":"false");\
+                    }\
+                    const std::string &strValue = std::string(buffer);\
+                    const std::string &strName = field->name();\
+                    appendData(strData, depth, strName, strValue);\
                     break;\
                 }
 
-                CASE_FIELD_TYPE(INT32, Int32, int);
-                CASE_FIELD_TYPE(UINT32, UInt32, uint32_t);
-                CASE_FIELD_TYPE(FLOAT, Float, float);
-                CASE_FIELD_TYPE(DOUBLE, Double, double);
-                CASE_FIELD_TYPE(BOOL, Bool, bool);
-                CASE_FIELD_TYPE(INT64, Int64, int64_t);
-                CASE_FIELD_TYPE(UINT64, UInt64, uint64_t);
-//#undef CASE_FIELD_TYPE
+                CASE_FIELD_TYPE(INT32, Int32, int32_t, "%d");
+                CASE_FIELD_TYPE(UINT32, UInt32, uint32_t, "%u");
+                CASE_FIELD_TYPE(FLOAT, Float, float, "%f");
+                CASE_FIELD_TYPE(DOUBLE, Double, double, "%lf");
+                CASE_FIELD_TYPE(BOOL, Bool, bool, "%s");
+                CASE_FIELD_TYPE(INT64, Int64, int64_t, "%lld");
+                CASE_FIELD_TYPE(UINT64, UInt64, uint64_t, "%llu");
+#undef CASE_FIELD_TYPE
 
                 case google::protobuf::FieldDescriptor::CPPTYPE_ENUM: {
-                printf("CPPTYPE_ENUM \n");
+                    const std::string &strValue = reflection->GetEnum(message, field)->name();
+                    const std::string &strName = field->name();
+                    appendData(strData, depth, strName, strValue);
                     break;
                 }
                 case google::protobuf::FieldDescriptor::CPPTYPE_STRING: {
-                printf("CPPTYPE_STRING \n");
+                    const std::string &strValue = reflection->GetString(message, field);
+                    const std::string &strName = field->name();
+                    appendData(strData, depth, strName, strValue);
                     break;
                 }
                 case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE: {
-                printf("CPPTYPE_MESSAGE \n");
-                    std::string value;
+                    const std::string &strName = field->name();
+                    appendData(strData, depth, strName + " {");
                     const google::protobuf::Message& submessage = reflection->GetMessage(message, field);
-                    serialize_message2(submessage, &value);
+                    serialize_message(submessage, strData, depth + 1);
+                    appendData(strData, depth, "}");
                     break;
                 }
             }
         }
         else
         {
-            printf("is_repeated \n");
-                int32  FieldNum;
+               int32  FieldNum = 0;
                for (FieldNum = 0; FieldNum < reflection->FieldSize(message, field); FieldNum++) {
-                   printf("type = %d \n", field->cpp_type());
-
                    switch (field->cpp_type()) {
 
-       #define CASE_FIELD_TYPE(cpptype, method, valuetype) \
+#define CASE_FIELD_TYPE(cpptype, method, valuetype, format) \
                        case google::protobuf::FieldDescriptor::CPPTYPE_##cpptype:{ \
-                           printf("CPPTYPE = %s \n", #cpptype);\
-                           break;\
+                            valuetype value = reflection->GetRepeated##method(message, field, FieldNum); \
+                            char buffer[128] = "";\
+                            if(google::protobuf::FieldDescriptor::CPPTYPE_##cpptype != google::protobuf::FieldDescriptor::CPPTYPE_BOOL)\
+                            {\
+                                snprintf(buffer, sizeof(buffer), format, value);\
+                            } else\
+                            {\
+                                snprintf(buffer, sizeof(buffer), format, value?"true":"false");\
+                            }\
+                            const std::string &strValue = std::string(buffer);\
+                            const std::string &strName = field->name();\
+                            appendData(strData, depth, strName, strValue);\
+                            break;\
                        }
 
-                       CASE_FIELD_TYPE(INT32, Int32, int);
-                       CASE_FIELD_TYPE(UINT32, UInt32, uint32_t);
-                       CASE_FIELD_TYPE(FLOAT, Float, float);
-                       CASE_FIELD_TYPE(DOUBLE, Double, double);
-                       CASE_FIELD_TYPE(BOOL, Bool, bool);
-                       CASE_FIELD_TYPE(INT64, Int64, int64_t);
-                       CASE_FIELD_TYPE(UINT64, UInt64, uint64_t);
-       //#undef CASE_FIELD_TYPE
+                   CASE_FIELD_TYPE(INT32, Int32, int32_t, "%d");
+                   CASE_FIELD_TYPE(UINT32, UInt32, uint32_t, "%u");
+                   CASE_FIELD_TYPE(FLOAT, Float, float, "%f");
+                   CASE_FIELD_TYPE(DOUBLE, Double, double, "%lf");
+                   CASE_FIELD_TYPE(BOOL, Bool, bool, "%s");
+                   CASE_FIELD_TYPE(INT64, Int64, int64_t, "%lld");
+                   CASE_FIELD_TYPE(UINT64, UInt64, uint64_t, "%llu");
+#undef CASE_FIELD_TYPE
 
                        case google::protobuf::FieldDescriptor::CPPTYPE_ENUM: {
-                       printf("CPPTYPE_ENUM \n");
+                           const std::string &strValue = reflection->GetRepeatedEnum(message, field, FieldNum)->name();
+                           const std::string &strName = field->name();
+                           appendData(strData, depth, strName, strValue);
                            break;
                        }
                        case google::protobuf::FieldDescriptor::CPPTYPE_STRING: {
-                       printf("CPPTYPE_STRING \n");
+                           const std::string &strValue = reflection->GetRepeatedString(message, field, FieldNum);
+                           const std::string &strName = field->name();
+                           appendData(strData, depth, strName, strValue);
                            break;
                        }
                        case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE: {
-                       printf("CPPTYPE_MESSAGE \n");
-                           std::string value;
+                           const std::string &strName = field->name();
+                           appendData(strData, depth, strName + " {");
                            const google::protobuf::Message& submessage = reflection->GetRepeatedMessage(message, field, FieldNum);
-                           serialize_message2(submessage, &value);
+                           serialize_message(submessage, strData, depth + 1);
+                           appendData(strData, depth, "}");
                            break;
                        }
                    }
@@ -266,104 +316,8 @@ void serialize_message2(const google::protobuf::Message& message, std::string* s
     }
 }
 
-
-void serialize_message(const google::protobuf::Message& message, std::string* serialized_string) {
-    const google::protobuf::Descriptor* descriptor = message.GetDescriptor();
-    const google::protobuf::Reflection* reflection = message.GetReflection();
-
-    printf("field_count = %d \n", descriptor->field_count());
-
-    for (int i = 0; i < descriptor->field_count(); ++i) {
-        const google::protobuf::FieldDescriptor* field = descriptor->field(i);
-        //printf("111111 \n");
-        //bool has_field = reflection->HasField(message, field);
-        //printf("222222 \n");
-        //if (has_field) {
-            //printf("33333 \n");
-            //arrays not supported
-            //assert(!field->is_repeated()); field->has
-            //reflection->MutableRepeatedField
-        if(true){
-            printf("type = %d \n", field->cpp_type());
-
-            switch (field->cpp_type()) {
-
-#define CASE_FIELD_TYPE(cpptype, method, valuetype) \
-                case google::protobuf::FieldDescriptor::CPPTYPE_##cpptype:{ \
-                    printf("CPPTYPE = %s \n", #cpptype);\
-                    valuetype value = reflection->Get##method(message, field); \
-                    int wsize = field->name().size();\
-                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));\
-                    serialized_string->append(field->name().c_str(), field->name().size());\
-                    printf("    name = %s, size = %d \n", field->name().c_str(), field->name().size());\
-                    wsize = sizeof(value);\
-                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));\
-                    serialized_string->append(reinterpret_cast<char *>(&value), sizeof(value));\
-                    printf("    value = %d, size = %d \n", value, sizeof(value));\
-                    break;\
-                }
-
-                CASE_FIELD_TYPE(INT32, Int32, int);
-                CASE_FIELD_TYPE(UINT32, UInt32, uint32_t);
-                CASE_FIELD_TYPE(FLOAT, Float, float);
-                CASE_FIELD_TYPE(DOUBLE, Double, double);
-                CASE_FIELD_TYPE(BOOL, Bool, bool);
-                CASE_FIELD_TYPE(INT64, Int64, int64_t);
-                CASE_FIELD_TYPE(UINT64, UInt64, uint64_t);
-//#undef CASE_FIELD_TYPE
-
-                case google::protobuf::FieldDescriptor::CPPTYPE_ENUM: {
-                printf("CPPTYPE_ENUM \n");
-                    int value = reflection->GetEnum(message, field)->number();
-                    int wsize = field->name().size();
-                    //写入name占用字节数
-                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
-                    //写入name
-                    serialized_string->append(field->name().c_str(), field->name().size());
-                    printf("    name = %s, size = %d \n", field->name().c_str(), field->name().size());
-                    wsize = sizeof(value);
-                    //写入value占用字节数
-                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
-                    //写入value
-                    serialized_string->append(reinterpret_cast<char *>(&value), sizeof(value));
-                    printf("    value = %d, size = %d \n", value, sizeof(value));
-                    break;
-                }
-                case google::protobuf::FieldDescriptor::CPPTYPE_STRING: {
-                printf("CPPTYPE_STRING \n");
-                    std::string value = reflection->GetString(message, field);
-                    int wsize = field->name().size();
-                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
-                    serialized_string->append(field->name().c_str(), field->name().size());
-                    printf("    name = %s, size = %d \n", field->name().c_str(), field->name().size());
-                    wsize = value.size();
-                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
-                    serialized_string->append(value.c_str(), value.size());
-                    printf("    value = %s, size = %d \n", value.c_str(), value.size());
-                    break;
-                }
-                case google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE: {
-                printf("CPPTYPE_MESSAGE \n");
-                    std::string value;
-                    int wsize = field->name().size();
-                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
-                    serialized_string->append(field->name().c_str(), field->name().size());
-                    printf("    name = %s, size = %d \n", field->name().c_str(), field->name().size());
-                    const google::protobuf::Message& submessage = reflection->GetMessage(message, field);
-                    serialize_message(submessage, &value);
-                    wsize = value.size();
-                    serialized_string->append(reinterpret_cast<char *>(&wsize), sizeof(wsize));
-                    serialized_string->append(value.c_str(), value.size());
-                    printf("    name = %s, size = %d \n", value.c_str(), value.size());
-                    break;
-                }
-            }
-        }
-    }
-}
-
 /*
-void parse_message(const std::string& serialized_string, google::protobuf::Message* message) {
+void parse_message(google::protobuf::Message* message, const std::string& strData) {
     const google::protobuf::Descriptor* descriptor = message->GetDescriptor();
     const google::protobuf::Reflection* reflection = message->GetReflection();
     std::map field_map;
@@ -400,7 +354,7 @@ void parse_message(const std::string& serialized_string, google::protobuf::Messa
             field = iter->second;
         }
 
-        /*
+
         assert(!field->is_repeated());
         switch (field->cpp_type()) {
 #define CASE_FIELD_TYPE(cpptype, method, valuetype)\
@@ -423,6 +377,7 @@ void parse_message(const std::string& serialized_string, google::protobuf::Messa
     }
 }
 */
+
 SKP_TEST_ONECE(protobuf, protobuf_test3)
 {
     char buffer[1024] = "";
@@ -477,10 +432,16 @@ SKP_TEST_ONECE(protobuf, protobuf_test3)
         number: \"333\"\
         type: WORK\
       }\
-    test1 : \"test1\"\
-    test1 : \"test11\"\
-    test2 : 1\
-    test2 : 11\
+    string_arg5: \"string_arg5\"\
+    string_arg5: \"string_arg5\"\
+    int32_arg6: 6\
+    int32_arg6: 6\
+    uint32_arg7: 7\
+    int64_arg8: 8\
+    uint64_arg9: 9\
+    double_arg10: 10.1\
+    float_arg11: 11.11\
+    bool_arg12: false\
     }\
     people {\
       name: \"bbb111\"\
@@ -498,10 +459,16 @@ SKP_TEST_ONECE(protobuf, protobuf_test3)
         number: \"c333\"\
         type: WORK\
       }\
-    test1 : \"test1\"\
-    test1 : \"test11\"\
-    test2 : 1\
-    test2 : 11\
+    string_arg5: \"string_arg5\"\
+    string_arg5: \"string_arg5\"\
+    int32_arg6: 66\
+    int32_arg6: 66\
+    uint32_arg7: 77\
+    int64_arg8: 88\
+    uint64_arg9: 99\
+    double_arg10: 100.2\
+    float_arg11: 110.22\
+    bool_arg12: true\
     } \
     t1 : \"t1\"\
     t1 : \"t11\"\
@@ -515,27 +482,15 @@ SKP_TEST_ONECE(protobuf, protobuf_test3)
     message->PrintDebugString();
 
 
-    std::string seriStr;
-    serialize_message2(*message, &seriStr);
+    std::string strData;
+    serialize_message(*message, strData, 0);
     printf("*************serialize_message****************** \n");
-    printf("%s \n", seriStr.c_str());
+    printf("%s \n", strData.c_str());
     message->Clear();
 
-    //parse_message(seriStr, message);
-    //printf("*************parse_message****************** \n");
-    //message->PrintDebugString();
-
-
-
-
-
-    //    // 下面是通过反射接口给字段赋值.
-    //    auto reflection1 = message->GetReflection();
-    //    auto filed1 = descriptor->FindFieldByName("id");
-    //    reflection1->SetInt32(message1,filed1,1);
-    //    // 打印看看
-    //    std::cout << message1->DebugString();
-    //    printf("id = %d \n", reflection1->GetInt32(*message, filed1));
+//    parse_message(*message, strData);
+//    printf("*************parse_message****************** \n");
+//    message->PrintDebugString();
 
     // 删除消息.
     delete message ;

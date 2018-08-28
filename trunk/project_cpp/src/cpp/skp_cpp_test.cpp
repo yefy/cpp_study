@@ -177,7 +177,7 @@ SKP_TEST(cpp, cpp_lib)
     (void)cpplib;
 }
 
-TEST(cpp, cpp_zero)
+SKP_TEST(cpp, cpp_zero)
 {
     START_INFO_TOP(cpp_zero);
 

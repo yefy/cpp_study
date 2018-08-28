@@ -154,9 +154,9 @@ SKP_TEST_F(Clua, lua_dofile)
 }
 
 
-SKP_TEST_F(Clua, lua_call)
+SKP_TEST_F(Clua, lua_call_test)
 {
-    START_INFO_TOP(lua_call);
+    START_INFO_TOP(lua_call_test);
 
     int8_t arg_int8 = 1;
     uint8_t arg_uint8 = 2;

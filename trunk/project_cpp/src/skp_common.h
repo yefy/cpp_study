@@ -31,10 +31,10 @@ public:
 
 #ifdef SKP_TEST_ONECE
 #undef SKP_TEST
-//#undef SKP_TEST_F
+#undef SKP_TEST_F
 
 #define SKP_TEST(x, y) void x##y()
-//#define SKP_TEST_F(x, y) void x::y()
+#define SKP_TEST_F(x, y) class x##y : public x {public: void y();}; void x##y::y()
 #endif
 
 #define cmd_error -1

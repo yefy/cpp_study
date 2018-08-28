@@ -37,4 +37,6 @@ message AddressBook {
     repeated Person people = 1;
     repeated string t1 = 2; 
   	repeated int32 t2 = 3; 
+  	optional string book_name = 4; 
+  	optional Person people_once = 5;
 }

@@ -652,8 +652,39 @@ class AddressBook : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
       mutable_t2();
 
+  // optional string book_name = 4;
+  bool has_book_name() const;
+  void clear_book_name();
+  static const int kBookNameFieldNumber = 4;
+  const ::std::string& book_name() const;
+  void set_book_name(const ::std::string& value);
+  #if LANG_CXX11
+  void set_book_name(::std::string&& value);
+  #endif
+  void set_book_name(const char* value);
+  void set_book_name(const char* value, size_t size);
+  ::std::string* mutable_book_name();
+  ::std::string* release_book_name();
+  void set_allocated_book_name(::std::string* book_name);
+
+  // optional .caffe.Person people_once = 5;
+  bool has_people_once() const;
+  void clear_people_once();
+  static const int kPeopleOnceFieldNumber = 5;
+  private:
+  const ::caffe::Person& _internal_people_once() const;
+  public:
+  const ::caffe::Person& people_once() const;
+  ::caffe::Person* release_people_once();
+  ::caffe::Person* mutable_people_once();
+  void set_allocated_people_once(::caffe::Person* people_once);
+
   // @@protoc_insertion_point(class_scope:caffe.AddressBook)
  private:
+  void set_has_book_name();
+  void clear_has_book_name();
+  void set_has_people_once();
+  void clear_has_people_once();
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::HasBits<1> _has_bits_;
@@ -661,6 +692,8 @@ class AddressBook : public ::google::protobuf::Message /* @@protoc_insertion_poi
   ::google::protobuf::RepeatedPtrField< ::caffe::Person > people_;
   ::google::protobuf::RepeatedPtrField< ::std::string> t1_;
   ::google::protobuf::RepeatedField< ::google::protobuf::int32 > t2_;
+  ::google::protobuf::internal::ArenaStringPtr book_name_;
+  ::caffe::Person* people_once_;
   friend struct ::protobuf_caffe_2eproto::TableStruct;
 };
 // ===================================================================
@@ -1329,6 +1362,130 @@ inline ::google::protobuf::RepeatedField< ::google::protobuf::int32 >*
 AddressBook::mutable_t2() {
   // @@protoc_insertion_point(field_mutable_list:caffe.AddressBook.t2)
   return &t2_;
+}
+
+// optional string book_name = 4;
+inline bool AddressBook::has_book_name() const {
+  return (_has_bits_[0] & 0x00000001u) != 0;
+}
+inline void AddressBook::set_has_book_name() {
+  _has_bits_[0] |= 0x00000001u;
+}
+inline void AddressBook::clear_has_book_name() {
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline void AddressBook::clear_book_name() {
+  book_name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  clear_has_book_name();
+}
+inline const ::std::string& AddressBook::book_name() const {
+  // @@protoc_insertion_point(field_get:caffe.AddressBook.book_name)
+  return book_name_.GetNoArena();
+}
+inline void AddressBook::set_book_name(const ::std::string& value) {
+  set_has_book_name();
+  book_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:caffe.AddressBook.book_name)
+}
+#if LANG_CXX11
+inline void AddressBook::set_book_name(::std::string&& value) {
+  set_has_book_name();
+  book_name_.SetNoArena(
+    &::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::move(value));
+  // @@protoc_insertion_point(field_set_rvalue:caffe.AddressBook.book_name)
+}
+#endif
+inline void AddressBook::set_book_name(const char* value) {
+  GOOGLE_DCHECK(value != NULL);
+  set_has_book_name();
+  book_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:caffe.AddressBook.book_name)
+}
+inline void AddressBook::set_book_name(const char* value, size_t size) {
+  set_has_book_name();
+  book_name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:caffe.AddressBook.book_name)
+}
+inline ::std::string* AddressBook::mutable_book_name() {
+  set_has_book_name();
+  // @@protoc_insertion_point(field_mutable:caffe.AddressBook.book_name)
+  return book_name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* AddressBook::release_book_name() {
+  // @@protoc_insertion_point(field_release:caffe.AddressBook.book_name)
+  if (!has_book_name()) {
+    return NULL;
+  }
+  clear_has_book_name();
+  return book_name_.ReleaseNonDefaultNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void AddressBook::set_allocated_book_name(::std::string* book_name) {
+  if (book_name != NULL) {
+    set_has_book_name();
+  } else {
+    clear_has_book_name();
+  }
+  book_name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), book_name);
+  // @@protoc_insertion_point(field_set_allocated:caffe.AddressBook.book_name)
+}
+
+// optional .caffe.Person people_once = 5;
+inline bool AddressBook::has_people_once() const {
+  return (_has_bits_[0] & 0x00000002u) != 0;
+}
+inline void AddressBook::set_has_people_once() {
+  _has_bits_[0] |= 0x00000002u;
+}
+inline void AddressBook::clear_has_people_once() {
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline void AddressBook::clear_people_once() {
+  if (people_once_ != NULL) people_once_->Clear();
+  clear_has_people_once();
+}
+inline const ::caffe::Person& AddressBook::_internal_people_once() const {
+  return *people_once_;
+}
+inline const ::caffe::Person& AddressBook::people_once() const {
+  const ::caffe::Person* p = people_once_;
+  // @@protoc_insertion_point(field_get:caffe.AddressBook.people_once)
+  return p != NULL ? *p : *reinterpret_cast<const ::caffe::Person*>(
+      &::caffe::_Person_default_instance_);
+}
+inline ::caffe::Person* AddressBook::release_people_once() {
+  // @@protoc_insertion_point(field_release:caffe.AddressBook.people_once)
+  clear_has_people_once();
+  ::caffe::Person* temp = people_once_;
+  people_once_ = NULL;
+  return temp;
+}
+inline ::caffe::Person* AddressBook::mutable_people_once() {
+  set_has_people_once();
+  if (people_once_ == NULL) {
+    auto* p = CreateMaybeMessage<::caffe::Person>(GetArenaNoVirtual());
+    people_once_ = p;
+  }
+  // @@protoc_insertion_point(field_mutable:caffe.AddressBook.people_once)
+  return people_once_;
+}
+inline void AddressBook::set_allocated_people_once(::caffe::Person* people_once) {
+  ::google::protobuf::Arena* message_arena = GetArenaNoVirtual();
+  if (message_arena == NULL) {
+    delete people_once_;
+  }
+  if (people_once) {
+    ::google::protobuf::Arena* submessage_arena = NULL;
+    if (message_arena != submessage_arena) {
+      people_once = ::google::protobuf::internal::GetOwnedMessage(
+          message_arena, people_once, submessage_arena);
+    }
+    set_has_people_once();
+  } else {
+    clear_has_people_once();
+  }
+  people_once_ = people_once;
+  // @@protoc_insertion_point(field_set_allocated:caffe.AddressBook.people_once)
 }
 
 #ifdef __GNUC__

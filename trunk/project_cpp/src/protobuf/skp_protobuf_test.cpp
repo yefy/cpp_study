@@ -101,69 +101,6 @@ SKP_TEST_ONECE(protobuf, protobuf_test1)
     google::protobuf::TextFormat::ParseFromString(output2, &book2);
     printf("*************ParseFromString****************** \n");
     book2.PrintDebugString();
-
-  /*
-    printf("******************************* \n");
-    const google::protobuf::Descriptor* pNodeDescriptor   = book2.GetDescriptor();
-    ASSERT_TRUE(pNodeDescriptor != NULL);
-    printf("pNodeDescriptor = %s \n", pNodeDescriptor->DebugString().c_str());
-
-    const google::protobuf::FieldDescriptor* pAttrField   = pNodeDescriptor->FindFieldByName("people");
-    ASSERT_TRUE(pAttrField != NULL);
-
-
-    std::string output3;
-    google::protobuf::TextFormat::PrintFieldValueToString(person2, pAttrField, 1, &output3);
-    printf("output3 = %s \n", output3.c_str());
-
-//    const string input = "flamingo_flamingo";
-//    google::protobuf::TextFormat::ParseFieldValueFromString(input, pAttrField, &person2);
-//    google::protobuf::TextFormat::
-
-//    output3 = "";
-//    google::protobuf::TextFormat::PrintFieldValueToString(person2, pAttrField, 1, &output3);
-//    printf("output3 = %s \n", output3.c_str());
-
-
-    printf("******************************* \n");
-    //std::string type_name = Person::descriptor()->full_name();
-    std::string type_name = "caffe.Person";
-    printf("type_name = %s \n", type_name.c_str());
-
-    const google::protobuf::Descriptor* descriptor = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(type_name);
-    //assert(descriptor == Person::descriptor());
-    cout << "FindMessageTypeByName() = " << descriptor << endl;
-    cout << "T::descriptor()         = " << Person::descriptor() << endl;
-    cout << endl;
-
-    const google::protobuf::Message* prototype = google::protobuf::MessageFactory::generated_factory()->GetPrototype(descriptor);
-    //assert(prototype == &Person::default_instance());
-    cout << "GetPrototype()        = " << prototype << endl;
-    cout << "T::default_instance() = " << &Person::default_instance() << endl;
-    cout << endl;
-
-    printf("******************************* \n");
-
-    //Person* new_obj = dynamic_cast<Person *>(prototype->New());
-    google::protobuf::Message* new_obj = prototype->New();
-    assert(new_obj != NULL);
-    assert(new_obj != prototype);
-    //assert(typeid(*new_obj) == typeid(Person::default_instance()));
-    //cout << "prototype->New() = " << new_obj << endl;
-    //cout << endl;
-    //delete new_obj;
-
-
-    google::protobuf::TextFormat::ParseFromString(output2, new_obj);
-    new_obj->PrintDebugString();
-
-
-//    const google::protobuf::FieldDescriptor field;
-//    int index = 0;
-//    std::string output3;
-//    google::protobuf::TextFormat::PrintFieldValueToString(person, &field, index, &output3);
-//    printf("output3 = %s \n", output3.c_str());
-*/
 }
 
 
@@ -327,55 +264,73 @@ enum EParseMessageType
 
 };
 
-struct TParseNode
-{
-    EParseMessageType type;
-    std::string value;
-};
+//struct TParseNode
+//{
+//    EParseMessageType type;
+//    std::string value;
+//};
 
 class CParseMessage
 {
 public:
     CParseMessage(const char *data);
-    const char *getData();
-    TParseNode *getName();
-    TParseNode *getValue();
-private:
-    TParseNode m_parseName;
-    TParseNode m_parseValue;
+//    TParseNode *getName();
+//    TParseNode *getValue();
+    const std::string &getKey();
+    EParseMessageType getType();
+    const std::string &getValue();
+
+    bool isEnd()
+    {
+        return m_currData >= m_endData;
+    }
+
+//private:
+//    TParseNode m_parseName;
+//    TParseNode m_parseValue;
     const char *m_startData;
+    const char *m_currData;
     const char *m_endData;
+
+    std::string m_strKeyCache;
+    std::string m_strTypeCache;
+    std::string m_strValueCache;
 };
 
 CParseMessage::CParseMessage(const char *data):
     m_startData(data),
+    m_currData(m_startData),
     m_endData(m_startData + strlen(data))
 {
-    m_parseName.type = EPARSEMESSAGETYPE_INIT;
-    m_parseValue.type = EPARSEMESSAGETYPE_INIT;
+//    m_parseName.type = EPARSEMESSAGETYPE_INIT;
+//    m_parseValue.type = EPARSEMESSAGETYPE_INIT;
 }
 
-const char *CParseMessage::getData()
-{
-    return m_startData;
-}
-
+/*
 TParseNode *CParseMessage::getName()
 {
+    //[name{}]
+    //[ name{}]
+    //[name {}]
+    //[ name {}]
+    //[name:]
+    //[ name:]
+    //[name :]
+    //[ name:]
     m_parseName.type = EPARSEMESSAGETYPE_INIT;
     m_parseName.value.clear();
     bool isName = false;
-    const char *currData =  m_startData;
+    const char *currData =  m_currData;
     for(;currData < m_endData; ++currData)
     {
         if(*currData == ' ' || *currData == ' \t' || *currData == '\n' || *currData == '\r')
         {
             if(isName)
             {
-                m_parseName.value =  std::string(m_startData, currData - m_startData);
+                m_parseName.value =  std::string(m_currData, currData - m_currData);
                 isName = false;
             }
-            ++m_startData;
+            ++m_currData;
             continue;
         }
         else if(*currData == '{')
@@ -411,32 +366,177 @@ TParseNode *CParseMessage::getName()
 
     if(isName)
     {
-        m_parseName.value =  std::string(m_startData, currData - m_startData);
+        m_parseName.value =  std::string(m_currData, currData - m_currData);
         isName = false;
     }
     ++currData;
-    m_startData = currData;
+    m_currData = currData;
 
     return &m_parseName;
 }
+*/
+const std::string &CParseMessage::getKey()
+{
+    //[name{}]
+    //[ name{}]
+    //[name {}]
+    //[ name {}]
+    //[name:]
+    //[ name:]
+    //[name :]
+    //[ name:]
 
+    m_strKeyCache.clear();
+    const char *currData =  m_currData;
+    for(;currData < m_endData; ++currData)
+    {
+        if(*currData == ' ' || *currData == ' \t' || *currData == '\n' || *currData == '\r')
+        {
+            if(!m_strKeyCache.empty())
+                break;
+            ++m_currData;
+            continue;
+        }
+        else if(*currData == '{')
+        {
+            break;
+        }
+        else if(*currData == ':')
+        {
+            break;
+        }
+        else if(*currData == '}')
+        {
+            m_currData = currData;
+            return m_strKeyCache;
+        }
+        else
+        {
+
+            m_strKeyCache += *currData;
+        }
+    }
+
+    m_currData = currData;
+    if(m_currData >= m_endData && m_strKeyCache.empty())
+    {
+        return m_strKeyCache;
+    }
+
+    if(m_strKeyCache.empty())
+    {
+        printf("getKey error \n");
+        std::string error(m_startData, m_currData - m_startData);
+        printf("%s \n", error.c_str());
+    }
+
+    return m_strKeyCache;
+}
+
+EParseMessageType CParseMessage::getType()
+{
+    EParseMessageType type = EPARSEMESSAGETYPE_INIT;
+    m_strTypeCache.clear();
+    const char *currData =  m_currData;
+    for(;currData < m_endData; ++currData)
+    {
+        if(*currData == ' ' || *currData == ' \t' || *currData == '\n' || *currData == '\r')
+        {
+            if(!m_strTypeCache.empty())
+                break;
+            ++m_currData;
+            continue;
+        }
+        else if(*currData == '{')
+        {
+            type =  EPARSEMESSAGETYPE_MESSAGE_START;
+            break;
+        }
+        else if(*currData == ':')
+        {
+            type = EPARSEMESSAGETYPE_NODE;
+            break;
+        }
+        else if(*currData == '}')
+        {
+            type = EPARSEMESSAGETYPE_MESSAGE_END;
+            break;
+        }
+        else
+        {
+            m_strTypeCache += *currData;
+        }
+    }
+    m_currData = ++currData;
+
+    if(EPARSEMESSAGETYPE_INIT == type || !m_strTypeCache.empty())
+    {
+        printf("getType error \n");
+        std::string error(m_startData, m_currData - m_startData);
+        printf("%s \n", error.c_str());
+
+        return EPARSEMESSAGETYPE_INIT;
+    }
+
+    return type;
+}
+
+const std::string &CParseMessage::getValue()
+{
+    m_strValueCache.clear();
+    const char *currData =  m_currData;
+    for(;currData < m_endData; ++currData)
+    {
+        if(*currData == ' ' || *currData == ' \t' || *currData == '\n'
+                || *currData == '\r' || *currData == '"' ||  *currData == '{' ||
+                *currData == ':'||  *currData == '}')
+        {
+            if(!m_strValueCache.empty())
+            {
+                if(*currData == '"')
+                    ++currData;
+                break;
+            }
+            ++m_currData;
+            continue;
+        }
+        else
+        {
+            m_strValueCache += *currData;
+        }
+    }
+
+    m_currData = currData;
+
+    if(m_strValueCache.empty())
+    {
+        printf("getValue error \n");
+        std::string error(m_startData, m_currData - m_startData);
+        printf("%s \n", error.c_str());
+    }
+
+    return m_strValueCache;
+}
+
+
+/*
 TParseNode *CParseMessage::getValue()
 {
     m_parseValue.type = EPARSEMESSAGETYPE_INIT;
     m_parseValue.value.clear();
     bool isName = false;
-    const char *currData =  m_startData;
+    const char *currData =  m_currData;
     for(;currData < m_endData; ++currData)
     {
         if(*currData == ' ' || *currData == ' \t' || *currData == '\n' || *currData == '\r' || *currData == '"')
         {
             if(isName)
             {
-                m_parseValue.value =  std::string(m_startData, currData - m_startData);
+                m_parseValue.value =  std::string(m_currData, currData - m_currData);
                 isName = false;
                 break;
             }
-            ++m_startData;
+            ++m_currData;
             continue;
         }
         else
@@ -452,41 +552,51 @@ TParseNode *CParseMessage::getValue()
 
 
     ++currData;
-    m_startData = currData;
+    m_currData = currData;
 
     return &m_parseValue;
 }
+*/
 
 
-void parse_message(google::protobuf::Message *message, CParseMessage &parseMessage) {
+bool parse_message(google::protobuf::Message *message, CParseMessage &parseMessage) {
     const google::protobuf::Descriptor* descriptor = message->GetDescriptor();
     const google::protobuf::Reflection* reflection = message->GetReflection();
     while(true)
     {
-        TParseNode *parseName = parseMessage.getName();
-        if(!parseName)
-        {
-            printf("parseName == NULL \n");
-            return;
-        }
+//        TParseNode *parseName = parseMessage.getName();
+//        if(!parseName)
+//        {
+//            printf("parseName == NULL \n");
+//            return;
+//        }
 
-        if(parseName->type == EPARSEMESSAGETYPE_INIT)
+        const std::string &key =  parseMessage.getKey();
+        if(parseMessage.isEnd())
+            return true;
+        EParseMessageType type = parseMessage.getType();
+        if(EPARSEMESSAGETYPE_INIT ==  type)
+            return false;
+
+//        if(parseName->type == EPARSEMESSAGETYPE_INIT)
+//        {
+//            printf("parseName->type == EPARSEMESSAGETYPE_INIT \n");
+//            return;
+//        }
+        else if(type == EPARSEMESSAGETYPE_NODE)
         {
-            printf("parseName->type == EPARSEMESSAGETYPE_INIT \n");
-            return;
-        }
-        else if(parseName->type == EPARSEMESSAGETYPE_NODE)
-        {
-            printf("node name = %s \n", parseName->value.c_str());
-            const FieldDescriptor *field = descriptor->FindFieldByName(parseName->value);
+            if(key.empty())
+                return false;
+            printf("key = %s \n", key.c_str());
+            const FieldDescriptor *field = descriptor->FindFieldByName(key);
             if(!field)
             {
-                printf("name = %s invalid \n", parseName->value.c_str());
-                return;
+                printf("key = %s invalid \n", key.c_str());
+                return false;
             }
 
-            TParseNode *parseValue = parseMessage.getValue();
-            printf("node value = %s \n", parseValue->value.c_str());
+            const std::string &value = parseMessage.getValue();
+            printf("value = %s \n", value.c_str());
 
 
 
@@ -499,15 +609,15 @@ void parse_message(google::protobuf::Message *message, CParseMessage &parseMessa
                              break;\
                         }
 
-                    CASE_FIELD_TYPE(INT32, SetInt32, atoll(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(UINT32, SetUInt32, atoll(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(INT64, SetInt64, atoll(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(UINT64, SetUInt64, atoll(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(FLOAT, SetFloat, atof(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(DOUBLE, SetDouble, atof(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(BOOL, SetBool, strcasecmp(parseValue->value.c_str(), "true") == 0 ? true : false);
-                    CASE_FIELD_TYPE(ENUM, SetEnum, field->enum_type()->FindValueByName(parseValue->value));
-                    CASE_FIELD_TYPE(STRING, SetString, parseValue->value);
+                    CASE_FIELD_TYPE(INT32, SetInt32, atoll(value.c_str()));
+                    CASE_FIELD_TYPE(UINT32, SetUInt32, atoll(value.c_str()));
+                    CASE_FIELD_TYPE(INT64, SetInt64, atoll(value.c_str()));
+                    CASE_FIELD_TYPE(UINT64, SetUInt64, atoll(value.c_str()));
+                    CASE_FIELD_TYPE(FLOAT, SetFloat, atof(value.c_str()));
+                    CASE_FIELD_TYPE(DOUBLE, SetDouble, atof(value.c_str()));
+                    CASE_FIELD_TYPE(BOOL, SetBool, strcasecmp(value.c_str(), "true") == 0 ? true : false);
+                    CASE_FIELD_TYPE(ENUM, SetEnum, field->enum_type()->FindValueByName(value));
+                    CASE_FIELD_TYPE(STRING, SetString, value);
  #undef CASE_FIELD_TYPE
                 }
 
@@ -560,15 +670,15 @@ void parse_message(google::protobuf::Message *message, CParseMessage &parseMessa
                              break;\
                         }
 
-                    CASE_FIELD_TYPE(INT32, AddInt32, atoll(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(UINT32, AddUInt32, atoll(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(INT64, AddInt64, atoll(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(UINT64, AddUInt64, atoll(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(FLOAT, AddFloat, atof(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(DOUBLE, AddDouble, atof(parseValue->value.c_str()));
-                    CASE_FIELD_TYPE(BOOL, AddBool, strcasecmp(parseValue->value.c_str(), "true") == 0 ? true : false);
-                    CASE_FIELD_TYPE(ENUM, AddEnum, field->enum_type()->FindValueByName(parseValue->value));
-                    CASE_FIELD_TYPE(STRING, AddString, parseValue->value);
+                    CASE_FIELD_TYPE(INT32, AddInt32, atoll(value.c_str()));
+                    CASE_FIELD_TYPE(UINT32, AddUInt32, atoll(value.c_str()));
+                    CASE_FIELD_TYPE(INT64, AddInt64, atoll(value.c_str()));
+                    CASE_FIELD_TYPE(UINT64, AddUInt64, atoll(value.c_str()));
+                    CASE_FIELD_TYPE(FLOAT, AddFloat, atof(value.c_str()));
+                    CASE_FIELD_TYPE(DOUBLE, AddDouble, atof(value.c_str()));
+                    CASE_FIELD_TYPE(BOOL, AddBool, strcasecmp(value.c_str(), "true") == 0 ? true : false);
+                    CASE_FIELD_TYPE(ENUM, AddEnum, field->enum_type()->FindValueByName(value));
+                    CASE_FIELD_TYPE(STRING, AddString, value);
  #undef CASE_FIELD_TYPE
                 }
 
@@ -614,45 +724,51 @@ void parse_message(google::protobuf::Message *message, CParseMessage &parseMessa
 
             }
         }
-        else if(parseName->type == EPARSEMESSAGETYPE_MESSAGE_START)
+        else if(type == EPARSEMESSAGETYPE_MESSAGE_START)
         {
-            printf("message name %s \n", parseName->value.c_str());
-            const FieldDescriptor *field = descriptor->FindFieldByName(parseName->value);
+            if(key.empty())
+                return false;
+            printf("message key %s \n", key.c_str());
+            const FieldDescriptor *field = descriptor->FindFieldByName(key);
             if(!field)
             {
-                printf("name = %s invalid \n", parseName->value.c_str());
-                return;
+                printf("key = %s invalid \n", key.c_str());
+                return false;
             }
 
             if(field->cpp_type() != google::protobuf::FieldDescriptor::CPPTYPE_MESSAGE)
             {
-                printf("name = %s != CPPTYPE_MESSAGE \n", parseName->value.c_str());
-                return;
+                printf("key = %s != CPPTYPE_MESSAGE \n", key.c_str());
+                return false;
             }
 
             if(!field->is_repeated())
             {
                 google::protobuf::Message *subMessage = reflection->MutableMessage(message, field, NULL);
-                parse_message(subMessage, parseMessage);
+                if(!parse_message(subMessage, parseMessage))
+                    return false;
             }
             else
             {
                 google::protobuf::Message *subMessage = reflection->AddMessage(message, field, NULL);
-                parse_message(subMessage, parseMessage);
+                if(!parse_message(subMessage, parseMessage))
+                    return false;
             }
-            printf("end message name %s \n", parseName->value.c_str());
+            printf("end message name %s \n", key.c_str());
         }
-        else if(parseName->type == EPARSEMESSAGETYPE_MESSAGE_END)
+        else if(type == EPARSEMESSAGETYPE_MESSAGE_END)
         {
             printf("parseName->type == EPARSEMESSAGETYPE_MESSAGE_END \n");
-            return;
+            return true;
         }
         else
         {
             printf("parseName->type == NULL \n");
-            return;
+            return false;
         }
     }
+
+    return true;
 }
 
 
@@ -711,7 +827,7 @@ SKP_TEST_ONECE(protobuf, protobuf_test3)
         type: WORK\
       }\
     string_arg5: \"string_arg5\"\
-    string_arg5: \"string_arg5\"\
+    string_arg5: \"string_arg55\"\
     int32_arg6: 6\
     int32_arg6: 6\
     uint32_arg7: 7\
@@ -737,8 +853,8 @@ SKP_TEST_ONECE(protobuf, protobuf_test3)
         number: \"c333\"\
         type: WORK\
       }\
-    string_arg5: \"string_arg5\"\
-    string_arg5: \"string_arg5\"\
+    string_arg5: \"string_arg555\"\
+    string_arg5: \"string_arg5555\"\
     uint32_arg7: 77\
     int64_arg8: 88\
     double_arg10: 100.2\
@@ -764,9 +880,89 @@ SKP_TEST_ONECE(protobuf, protobuf_test3)
 
     printf("*************parse_message****************** \n");
     CParseMessage parse(strData.c_str());
-    parse_message(message, parse);
-    printf("*************PrintDebugString****************** \n");
-    message->PrintDebugString();
+    if(!parse_message(message, parse))
+    {
+        message->Clear();
+        printf("*************parse_message error****************** \n");
+    }
+    else
+    {
+        printf("*************PrintDebugString****************** \n");
+        message->PrintDebugString();
+    }
+
+
+        std::string str2 = \
+        "people {\
+          name: \"aaa111\"\
+          age: 18\
+          email: \"qq.com\"\
+          phone {\
+            number: \"111\"\
+            type: MOBILE\
+          }\
+          phone {\
+            number: \"222\"\
+            type: HOME\
+          }\
+          phone {\
+            number: \"333\"\
+            type: WORK\
+          }\
+        string_arg5: \"string_arg5\"\
+        string_arg5: \"string_arg55\"\
+        int32_arg6: 6\
+        int32_arg6: 6\
+        uint32_arg7: 7\
+        int64_arg8: 8\
+        uint64_arg9: 9\
+        double_arg10: 10.1\
+        float_arg11: 11.11\
+        bool_arg12: false\
+        }\
+        people {\
+          name: \"bbb111\"\
+          age: 18\
+          email: \"sina.com\"\
+          phone {\
+            number: \"a111\"\
+            type: MOBILE\
+          }\
+          phone {\
+            number: \"b222\"\
+            type: HOME\
+          }\
+          phone {\
+            number: \"c333\"\
+            type: WORK\
+          }\
+        string_arg5: \"string_arg555\" abc\
+        string_arg5: \"string_arg5555\"\
+        uint32_arg7: 77\
+        int64_arg8: 88\
+        double_arg10: 100.2\
+        float_arg11: 110.22\
+        } \
+        t1 : \"t1\"\  "
+        "t1 : \"t11\"\
+        book_name:\"book_name\"\
+        ";
+
+
+        printf("*************parse_message2222222222222****************** \n");
+        message->Clear();
+        CParseMessage parse2(str2.c_str());
+        if(!parse_message(message, parse2))
+        {
+            message->Clear();
+            printf("*************parse_message error****************** \n");
+        }
+        else
+        {
+            printf("*************PrintDebugString****************** \n");
+            message->PrintDebugString();
+        }
+
 
     // 删除消息.
     delete message ;
@@ -785,6 +981,32 @@ SKP_TEST(protobuf, protobuf_test2)
 {
     // 先获得类型的Descriptor .
     const Descriptor* descriptor = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName("T.Test");
+    ASSERT_TRUE(nullptr != descriptor);
+
+    // 利用Descriptor拿到类型注册的instance. 这个是不可修改的.
+    const Message* prototype = google::protobuf::MessageFactory::generated_factory()->GetPrototype(descriptor);
+    ASSERT_TRUE(nullptr != prototype);
+
+    // 构造一个可用的消息.
+    Message* message = prototype->New();
+    // 只有当我们预先编译了test消息并且正确链接才能这么干.
+    T::Test *test = dynamic_cast<T::Test*>(message);
+    // 直接调用message的具体接口
+    // 其实这些接口是语法糖接口.所以并没有对应的反射机制来对应调用.
+    // 反射机制实现了的Set/Get XXX系列接口，是属于Reflection的接口，接收Message作为参数.
+    test->set_id(1);
+    std::cout<<test->Utf8DebugString()<<std::endl;
+    delete message ;
+}
+
+
+SKP_TEST(protobuf, protobuf_test5)
+{
+    T::Test tTest;
+    std::string type_name = tTest.descriptor()->full_name();
+    //std::string type_name = "T.Test";
+    // 先获得类型的Descriptor .
+    const Descriptor* descriptor = google::protobuf::DescriptorPool::generated_pool()->FindMessageTypeByName(type_name);
     ASSERT_TRUE(nullptr != descriptor);
 
     // 利用Descriptor拿到类型注册的instance. 这个是不可修改的.

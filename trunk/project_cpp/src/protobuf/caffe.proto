@@ -1,9 +1,9 @@
-syntax = "proto2";
-package caffe; //ÓòÃû
-//required: ±ØĞëÉèÖÃËüµÄÖµ
-//optional: ¿ÉÒÔÉèÖÃ£¬Ò²¿ÉÒÔ²»ÉèÖÃËüµÄÖµ
-//repeated: ¿ÉÒÔÈÏÎªÊÇ¶¯Ì¬·ÖÅäµÄÊı×é
-//google¹¤³ÌÊ¦ÈÏÎªÊ¹ÓÃrequiredÍşº¦¸ü´ó£¬ËûÃÇ¸üÏ²»¶Ê¹ÓÃoptional, repeated.
+ï»¿syntax = "proto2";
+package caffe; //åŸŸå
+//required: å¿…é¡»è®¾ç½®å®ƒçš„å€¼
+//optional: å¯ä»¥è®¾ç½®ï¼Œä¹Ÿå¯ä»¥ä¸è®¾ç½®å®ƒçš„å€¼
+//repeated: å¯ä»¥è®¤ä¸ºæ˜¯åŠ¨æ€åˆ†é…çš„æ•°ç»„
+//googleå·¥ç¨‹å¸ˆè®¤ä¸ºä½¿ç”¨requiredå¨å®³æ›´å¤§ï¼Œä»–ä»¬æ›´å–œæ¬¢ä½¿ç”¨optional, repeated.
 message Person {  
   required string name = 1;  
   required int32 age = 2;  

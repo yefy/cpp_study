@@ -88,7 +88,9 @@ DISTFILES += \
     ../lua/src/test/class3.lua \
     ../lua/src/test/func.lua \
     ../lua/src/test/lua_lib.lua \
-    ../lua/src/test/lual_requiref.lua
+    ../lua/src/test/lual_requiref.lua \
+    src/protobuf/caffe.proto \
+    src/protobuf/test.proto
 
 
 

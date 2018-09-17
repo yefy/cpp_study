@@ -10,14 +10,14 @@
 
 #include <iostream>
 #include <fstream>
-#include "caffe.pb.h"
 #include "google/protobuf/text_format.h"
+#include "caffe.pb.h"
 
 using namespace std;
-using namespace caffe;
 using namespace google::protobuf;
+using namespace caffe;
 
-SKP_TEST_ONECE(protobuf, protobuf_test1)
+SKP_TEST(protobuf, protobuf_test1)
 {
     AddressBook book;
 
@@ -643,7 +643,7 @@ bool parse_message(google::protobuf::Message *message, CParseMessage &parseMessa
 }
 
 
-SKP_TEST_ONECE(protobuf, protobuf_test3)
+SKP_TEST(protobuf, protobuf_test3)
 {
     char buffer[1024] = "";
 
@@ -658,14 +658,37 @@ SKP_TEST_ONECE(protobuf, protobuf_test3)
     ASSERT_TRUE(access(fullPath.c_str(), 0) == 0);
     ASSERT_TRUE(access("./proto/caffe.proto", 0) == 0);
 
+
+
+//    // 准备配置好文件系统
+//    google::protobuf::compiler::DiskSourceTree sourceTree;
+//    // 将当前路径映射为项目根目录 ， project_root 仅仅是个名字，你可以你想要的合法名字.
+//    sourceTree.MapPath("project_root","./");
+//    // 配置动态编译器.
+//    google::protobuf::compiler::Importer importer(&sourceTree, NULL);
+//    // 动态编译proto源文件
+//    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("project_root/proto/caffe.proto");
+
+
+//    // 准备配置好文件系统
+//    google::protobuf::compiler::DiskSourceTree sourceTree;
+//    // 将当前路径映射为项目根目录 ， project_root 仅仅是个名字，你可以你想要的合法名字.
+//    sourceTree.MapPath("","./");
+//    // 配置动态编译器.
+//    google::protobuf::compiler::Importer importer(&sourceTree, NULL);
+//    // 动态编译proto源文件
+//    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("proto/caffe.proto");
+
+
     // 准备配置好文件系统
     google::protobuf::compiler::DiskSourceTree sourceTree;
     // 将当前路径映射为项目根目录 ， project_root 仅仅是个名字，你可以你想要的合法名字.
-    sourceTree.MapPath("project_root","./");
+    sourceTree.MapPath("",path);
     // 配置动态编译器.
     google::protobuf::compiler::Importer importer(&sourceTree, NULL);
     // 动态编译proto源文件
-    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("project_root/proto/caffe.proto");
+    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("caffe.proto");
+
 
     ASSERT_TRUE(nullptr != tFileDescriptor);
     // 现在可以从编译器中提取类型的描述信息.
@@ -898,4 +921,307 @@ SKP_TEST(protobuf, protobuf_test4)
     reflecter->SetInt32(&p_test , field , 5 ) ;
     // 获取属性的值.
     std::cout<<reflecter->GetInt32(p_test , field)<< std::endl ;
+}
+
+
+#include "importerBase.pb.h"
+#include "importer.pb.h"
+
+
+SKP_TEST(protobuf, protobuf_test6)
+{
+
+    importer::AddressBook2 book;
+
+    importerBase::Person2 *people1 = book.add_people();
+    people1->set_name("aaa");
+    people1->set_age(18);
+    people1->set_email("qq.com");
+
+    importerBase::Person2_PhoneNumber *phone1 = people1->add_phone();
+    phone1->set_number("111");
+    phone1->set_type(::importerBase::Person2_PhoneType_MOBILE);
+
+    importerBase::Person2_PhoneNumber *phone2 = people1->add_phone();
+    phone2->set_number("222");
+    phone2->set_type(::importerBase::Person2_PhoneType_HOME);
+
+    importerBase::Person2_PhoneNumber *phone3 = people1->add_phone();
+    phone3->set_number("333");
+    phone3->set_type(::importerBase::Person2_PhoneType_WORK);
+
+    people1->add_string_arg5(std::string("string_arg5"));
+    people1->add_string_arg5(std::string("string_arg5"));
+
+    people1->add_int32_arg6(6);
+    people1->add_int32_arg6(6);
+
+    people1->set_uint32_arg7(7);
+    people1->set_int64_arg8(8);
+    people1->set_uint64_arg9(9);
+    people1->set_double_arg10(10.1);
+    people1->set_float_arg11(11.11);
+    people1->set_bool_arg12(false);
+
+
+    importerBase::Person2 *people2 = book.add_people();
+    people2->set_name("bbb");
+    people2->set_age(18);
+    people2->set_email("sina.com");
+
+    importerBase::Person2_PhoneNumber *phone11 = people2->add_phone();
+    phone11->set_number("a111");
+    phone11->set_type(::importerBase::Person2_PhoneType_MOBILE);
+
+    importerBase::Person2_PhoneNumber *phone22 = people2->add_phone();
+    phone22->set_number("b222");
+    phone22->set_type(::importerBase::Person2_PhoneType_HOME);
+
+    importerBase::Person2_PhoneNumber *phone33 = people2->add_phone();
+    phone33->set_number("c333");
+    phone33->set_type(::importerBase::Person2_PhoneType_WORK);
+
+    people2->add_string_arg5(std::string("add_string_arg5"));
+    people2->add_string_arg5(std::string("add_string_arg5"));
+
+    people2->add_int32_arg6(66);
+    people2->add_int32_arg6(66);
+
+    people2->set_uint32_arg7(77);
+    people2->set_int64_arg8(88);
+    people2->set_uint64_arg9(99);
+    people2->set_double_arg10(100.2);
+    people2->set_float_arg11(110.22);
+    people2->set_bool_arg12(true);
+
+    book.add_t1("t1");
+    book.add_t1("t11");
+    book.add_t2(2);
+    book.add_t2(22);
+
+    printf("**************PrintDebugString***************** \n");
+    book.PrintDebugString();
+
+
+    std::string output1;
+    ASSERT_TRUE(book.SerializeToString(&output1));
+    printf("************SerializeToString******************* \n");
+    printf("%s \n", output1.c_str());
+
+    std::string output2;
+    ASSERT_TRUE(google::protobuf::TextFormat::PrintToString(book, &output2));
+    printf("*************PrintToString****************** \n");
+    printf("%s \n", output2.c_str());
+    log_print("%s \n", output2.c_str());
+
+    importer::AddressBook2 book2;
+    ASSERT_TRUE(google::protobuf::TextFormat::ParseFromString(output2, &book2));
+    printf("*************ParseFromString****************** \n");
+    book2.PrintDebugString();
+}
+
+
+SKP_TEST_ONECE(protobuf, protobuf_test7)
+{
+    char buffer[1024] = "";
+
+    //获取当前的工作目录，注意：长度必须大于工作目录的长度加一
+    char *p = getcwd(buffer , sizeof(buffer));
+    printf("p:[%s] size:[%d]  \n" , p , strlen(p));
+
+
+    const std::string path = "../../../cpp_study/trunk/project_cpp/src/protobuf/";
+    std::string fullPath = path + "importer.proto";
+
+    ASSERT_TRUE(access(fullPath.c_str(), 0) == 0);
+
+
+
+//    // 准备配置好文件系统
+//    google::protobuf::compiler::DiskSourceTree sourceTree;
+//    // 将当前路径映射为项目根目录 ， project_root 仅仅是个名字，你可以你想要的合法名字.
+//    sourceTree.MapPath("project_root","./");
+//    // 配置动态编译器.
+//    google::protobuf::compiler::Importer importer(&sourceTree, NULL);
+//    // 动态编译proto源文件
+//    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("project_root/proto/importer.proto");
+
+
+//    // 准备配置好文件系统
+//    google::protobuf::compiler::DiskSourceTree sourceTree;
+//    // 将当前路径映射为项目根目录 ， project_root 仅仅是个名字，你可以你想要的合法名字.
+//    sourceTree.MapPath("","./");
+//    // 配置动态编译器.
+//    google::protobuf::compiler::Importer importer(&sourceTree, NULL);
+//    // 动态编译proto源文件
+//    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("proto/importer.proto");
+
+
+    // 准备配置好文件系统
+    google::protobuf::compiler::DiskSourceTree sourceTree;
+    // 将当前路径映射为项目根目录 ， project_root 仅仅是个名字，你可以你想要的合法名字.
+    sourceTree.MapPath("",path);
+    // 配置动态编译器.
+    google::protobuf::compiler::Importer importer(&sourceTree, NULL);
+    // 动态编译proto源文件
+    const google::protobuf::FileDescriptor *tFileDescriptor = importer.Import("importer.proto");
+
+
+    ASSERT_TRUE(nullptr != tFileDescriptor);
+    // 现在可以从编译器中提取类型的描述信息.
+    auto descriptor = importer.pool()->FindMessageTypeByName("importer.AddressBook2");
+    ASSERT_TRUE(nullptr != descriptor);
+
+    // 创建一个动态的消息工厂.
+    google::protobuf::DynamicMessageFactory factory;
+    // 从消息工厂中创建出一个类型原型.
+    auto proto = factory.GetPrototype(descriptor);
+    // 构造一个可用的消息.
+    auto message= proto->New();
+
+
+    std::string str = \
+    "people {\
+      name: \"aaa111\"\
+      age: 18\
+      email: \"qq.com\"\
+      phone {\
+        number: \"111\"\
+        type: MOBILE\
+      }\
+      phone {\
+        number: \"222\"\
+        type: HOME\
+      }\
+      phone {\
+        number: \"333\"\
+        type: WORK\
+      }\
+    string_arg5: \"string_arg5\"\
+    string_arg5: \"string_arg55\"\
+    int32_arg6: 6\
+    int32_arg6: 6\
+    uint32_arg7: 7\
+    int64_arg8: 8\
+    uint64_arg9: 9\
+    double_arg10: 10.1\
+    float_arg11: 11.11\
+    bool_arg12: false\
+    }\
+    people {\
+      name: \"bbb111\"\
+      age: 18\
+      email: \"sina.com\"\
+      phone {\
+        number: \"a111\"\
+        type: MOBILE\
+      }\
+      phone {\
+        number: \"b222\"\
+        type: HOME\
+      }\
+      phone {\
+        number: \"c333\"\
+        type: WORK\
+      }\
+    string_arg5: \"string_arg555\"\
+    string_arg5: \"string_arg5555\"\
+    uint32_arg7: 77\
+    int64_arg8: 88\
+    double_arg10: 100.2\
+    float_arg11: 110.22\
+    } \
+    t1 : \"t1\"\  "
+    "t1 : \"t11\"\
+    book_name:\"book_name\"\
+    ";
+
+
+
+    printf("*************ParseFromString****************** \n");
+    ASSERT_TRUE(google::protobuf::TextFormat::ParseFromString(str, message));
+    printf("*************PrintDebugString****************** \n");
+    message->PrintDebugString();
+
+
+    printf("*************serialize_message****************** \n");
+    std::string strData;
+    ASSERT_TRUE(serialize_message(*message, strData, 0));
+    printf("%s \n", strData.c_str());
+    message->Clear();
+
+    printf("*************parse_message****************** \n");
+    CParseMessage parse(strData.c_str());
+    ASSERT_TRUE(parse_message(message, parse));
+    printf("*************PrintDebugString****************** \n");
+    message->PrintDebugString();
+
+
+        std::string str2 = \
+        "people {\
+          name: \"aaa111\"\
+          age: 18\
+          email: \"qq.com\"\
+          phone {\
+            number: \"111\"\
+            type: MOBILE\
+          }\
+          phone {\
+            number: \"222\"\
+            type: HOME\
+          }\
+          phone {\
+            number: \"333\"\
+            type: WORK\
+          }\
+        string_arg5: \"string_arg5\"\
+        string_arg5: \"string_arg55\"\
+        int32_arg6: 6\
+        int32_arg6: 6\
+        uint32_arg7: 7\
+        int64_arg8: 8\
+        uint64_arg9: 9\
+        double_arg10: 10.1\
+        float_arg11: 11.11\
+        bool_arg12: false\
+        }\
+        people {\
+          name: \"bbb111\"\
+          age: 18\
+          email: \"sina.com\"\
+          phone {\
+            number: \"a111\"\
+            type: MOBILE\
+          }\
+          phone {\
+            number: \"b222\"\
+            type: HOME\
+          }\
+          phone {\
+            number: \"c333\"\
+            type: WORK\
+          }\
+        string_arg5: \"string_arg555\" abc\
+        string_arg5: \"string_arg5555\"\
+        uint32_arg7: 77\
+        int64_arg8: 88\
+        double_arg10: 100.2\
+        float_arg11: 110.22\
+        } \
+        t1 : \"t1\"\  "
+        "t1 : \"t11\"\
+        book_name:\"book_name\"\
+        ";
+
+
+        printf("*************parse_message error test****************** \n");
+        message->Clear();
+        CParseMessage parse2(str2.c_str());
+        ASSERT_TRUE(!parse_message(message, parse2));
+        printf("*************PrintDebugString****************** \n");
+        message->PrintDebugString();
+
+
+    // 删除消息.
+    delete message ;
 }

@@ -59,7 +59,9 @@ SOURCES += src/main.cpp \
     src/openssl/crypttool.cpp \
     src/protobuf/skp_protobuf_test.cpp \
     src/protobuf/caffe.pb.cc \
-    src/protobuf/test.pb.cc
+    src/protobuf/test.pb.cc \
+    src/protobuf/importer.pb.cc \
+    src/protobuf/importerBase.pb.cc
 
 HEADERS += \
     src/cpp/skp_allocator.h \
@@ -78,7 +80,9 @@ HEADERS += \
     src/openssl/crypt.h \
     src/protobuf/skp_protobuf_test.h \
     src/protobuf/caffe.pb.h \
-    src/protobuf/test.pb.h
+    src/protobuf/test.pb.h \
+    src/protobuf/importer.pb.h \
+    src/protobuf/importerBase.pb.h
 
 DISTFILES += \
     ../lua/src/base/class.lua \

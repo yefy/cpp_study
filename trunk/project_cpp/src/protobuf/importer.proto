@@ -1,0 +1,15 @@
+﻿syntax = "proto2";
+import "importerBase.proto";
+package importer; //域名
+//required: 必须设置它的值
+//optional: 可以设置，也可以不设置它的值
+//repeated: 可以认为是动态分配的数组
+//google工程师认为使用required威害更大，他们更喜欢使用optional, repeated.
+
+message AddressBook2 {
+    repeated importerBase.Person2 people = 1;
+    repeated string t1 = 2; 
+  	repeated int32 t2 = 3; 
+  	optional string book_name = 4; 
+  	optional importerBase.Person2 people_once = 5;
+}

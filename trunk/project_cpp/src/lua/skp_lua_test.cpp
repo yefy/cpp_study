@@ -354,14 +354,14 @@ SKP_TEST_F(Clua, lua_table)
     ASSERT_FALSE(skp_lua_base_loadbuffer(L, str));
 }
 
-SKP_TEST_F(Clua, lua_class1)
+SKP_TEST_ONECE_F(Clua, lua_class1)
 {
     START_INFO_TOP(lua_class1);
 
     ASSERT_FALSE(skp_lua_base_dofile(L, "class1.lua"));
 }
 
-SKP_TEST_F(Clua, lua_class2)
+SKP_TEST_ONECE_F(Clua, lua_class2)
 {
     START_INFO_TOP(lua_class2);
 

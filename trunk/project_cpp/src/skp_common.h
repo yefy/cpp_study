@@ -26,10 +26,11 @@ public:
 
 #define SKP_TEST(x, y) TEST(x, y)
 #define SKP_TEST_F(x, y) TEST_F(x, y)
-
 #define SKP_TEST_ONECE(x, y) TEST(x, y)
+#define SKP_TEST_ONECE_F(x, y) TEST_F(x, y)
+#define SKP_TEST_ALL
 
-#ifdef SKP_TEST_ONECE
+#ifndef SKP_TEST_ALL
 #undef SKP_TEST
 #undef SKP_TEST_F
 

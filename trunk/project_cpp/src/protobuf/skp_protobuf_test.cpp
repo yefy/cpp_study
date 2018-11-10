@@ -1021,7 +1021,7 @@ SKP_TEST(protobuf, protobuf_test6)
 }
 
 
-SKP_TEST_ONECE(protobuf, protobuf_test7)
+SKP_TEST(protobuf, protobuf_test7)
 {
     char buffer[1024] = "";
 
